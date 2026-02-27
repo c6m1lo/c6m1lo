@@ -31,6 +31,15 @@ body {
   color: var(--foreground);
   font-family: var(--font-body), "Segoe UI", sans-serif;
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 body::before {
@@ -138,6 +147,16 @@ a {
   .page-wrap {
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .scroller-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .scroller-nav {
+    position: static;
   }
 }
 
