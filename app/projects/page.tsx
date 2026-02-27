@@ -11,9 +11,9 @@ const projects = [
     href: "/journal",
     cta: "Open app",
   },
-  {title: "Habit Tracker (AI Reflection)",
-    description: "Track how you spend your time and have an AI assistant at hand to help you analyze your schedule.",
-    href: "/habits",
+  {title: "Millisecond Scheduler",
+    description: "Track how you spend your time and decipher your own unknown patterns.",
+    href: "/scheduler",
     cta: "Open app",
   }
 ];
