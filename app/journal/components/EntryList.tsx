@@ -60,7 +60,7 @@ export default function EntryList({ title, entries, onEdit, onDelete, emptyText 
                 </div>
               </div>
 
-              <p className="mt-3 whitespace-pre-wrap break-words text-sm text-neutral-200">{entry.body}</p>
+              <p className="mt-3 whitespace-pre-wrap wrap-break-words text-sm text-neutral-200">{entry.body}</p>
 
               <div className="mt-3 flex flex-wrap gap-2">
                 {entry.snapshot.tags.map((tag) => (

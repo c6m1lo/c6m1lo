@@ -7,7 +7,7 @@ const projects = [
   },
   {
     title: "Journal App",
-    description: "Daily timestamped journaling with local-only storage, search, filters, and weekly metrics.",
+    description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
     href: "/journal",
     cta: "Open app",
   },
