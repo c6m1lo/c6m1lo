@@ -1,4 +1,5 @@
 import type { JournalEntry } from "./types";
+import { publishAppDataChange } from "../shared/sync";
 
 const DB_NAME = "camilo777-journal";
 const DB_VERSION = 1;
@@ -70,6 +71,7 @@ export async function upsertEntry(entry: JournalEntry): Promise<void> {
   if (!hasIndexedDb()) {
     const existing = readFallback().filter((item) => item.id !== entry.id);
     writeFallback([entry, ...existing]);
+    publishAppDataChange({ domain: "journal", action: "upsert" });
     return;
   }
 
@@ -83,12 +85,14 @@ export async function upsertEntry(entry: JournalEntry): Promise<void> {
     request.onsuccess = () => resolve();
     request.onerror = () => reject(request.error ?? new Error("Failed to save entry"));
   });
+  publishAppDataChange({ domain: "journal", action: "upsert" });
 }
 
 export async function removeEntry(id: string): Promise<void> {
   if (!hasIndexedDb()) {
     const next = readFallback().filter((item) => item.id !== id);
     writeFallback(next);
+    publishAppDataChange({ domain: "journal", action: "delete" });
     return;
   }
 
@@ -102,11 +106,13 @@ export async function removeEntry(id: string): Promise<void> {
     request.onsuccess = () => resolve();
     request.onerror = () => reject(request.error ?? new Error("Failed to delete entry"));
   });
+  publishAppDataChange({ domain: "journal", action: "delete" });
 }
 
 export async function replaceAllEntries(entries: JournalEntry[]): Promise<void> {
   if (!hasIndexedDb()) {
     writeFallback(entries);
+    publishAppDataChange({ domain: "journal", action: "replace" });
     return;
   }
 
@@ -124,4 +130,5 @@ export async function replaceAllEntries(entries: JournalEntry[]): Promise<void> 
     transaction.oncomplete = () => resolve();
     transaction.onerror = () => reject(transaction.error ?? new Error("Failed to replace entries"));
   });
+  publishAppDataChange({ domain: "journal", action: "replace" });
 }

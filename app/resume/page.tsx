@@ -4,6 +4,7 @@ type ExperienceItem = {
 };
 
 const experience: ExperienceItem[] = [
+  { role: "Spanish-US Transcriptionist", company: "Uber" },
   { role: "Spanish Medical Annotation Subject Matter Expert", company: "Centific" },
   { role: "Certified Medical Interpreter", company: "Propio" },
   { role: "Certified Medical Interpreter", company: "Kelly Services" },

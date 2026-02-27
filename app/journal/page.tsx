@@ -1,6 +1,17 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { getCalendarEvents } from "../calendar/storage";
+import type { CalendarEvent } from "../calendar/types";
+import { getActiveSession, getSessions } from "../scheduler/storage";
+import type { ActiveSession, TimeSession } from "../scheduler/types";
+import { subscribeAppDataChanges } from "../shared/sync";
+import {
+  buildCalendarItems,
+  buildJournalItems,
+  buildSessionItems,
+  mergeTimelineChronologically,
+} from "../shared/timeline";
 
 import EntryEditor from "./components/EntryEditor";
 import EntryList from "./components/EntryList";
@@ -71,6 +82,9 @@ export default function JournalPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [sessions, setSessions] = useState<TimeSession[]>([]);
+  const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
+  const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -88,6 +102,24 @@ export default function JournalPage() {
     };
 
     void load();
+  }, []);
+
+  useEffect(() => {
+    const loadConnected = () => {
+      setSessions(getSessions());
+      setActiveSession(getActiveSession());
+      setCalendarEvents(getCalendarEvents());
+    };
+
+    loadConnected();
+
+    const unsubscribe = subscribeAppDataChanges(() => {
+      loadConnected();
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const filteredEntries = useMemo(() => {
@@ -229,6 +261,16 @@ export default function JournalPage() {
 
   const hasActiveFilters = !!search.trim() || !!dateFilter;
 
+  const connectedTimeline = useMemo(
+    () =>
+      mergeTimelineChronologically([
+        ...buildJournalItems(entries),
+        ...buildSessionItems(sessions, activeSession),
+        ...buildCalendarItems(calendarEvents),
+      ]),
+    [activeSession, calendarEvents, entries, sessions],
+  );
+
   return (
     <div className="page-wrap space-y-6">
       <section className="panel p-6 sm:p-8">
@@ -357,6 +399,29 @@ export default function JournalPage() {
           />
         </>
       )}
+
+      <section className="panel p-5 sm:p-6">
+        <h2 className="text-lg font-semibold">Connected Chronological Feed</h2>
+        <p className="muted mt-1 text-sm">Journal + Millisecond Tracker + Calendar merged by time.</p>
+        <div className="mt-3 space-y-2">
+          {connectedTimeline.length ? (
+            connectedTimeline.slice(-12).reverse().map((item) => (
+              <article key={item.id} className="rounded-xl border border-white/12 bg-black/30 p-3 text-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="font-medium text-white">{item.title}</p>
+                  <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] uppercase text-neutral-300">
+                    {item.app}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-neutral-400">{new Date(item.startsAt).toLocaleString()}</p>
+                <p className="mt-2 text-sm text-neutral-300">{item.detail}</p>
+              </article>
+            ))
+          ) : (
+            <p className="text-sm text-neutral-400">No cross-app timeline entries yet.</p>
+          )}
+        </div>
+      </section>
 
       <section className="panel p-5 sm:p-6">
         <h2 className="text-lg font-semibold">Passphrase Lock (Optional)</h2>

@@ -1,4 +1,5 @@
 import type { ActiveSession, TimeSession } from "./types";
+import { publishAppDataChange } from "../shared/sync";
 
 const SESSIONS_KEY = "camilo777-scheduler-sessions";
 const ACTIVE_SESSION_KEY = "camilo777-scheduler-active";
@@ -35,6 +36,7 @@ export function getSessions(): TimeSession[] {
 
 export function saveSessions(sessions: TimeSession[]) {
   writeJson(SESSIONS_KEY, sessions);
+  publishAppDataChange({ domain: "scheduler", action: "upsert" });
 }
 
 export function getActiveSession(): ActiveSession | null {
@@ -46,4 +48,5 @@ export function getActiveSession(): ActiveSession | null {
 
 export function saveActiveSession(session: ActiveSession | null) {
   writeJson(ACTIVE_SESSION_KEY, session);
+  publishAppDataChange({ domain: "scheduler", action: session ? "start" : "stop" });
 }

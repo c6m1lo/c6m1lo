@@ -12,13 +12,13 @@ const projects = [
     cta: "Open app",
   },
   {title: "Millisecond Scheduler",
-    description: "Track how you spend your time and decipher your own unknown patterns.",
+    description: "Real-time activity tracker with editable sessions synced to Journal and Calendar.",
     href: "/scheduler",
     cta: "Open app",
   },
   {
-    title: "Calendar",
-    description: "This is where you can track all your data connected to your very own calendar.",
+    title: "Calendar App",
+    description: "Chronological planner that merges Journal entries, tracker sessions, and calendar events.",
     href: "/calendar",
     cta: "Open app",
   }
