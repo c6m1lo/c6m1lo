@@ -15,6 +15,12 @@ const projects = [
     description: "Track how you spend your time and decipher your own unknown patterns.",
     href: "/scheduler",
     cta: "Open app",
+  },
+  {
+    title: "Calendar",
+    description: "This is where you can track all your data connected to your very own calendar.",
+    href: "/calendar",
+    cta: "Open app",
   }
 ];
 
