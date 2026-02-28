@@ -246,6 +246,29 @@ a {
   background: rgba(255, 255, 255, 0.06);
 }
 
+.project-showcase {
+  margin-top: 1rem;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(13, 13, 13, 0.95), rgba(7, 7, 7, 0.98));
+}
+
+.project-showcase h2 {
+  max-width: 20ch;
+}
+
+.project-showcase p {
+  max-width: 64ch;
+}
+
+.project-showcase-btn {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.project-showcase-btn:hover {
+  border-color: rgba(255, 255, 255, 0.54);
+}
+
 .scroller-layout {
   display: grid;
   gap: 1rem;
@@ -362,6 +385,11 @@ a {
 
   .scroller-panel {
     min-height: auto;
+    padding: 1.2rem;
+  }
+
+  .project-showcase {
+    margin-top: 0.75rem;
     padding: 1.2rem;
   }
 }

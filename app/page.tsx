@@ -3,6 +3,28 @@
 import { useEffect, useState } from "react";
 
 const beamFaces = ["front", "back", "left", "right", "top", "bottom"] as const;
+const homeProjects = [
+  {
+    title: "Bible App",
+    description: "Simple Bible reader built with Next.js and local KJV data.",
+    href: "/bible",
+  },
+  {
+    title: "Journal App",
+    description: "Daily timestamped journal with local-first entries and summaries.",
+    href: "/journal",
+  },
+  {
+    title: "Millisecond Scheduler",
+    description: "Real-time tracker for what you are doing throughout the day.",
+    href: "/scheduler",
+  },
+  {
+    title: "Calendar App",
+    description: "Chronological calendar connected with journal and tracker data.",
+    href: "/calendar",
+  },
+];
 
 function CrossBeam({ className }: { className: string }) {
   return (
@@ -59,7 +81,7 @@ export default function HomePage() {
 
       <section className="faith-panel panel">
         <div className="faith-copy">
-          <p className="kicker">Foundation</p>
+          <p className="kicker">Reading</p>
           <h2>Jesus replied: `Love the Lord your God with all your heart and with all your soul and with all your mind.`</h2>
           <p className="muted">
             KJV: Mark 12:30
@@ -77,6 +99,17 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {homeProjects.slice(1).map((project) => (
+        <section key={project.title} className="project-showcase panel p-6 sm:p-8">
+          <p className="kicker">Project</p>
+          <h2 className="mt-4 text-2xl font-semibold sm:text-3xl">{project.title}</h2>
+          <p className="muted mt-2 text-sm sm:text-base">{project.description}</p>
+          <a href={project.href} className="project-showcase-btn hero-btn hero-btn-secondary mt-5 inline-flex">
+            Open app
+          </a>
+        </section>
+      ))}
     </div>
   );
 }
