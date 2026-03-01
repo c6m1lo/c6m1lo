@@ -82,7 +82,7 @@ export default function HomePage() {
       <section className="faith-panel panel">
         <div className="faith-copy">
           <p className="kicker">Reading</p>
-          <h2>Jesus replied: `Love the Lord your God with all your heart and with all your soul and with all your mind.`</h2>
+          <h2>`and thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind, and with all thy strength: this is the first commandment.`</h2>
           <p className="muted">
             KJV: Mark 12:30
           </p>
