@@ -11,7 +11,6 @@ import {
   buildJournalItems,
   buildSessionItems,
   mergeTimelineChronologically,
-  type TimelineItem,
 } from "../shared/timeline";
 import { subscribeAppDataChanges } from "../shared/sync";
 import { getCalendarEvents, removeCalendarEvent, upsertCalendarEvent } from "./storage";
@@ -167,9 +166,12 @@ export default function CalendarPage() {
     [events, selectedDateKey],
   );
 
-  const selectedDayTimelineItems = useMemo(
-    () => mergedTimeline.filter((item) => dateKeyFromIso(item.startsAt) === selectedDateKey),
-    [mergedTimeline, selectedDateKey],
+  const selectedDayJournalEntries = useMemo(
+    () =>
+      journalEntries
+        .filter((entry) => dateKeyFromIso(entry.timestamp) === selectedDateKey)
+        .sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1)),
+    [journalEntries, selectedDateKey],
   );
 
   const saveEvent = () => {
@@ -438,26 +440,27 @@ export default function CalendarPage() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white">All Linked Activity</h3>
+            <h3 className="text-sm font-semibold text-white">Journal Entries (Full)</h3>
             <div className="mt-2 space-y-2">
-              {selectedDayTimelineItems.length ? (
-                selectedDayTimelineItems.map((item: TimelineItem) => (
-                  <article key={item.id} className="rounded-xl border border-white/12 bg-black/30 p-3 text-sm">
+              {selectedDayJournalEntries.length ? (
+                selectedDayJournalEntries.map((entry) => (
+                  <article key={entry.id} className="rounded-xl border border-white/12 bg-black/30 p-3 text-sm">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="font-medium text-white">{item.title}</p>
+                      <p className="font-medium text-white">{entry.title?.trim() || "Journal Entry"}</p>
                       <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] uppercase text-neutral-300">
-                        {item.app}
+                        journal
                       </span>
                     </div>
-                    <p className="mt-1 text-xs text-neutral-400">{new Date(item.startsAt).toLocaleString()}</p>
-                    <p className="mt-2 text-sm text-neutral-300">{item.detail}</p>
+                    <p className="mt-1 text-xs text-neutral-400">{new Date(entry.timestamp).toLocaleString()}</p>
+                    <p className="mt-2 whitespace-pre-wrap text-sm text-neutral-300">{entry.body}</p>
                   </article>
                 ))
               ) : (
-                <p className="text-sm text-neutral-400">No linked timeline items on this day.</p>
+                <p className="text-sm text-neutral-400">No journal entries on this day.</p>
               )}
             </div>
           </div>
+
         </div>
       </section>
 
