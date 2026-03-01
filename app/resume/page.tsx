@@ -6,10 +6,10 @@ type ExperienceItem = {
 const experience: ExperienceItem[] = [
   { role: "Spanish-US Transcriptionist", company: "Uber" },
   { role: "Spanish Medical Annotation Subject Matter Expert", company: "Centific" },
+  { role: "Air Traffic Control Transcriptionist", company: "Alignerr" },
   { role: "Certified Medical Interpreter", company: "Propio" },
   { role: "Certified Medical Interpreter", company: "Kelly Services" },
   { role: "Legal Interpreter", company: "Kates Nussman Ellis Fahri & Earle, LLP" },
-  { role: "Air Traffic Control Transcriptionist", company: "Alignerr" },
   { role: "Transcriptionist", company: "Uber AI Solutions" },
   { role: "Cook", company: "KPot Korean BBQ & Hot Pot" },
   { role: "Cook & Crew Member", company: "Chipotle Mexican Grill" },
