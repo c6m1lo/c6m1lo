@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const beamFaces = ["front", "back", "left", "right", "top", "bottom"] as const;
 const homeProjects = [
@@ -8,21 +8,25 @@ const homeProjects = [
     title: "Bible App",
     description: "Simple Bible reader built with Next.js and local KJV data.",
     href: "/bible",
+    quote: "`Search the scriptures; for in them ye think ye have eternal life.`",
   },
   {
     title: "Journal App",
     description: "Daily timestamped journal with local-first entries and summaries.",
     href: "/journal",
+    quote: "`Write clearly enough to understand your own patterns over time.`",
   },
   {
     title: "Millisecond Scheduler",
     description: "Real-time tracker for what you are doing throughout the day.",
     href: "/scheduler",
+    quote: "`What gets measured in minutes becomes visible in your life.`",
   },
   {
     title: "Calendar App",
     description: "Chronological calendar connected with journal and tracker data.",
     href: "/calendar",
+    quote: "`Order your day by time, not by intention alone.`",
   },
 ];
 
@@ -37,7 +41,16 @@ function CrossBeam({ className }: { className: string }) {
 }
 
 export default function HomePage() {
+  const homeRootRef = useRef<HTMLDivElement | null>(null);
   const [progress, setProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState(0);
+  const projectsToShow = useMemo(() => homeProjects.slice(1), []);
+  const totalSections = 2 + projectsToShow.length;
+
+  const getHomeSections = () => {
+    if (!homeRootRef.current) return [];
+    return Array.from(homeRootRef.current.querySelectorAll<HTMLElement>("[data-home-section]"));
+  };
 
   useEffect(() => {
     const updateProgress = () => {
@@ -57,13 +70,61 @@ export default function HomePage() {
     };
   }, []);
 
+  useEffect(() => {
+    const sections = getHomeSections();
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (!visible) return;
+
+        const index = sections.findIndex((section) => section === visible.target);
+        if (index >= 0) setActiveSection(index);
+      },
+      { threshold: [0.55, 0.75] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [totalSections]);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      const sections = getHomeSections();
+      if (!sections.length) return;
+
+      setActiveSection((current) => {
+        const next = (current + 1) % sections.length;
+        sections[next]?.scrollIntoView({ behavior: "smooth", block: "start" });
+        return next;
+      });
+    }, 5000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, []);
+
   return (
-    <div className="home-page">
+    <div className="home-page" ref={homeRootRef}>
       <div className="scroll-progress" aria-hidden="true">
         <span style={{ width: `${progress}%` }} />
       </div>
 
-      <section className="home-hero panel">
+      <div className="home-feed-status" aria-hidden="true">
+        {Array.from({ length: totalSections }, (_, index) => (
+          <span key={index} className={index === activeSection ? "is-active" : ""} />
+        ))}
+      </div>
+
+      <section className="home-feed-section home-hero panel" data-home-section>
         <p className="kicker">Camilo Gomez</p>
         <h1>Portfolio</h1>
         <p className="muted hero-copy">
@@ -79,7 +140,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="faith-panel panel">
+      <section className="home-feed-section faith-panel panel" data-home-section>
         <div className="faith-copy">
           <p className="kicker">Reading</p>
           <h2>`and thou shalt love the Lord thy God with all thy heart, and with all thy soul, and with all thy mind, and with all thy strength: this is the first commandment.`</h2>
@@ -100,14 +161,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {homeProjects.slice(1).map((project) => (
-        <section key={project.title} className="project-showcase panel p-6 sm:p-8">
-          <p className="kicker">Project</p>
-          <h2 className="mt-4 text-2xl font-semibold sm:text-3xl">{project.title}</h2>
-          <p className="muted mt-2 text-sm sm:text-base">{project.description}</p>
-          <a href={project.href} className="project-showcase-btn hero-btn hero-btn-secondary mt-5 inline-flex">
-            Open app
-          </a>
+      {projectsToShow.map((project) => (
+        <section key={project.title} className="home-feed-section project-showcase panel" data-home-section>
+          <div className="project-copy">
+            <p className="kicker">Project</p>
+            <h2>{project.title}</h2>
+            <p className="project-quote">{project.quote}</p>
+            <p className="muted">{project.description}</p>
+            <a href={project.href} className="project-showcase-btn hero-btn hero-btn-secondary">
+              Open app
+            </a>
+          </div>
+          <div className="project-scene" aria-hidden="true">
+            <div className="project-orb-wrap">
+              <div className="project-ring project-ring-a" />
+              <div className="project-ring project-ring-b" />
+              <div className="project-ring project-ring-c" />
+              <div className="project-orb" />
+            </div>
+          </div>
         </section>
       ))}
     </div>
