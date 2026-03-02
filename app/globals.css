@@ -150,21 +150,11 @@ a {
   }
 }
 
-@media (max-width: 900px) {
-  .scroller-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .scroller-nav {
-    position: static;
-  }
-}
-
 .home-page {
   max-width: 76rem;
   margin: 0 auto;
   padding: 2.2rem 1.25rem 4rem;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
 }
 
 .home-feed-status {
@@ -191,11 +181,11 @@ a {
 }
 
 .home-feed-section {
-  min-height: min(86vh, 860px);
+  min-height: clamp(620px, 86svh, 860px);
   scroll-snap-align: start;
   scroll-margin-top: 5.2rem;
   display: grid;
-  align-content: center;
+  align-content: stretch;
 }
 
 .scroll-progress {
@@ -309,6 +299,7 @@ a {
 }
 
 .project-showcase-btn {
+  display: inline-flex;
   margin-top: 1rem;
   border-color: rgba(255, 255, 255, 0.3);
 }
@@ -484,7 +475,7 @@ a {
   }
 
   .home-feed-section {
-    min-height: min(78vh, 760px);
+    min-height: auto;
     scroll-margin-top: 4.5rem;
   }
 
@@ -503,7 +494,7 @@ a {
   }
 
   .project-scene {
-    min-height: 300px;
+    min-height: 250px;
   }
 }
 
