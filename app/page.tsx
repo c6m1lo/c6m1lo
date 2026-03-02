@@ -48,7 +48,7 @@ export default function HomePage() {
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState(0);
   const projectsToShow = useMemo(() => homeProjects.slice(1), []);
-  const totalSections = 2 + projectsToShow.length;
+  const totalSections = 1 + projectsToShow.length;
 
   const getHomeSections = () => {
     if (!homeRootRef.current) return [];
@@ -126,22 +126,6 @@ export default function HomePage() {
           <span key={index} className={index === activeSection ? "is-active" : ""} />
         ))}
       </div>
-
-      <section className="home-feed-section home-hero panel" data-home-section>
-        <p className="kicker">Camilo Gomez</p>
-        <h1>Portfolio</h1>
-        <p className="muted hero-copy">
-          Culmination of systems engineering combined with Next.js development.
-        </p>
-        <div className="hero-actions">
-          <a href="/resume" className="hero-btn hero-btn-primary">
-            View Resume
-          </a>
-          <a href="/projects" className="hero-btn hero-btn-secondary">
-            Explore Projects
-          </a>
-        </div>
-      </section>
 
       <section className="home-feed-section faith-panel panel" data-home-section>
         <div className="faith-copy">
