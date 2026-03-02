@@ -322,42 +322,136 @@ a {
   overflow: hidden;
 }
 
-.project-orb-wrap {
+.scene-book {
   position: relative;
-  width: 260px;
-  height: 300px;
+  width: 220px;
+  height: 280px;
   transform-style: preserve-3d;
-  animation: projectSpin 14s linear infinite;
+  transform: rotateY(-25deg) rotateX(7deg);
+  animation: bookFloat 5s ease-in-out infinite;
 }
 
-.project-orb {
+.scene-book-cover {
   position: absolute;
-  inset: 30% 30%;
-  border-radius: 9999px;
-  background: radial-gradient(circle at 35% 28%, #ffffff 0%, #c9c9c9 35%, #7a7a7a 100%);
-  box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.4),
-    0 0 30px rgba(255, 255, 255, 0.16);
-  transform: translateZ(22px);
-}
-
-.project-ring {
-  position: absolute;
-  inset: 13% 10%;
-  border-radius: 50%;
+  inset: 0;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(150deg, #f3f4f6 0%, #b2b4b7 58%, #777b80 100%);
+  box-shadow:
+    0 18px 30px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45);
 }
 
-.project-ring-a {
-  transform: rotateX(70deg);
+.scene-book-pages {
+  position: absolute;
+  top: 8px;
+  right: -16px;
+  bottom: 8px;
+  width: 26px;
+  border-radius: 2px 8px 8px 2px;
+  background: repeating-linear-gradient(
+    180deg,
+    #f6f7f8 0,
+    #f6f7f8 6px,
+    #d6d8db 6px,
+    #d6d8db 8px
+  );
+  transform: translateZ(-4px);
 }
 
-.project-ring-b {
-  transform: rotateY(70deg);
+.scene-book-spine {
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  bottom: 10px;
+  width: 18px;
+  border-radius: 8px 0 0 8px;
+  background: linear-gradient(180deg, #6b7280, #3f434a);
 }
 
-.project-ring-c {
-  transform: rotateX(20deg) rotateY(30deg);
+.scene-timer {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: radial-gradient(circle at 40% 30%, #f5f5f6 0%, #b7bbc1 52%, #787e86 100%);
+  box-shadow:
+    0 16px 28px rgba(0, 0, 0, 0.45),
+    inset 0 2px 2px rgba(255, 255, 255, 0.45);
+  animation: timerPulse 4.8s ease-in-out infinite;
+}
+
+.scene-timer-ring {
+  position: absolute;
+  inset: 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.scene-timer-hand {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: top center;
+  width: 4px;
+  border-radius: 9999px;
+  background: #1f2937;
+}
+
+.scene-timer-hand-hour {
+  height: 54px;
+  transform: translate(-50%, -10%) rotate(35deg);
+}
+
+.scene-timer-hand-minute {
+  height: 74px;
+  transform: translate(-50%, -10%) rotate(115deg);
+}
+
+.scene-timer-knob {
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  width: 44px;
+  height: 20px;
+  transform: translateX(-50%);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: linear-gradient(180deg, #d0d4d9, #8a9098);
+}
+
+.scene-calendar {
+  width: 238px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: linear-gradient(180deg, #f7f7f7 0%, #d5d8de 45%, #8a9097 100%);
+  box-shadow:
+    0 16px 28px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  transform: perspective(900px) rotateX(8deg) rotateY(-10deg);
+  animation: calendarTilt 6s ease-in-out infinite;
+}
+
+.scene-calendar-top {
+  height: 50px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+  background: linear-gradient(180deg, #dfe3e8, #b3b9c2);
+  border-radius: 16px 16px 0 0;
+}
+
+.scene-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 14px;
+}
+
+.scene-calendar-grid span {
+  display: block;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(25, 27, 30, 0.16);
 }
 
 .scroller-layout {
@@ -655,6 +749,36 @@ a {
   }
   100% {
     transform: rotateY(360deg) rotateX(8deg);
+  }
+}
+
+@keyframes bookFloat {
+  0%,
+  100% {
+    transform: rotateY(-25deg) rotateX(7deg) translateY(0);
+  }
+  50% {
+    transform: rotateY(-18deg) rotateX(6deg) translateY(-8px);
+  }
+}
+
+@keyframes timerPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes calendarTilt {
+  0%,
+  100% {
+    transform: perspective(900px) rotateX(8deg) rotateY(-10deg);
+  }
+  50% {
+    transform: perspective(900px) rotateX(5deg) rotateY(-4deg);
   }
 }
 

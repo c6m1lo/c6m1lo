@@ -15,18 +15,21 @@ const homeProjects = [
     description: "Daily timestamped journal with local-first entries and summaries.",
     href: "/journal",
     quote: "`Write clearly enough to understand your own patterns over time.`",
+    scene: "book",
   },
   {
     title: "Millisecond Scheduler",
     description: "Real-time tracker for what you are doing throughout the day.",
     href: "/scheduler",
     quote: "`What gets measured in minutes becomes visible in your life.`",
+    scene: "timer",
   },
   {
     title: "Calendar App",
     description: "Chronological calendar connected with journal and tracker data.",
     href: "/calendar",
     quote: "`Order your day by time, not by intention alone.`",
+    scene: "calendar",
   },
 ];
 
@@ -173,12 +176,31 @@ export default function HomePage() {
             </a>
           </div>
           <div className="project-scene" aria-hidden="true">
-            <div className="project-orb-wrap">
-              <div className="project-ring project-ring-a" />
-              <div className="project-ring project-ring-b" />
-              <div className="project-ring project-ring-c" />
-              <div className="project-orb" />
-            </div>
+            {project.scene === "book" ? (
+              <div className="scene-book">
+                <div className="scene-book-cover" />
+                <div className="scene-book-pages" />
+                <div className="scene-book-spine" />
+              </div>
+            ) : null}
+            {project.scene === "timer" ? (
+              <div className="scene-timer">
+                <div className="scene-timer-ring" />
+                <div className="scene-timer-hand scene-timer-hand-hour" />
+                <div className="scene-timer-hand scene-timer-hand-minute" />
+                <div className="scene-timer-knob" />
+              </div>
+            ) : null}
+            {project.scene === "calendar" ? (
+              <div className="scene-calendar">
+                <div className="scene-calendar-top" />
+                <div className="scene-calendar-grid">
+                  {Array.from({ length: 12 }, (_, index) => (
+                    <span key={index} />
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
         </section>
       ))}
