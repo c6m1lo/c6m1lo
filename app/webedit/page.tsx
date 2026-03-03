@@ -98,11 +98,47 @@ export default function WebEditPage() {
     applyTheme(editableId, nextCustom);
   };
 
+  const updateNumericTheme = (
+    key: "radius" | "sectionGap" | "sectionOffset" | "fontScale" | "lineHeight" | "contentWidth",
+    rawValue: string,
+    min: number,
+    max: number,
+    step?: number,
+  ) => {
+    const parsed = Number(rawValue);
+    if (!Number.isFinite(parsed)) return;
+
+    let normalized = Math.min(max, Math.max(min, parsed));
+    if (step) {
+      const snapped = Math.round((normalized - min) / step) * step + min;
+      normalized = Number(snapped.toFixed(4));
+    }
+
+    updateTheme((theme) => ({
+      ...theme,
+      [key]: normalized,
+    }));
+  };
+
   const presetKeys = Object.keys(THEMES) as ThemeKey[];
   const customEntries = Object.entries(customThemes);
   const headingStyle = { color: currentTheme.heading } as const;
   const textStyle = { color: currentTheme.text } as const;
   const mutedStyle = { color: currentTheme.muted } as const;
+  const headerParagraphStyle = {
+    color: currentTheme.muted,
+    textAlign: currentTheme.textAlign,
+    marginInline:
+      currentTheme.textAlign === "center"
+        ? "auto"
+        : currentTheme.textAlign === "right"
+          ? "0 0 0 auto"
+          : "0",
+  } as const;
+  const statusParagraphStyle = {
+    color: currentTheme.text,
+    textAlign: currentTheme.textAlign,
+  } as const;
 
   const panelStyle = {
     background: `${currentTheme.surface}e6`,
@@ -121,10 +157,10 @@ export default function WebEditPage() {
       <section className="panel p-6 sm:p-8">
         <span className="kicker">WebEdit</span>
         <h1 className="mt-4 text-3xl font-semibold sm:text-4xl">Theme Tokens Workbench</h1>
-        <p className="muted mt-2 max-w-3xl text-sm sm:text-base">
+        <p className="mt-2 max-w-3xl text-sm sm:text-base" style={headerParagraphStyle}>
           Editing tokens now auto-applies globally. If you edit a preset, it is automatically forked to a custom theme.
         </p>
-        {status ? <p className="mt-3 text-xs" style={textStyle}>{status}</p> : null}
+        {status ? <p className="mt-3 text-xs" style={statusParagraphStyle}>{status}</p> : null}
       </section>
 
       <section className="grid gap-4 xl:grid-cols-[340px_1fr]">
@@ -206,14 +242,15 @@ export default function WebEditPage() {
                 />
               </label>
               <label className="text-xs" style={textStyle}>
-                Radius ({currentTheme.radius}px)
+                Radius (px)
                 <input
-                  type="range"
+                  type="number"
                   min={8}
                   max={28}
+                  step={1}
                   value={currentTheme.radius}
-                  onChange={(event) => updateTheme((theme) => ({ ...theme, radius: Number(event.target.value) }))}
-                  className="mt-2 w-full"
+                  onChange={(event) => updateNumericTheme("radius", event.target.value, 8, 28, 1)}
+                  className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
                 />
               </label>
             </div>
@@ -242,65 +279,67 @@ export default function WebEditPage() {
                 </label>
 
                 <label className="text-xs" style={textStyle}>
-                  Section Gap ({currentTheme.sectionGap}px)
+                  Section Gap (px)
                   <input
-                    type="range"
+                    type="number"
                     min={8}
                     max={48}
+                    step={1}
                     value={currentTheme.sectionGap}
-                    onChange={(event) => updateTheme((theme) => ({ ...theme, sectionGap: Number(event.target.value) }))}
-                    className="mt-2 w-full"
+                    onChange={(event) => updateNumericTheme("sectionGap", event.target.value, 8, 48, 1)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
                   />
                 </label>
 
                 <label className="text-xs" style={textStyle}>
-                  Section Offset ({currentTheme.sectionOffset}px)
+                  Section Offset (px)
                   <input
-                    type="range"
+                    type="number"
                     min={0}
                     max={40}
+                    step={1}
                     value={currentTheme.sectionOffset}
-                    onChange={(event) => updateTheme((theme) => ({ ...theme, sectionOffset: Number(event.target.value) }))}
-                    className="mt-2 w-full"
+                    onChange={(event) => updateNumericTheme("sectionOffset", event.target.value, 0, 40, 1)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
                   />
                 </label>
 
                 <label className="text-xs" style={textStyle}>
-                  Font Scale ({currentTheme.fontScale.toFixed(2)})
+                  Font Scale
                   <input
-                    type="range"
+                    type="number"
                     min={0.85}
                     max={1.2}
                     step={0.01}
                     value={currentTheme.fontScale}
-                    onChange={(event) => updateTheme((theme) => ({ ...theme, fontScale: Number(event.target.value) }))}
-                    className="mt-2 w-full"
+                    onChange={(event) => updateNumericTheme("fontScale", event.target.value, 0.85, 1.2, 0.01)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
                   />
                 </label>
 
                 <label className="text-xs" style={textStyle}>
-                  Line Height ({currentTheme.lineHeight.toFixed(2)})
+                  Line Height
                   <input
-                    type="range"
+                    type="number"
                     min={1.2}
                     max={2}
                     step={0.05}
                     value={currentTheme.lineHeight}
-                    onChange={(event) => updateTheme((theme) => ({ ...theme, lineHeight: Number(event.target.value) }))}
-                    className="mt-2 w-full"
+                    onChange={(event) => updateNumericTheme("lineHeight", event.target.value, 1.2, 2, 0.05)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
                   />
                 </label>
 
                 <label className="text-xs" style={textStyle}>
-                  Content Width ({currentTheme.contentWidth}rem)
+                  Content Width (rem)
                   <input
-                    type="range"
+                    type="number"
                     min={56}
                     max={96}
                     step={1}
                     value={currentTheme.contentWidth}
-                    onChange={(event) => updateTheme((theme) => ({ ...theme, contentWidth: Number(event.target.value) }))}
-                    className="mt-2 w-full"
+                    onChange={(event) => updateNumericTheme("contentWidth", event.target.value, 56, 96, 1)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
                   />
                 </label>
               </div>
