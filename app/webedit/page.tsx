@@ -258,89 +258,28 @@ export default function WebEditPage() {
             <div className="mt-3 rounded-xl border border-white/15 bg-black/20 p-3">
               <p className="text-xs font-semibold uppercase tracking-wide" style={mutedStyle}>Layout & Typography</p>
 
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <label className="text-xs" style={textStyle}>
+              <div className="mt-3 w-full">
+                <label className="block text-xs" style={textStyle}>
                   Text Align
-                  <div className="mt-2 grid grid-cols-3 gap-2">
+                  <div className="mt-2 inline-flex w-full overflow-hidden rounded-lg border border-white/20 bg-black/20 p-1">
                     {(["left", "center", "right"] as const).map((mode) => (
                       <button
                         key={mode}
                         onClick={() => updateTheme((theme) => ({ ...theme, textAlign: mode }))}
-                        className={`rounded-md border px-2 py-1.5 text-xs font-semibold transition ${
+                        aria-pressed={currentTheme.textAlign === mode}
+                        className={`flex-1 rounded-md px-2 py-1.5 text-xs font-semibold transition ${
                           currentTheme.textAlign === mode
-                            ? "border-white/60 bg-white/15"
-                            : "border-white/20 bg-black/20 hover:bg-white/10"
+                            ? "bg-white/18 text-white"
+                            : "text-neutral-300 hover:bg-white/10"
                         }`}
                       >
-                        {mode}
+                        <span className="capitalize">{mode}</span>
                       </button>
                     ))}
                   </div>
-                </label>
-
-                <label className="text-xs" style={textStyle}>
-                  Section Gap (px)
-                  <input
-                    type="number"
-                    min={8}
-                    max={48}
-                    step={1}
-                    value={currentTheme.sectionGap}
-                    onChange={(event) => updateNumericTheme("sectionGap", event.target.value, 8, 48, 1)}
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
-                  />
-                </label>
-
-                <label className="text-xs" style={textStyle}>
-                  Section Offset (px)
-                  <input
-                    type="number"
-                    min={0}
-                    max={40}
-                    step={1}
-                    value={currentTheme.sectionOffset}
-                    onChange={(event) => updateNumericTheme("sectionOffset", event.target.value, 0, 40, 1)}
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
-                  />
-                </label>
-
-                <label className="text-xs" style={textStyle}>
-                  Font Scale
-                  <input
-                    type="number"
-                    min={0.85}
-                    max={1.2}
-                    step={0.01}
-                    value={currentTheme.fontScale}
-                    onChange={(event) => updateNumericTheme("fontScale", event.target.value, 0.85, 1.2, 0.01)}
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
-                  />
-                </label>
-
-                <label className="text-xs" style={textStyle}>
-                  Line Height
-                  <input
-                    type="number"
-                    min={1.2}
-                    max={2}
-                    step={0.05}
-                    value={currentTheme.lineHeight}
-                    onChange={(event) => updateNumericTheme("lineHeight", event.target.value, 1.2, 2, 0.05)}
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
-                  />
-                </label>
-
-                <label className="text-xs" style={textStyle}>
-                  Content Width (rem)
-                  <input
-                    type="number"
-                    min={56}
-                    max={96}
-                    step={1}
-                    value={currentTheme.contentWidth}
-                    onChange={(event) => updateNumericTheme("contentWidth", event.target.value, 56, 96, 1)}
-                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
-                  />
+                  <p className="mt-2 text-[11px]" style={mutedStyle}>
+                    Current alignment: <span className="font-semibold capitalize">{currentTheme.textAlign}</span>
+                  </p>
                 </label>
               </div>
             </div>
