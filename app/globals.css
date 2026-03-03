@@ -77,6 +77,70 @@ a {
   color: inherit;
 }
 
+/* Theme bridge: remap common utility classes so existing pages automatically follow WebEdit tokens. */
+.text-white,
+.text-neutral-100,
+.text-neutral-200 {
+  color: var(--foreground) !important;
+}
+
+.text-neutral-300,
+.text-neutral-400,
+.text-neutral-500,
+.text-neutral-600 {
+  color: var(--foreground-soft) !important;
+}
+
+.bg-neutral-900,
+.bg-neutral-950,
+.bg-black\/20,
+.bg-black\/30,
+.bg-black\/35,
+.bg-white\/5,
+.bg-white\/8,
+.bg-white\/10,
+.bg-white\/12,
+.bg-white\/15 {
+  background: color-mix(in srgb, var(--surface-muted) 82%, transparent 18%) !important;
+}
+
+.border-neutral-700,
+.border-neutral-800,
+.border-white\/12,
+.border-white\/15,
+.border-white\/18,
+.border-white\/20,
+.border-white\/30,
+.border-white\/55,
+.border-white\/60 {
+  border-color: color-mix(in srgb, var(--border) 86%, transparent 14%) !important;
+}
+
+.panel input,
+.panel textarea,
+.panel select {
+  color: var(--foreground) !important;
+  background: color-mix(in srgb, var(--surface-muted) 82%, transparent 18%) !important;
+  border-color: color-mix(in srgb, var(--border) 86%, transparent 14%) !important;
+}
+
+.panel input::placeholder,
+.panel textarea::placeholder {
+  color: var(--foreground-soft) !important;
+}
+
+.panel button.bg-white,
+.panel a.bg-white {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #04131f !important;
+}
+
+.panel button[class*="hover:bg-neutral-200"]:hover,
+.panel a[class*="hover:bg-neutral-200"]:hover {
+  background: color-mix(in srgb, var(--accent) 80%, var(--accent-strong) 20%) !important;
+}
+
 @keyframes riseIn {
   from {
     opacity: 0;
