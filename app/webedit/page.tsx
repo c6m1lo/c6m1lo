@@ -218,6 +218,94 @@ export default function WebEditPage() {
               </label>
             </div>
 
+            <div className="mt-3 rounded-xl border border-white/15 bg-black/20 p-3">
+              <p className="text-xs font-semibold uppercase tracking-wide" style={mutedStyle}>Layout & Typography</p>
+
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <label className="text-xs" style={textStyle}>
+                  Text Align
+                  <div className="mt-2 grid grid-cols-3 gap-2">
+                    {(["left", "center", "right"] as const).map((mode) => (
+                      <button
+                        key={mode}
+                        onClick={() => updateTheme((theme) => ({ ...theme, textAlign: mode }))}
+                        className={`rounded-md border px-2 py-1.5 text-xs font-semibold transition ${
+                          currentTheme.textAlign === mode
+                            ? "border-white/60 bg-white/15"
+                            : "border-white/20 bg-black/20 hover:bg-white/10"
+                        }`}
+                      >
+                        {mode}
+                      </button>
+                    ))}
+                  </div>
+                </label>
+
+                <label className="text-xs" style={textStyle}>
+                  Section Gap ({currentTheme.sectionGap}px)
+                  <input
+                    type="range"
+                    min={8}
+                    max={48}
+                    value={currentTheme.sectionGap}
+                    onChange={(event) => updateTheme((theme) => ({ ...theme, sectionGap: Number(event.target.value) }))}
+                    className="mt-2 w-full"
+                  />
+                </label>
+
+                <label className="text-xs" style={textStyle}>
+                  Section Offset ({currentTheme.sectionOffset}px)
+                  <input
+                    type="range"
+                    min={0}
+                    max={40}
+                    value={currentTheme.sectionOffset}
+                    onChange={(event) => updateTheme((theme) => ({ ...theme, sectionOffset: Number(event.target.value) }))}
+                    className="mt-2 w-full"
+                  />
+                </label>
+
+                <label className="text-xs" style={textStyle}>
+                  Font Scale ({currentTheme.fontScale.toFixed(2)})
+                  <input
+                    type="range"
+                    min={0.85}
+                    max={1.2}
+                    step={0.01}
+                    value={currentTheme.fontScale}
+                    onChange={(event) => updateTheme((theme) => ({ ...theme, fontScale: Number(event.target.value) }))}
+                    className="mt-2 w-full"
+                  />
+                </label>
+
+                <label className="text-xs" style={textStyle}>
+                  Line Height ({currentTheme.lineHeight.toFixed(2)})
+                  <input
+                    type="range"
+                    min={1.2}
+                    max={2}
+                    step={0.05}
+                    value={currentTheme.lineHeight}
+                    onChange={(event) => updateTheme((theme) => ({ ...theme, lineHeight: Number(event.target.value) }))}
+                    className="mt-2 w-full"
+                  />
+                </label>
+
+                <label className="text-xs" style={textStyle}>
+                  Content Width ({currentTheme.contentWidth}rem)
+                  <input
+                    type="range"
+                    min={56}
+                    max={96}
+                    step={1}
+                    value={currentTheme.contentWidth}
+                    onChange={(event) => updateTheme((theme) => ({ ...theme, contentWidth: Number(event.target.value) }))}
+                    className="mt-2 w-full"
+                  />
+                </label>
+              </div>
+            </div>
+
             <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {(
                 [

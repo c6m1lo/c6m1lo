@@ -13,6 +13,12 @@
   --accent-strong: #fafafa;
   --shadow: 0 28px 50px -34px rgba(0, 0, 0, 0.9);
   --radius: 18px;
+  --text-align: left;
+  --section-gap: 24px;
+  --section-offset: 16px;
+  --font-scale: 1;
+  --line-height: 1.6;
+  --content-width: 72rem;
 }
 
 * {
@@ -32,8 +38,10 @@ body {
     linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
   color: var(--foreground);
   font-family: var(--font-body), "Segoe UI", sans-serif;
-  line-height: 1.6;
+  font-size: calc(16px * var(--font-scale));
+  line-height: var(--line-height);
   overflow-x: hidden;
+  text-align: var(--text-align);
 }
 
 img,
@@ -81,10 +89,12 @@ a {
 }
 
 .page-wrap {
-  max-width: 72rem;
+  max-width: var(--content-width);
   margin: 0 auto;
   padding: 3.5rem 1.25rem;
   animation: riseIn 0.55s ease-out;
+  display: grid;
+  gap: var(--section-gap);
 }
 
 .panel {
@@ -101,6 +111,7 @@ a {
   border-bottom: 1px solid color-mix(in srgb, var(--border) 88%, transparent 12%);
   background: color-mix(in srgb, var(--surface) 84%, transparent 16%);
   backdrop-filter: blur(14px);
+  text-align: left;
 }
 
 .site-nav-brand {
@@ -186,7 +197,7 @@ a {
 }
 
 .home-page {
-  max-width: 76rem;
+  max-width: var(--content-width);
   margin: 0 auto;
   padding: 2.2rem 1.25rem 4rem;
   scroll-snap-type: y proximity;
@@ -304,7 +315,7 @@ a {
 }
 
 .project-showcase {
-  margin-top: 1.1rem;
+  margin-top: var(--section-offset);
   padding: 1.8rem;
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(260px, 460px);
@@ -355,6 +366,9 @@ a {
     radial-gradient(circle at 50% 75%, color-mix(in srgb, var(--accent-strong) 8%, transparent 92%), transparent 52%),
     color-mix(in srgb, var(--surface-muted) 84%, transparent 16%);
   overflow: hidden;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1;
 }
 
 .scene-book {
@@ -679,7 +693,7 @@ a {
 }
 
 .faith-panel {
-  margin-top: 1rem;
+  margin-top: var(--section-offset);
   padding: 1.8rem;
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(260px, 460px);
@@ -712,6 +726,24 @@ a {
     radial-gradient(circle at 50% 75%, color-mix(in srgb, var(--accent-strong) 9%, transparent 91%), transparent 52%),
     color-mix(in srgb, var(--surface-muted) 84%, transparent 16%);
   overflow: hidden;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1;
+}
+
+:root[data-text-align="center"] .page-wrap > section,
+:root[data-text-align="center"] .home-page > section {
+  text-align: center;
+}
+
+:root[data-text-align="right"] .page-wrap > section,
+:root[data-text-align="right"] .home-page > section {
+  text-align: right;
+}
+
+:root[data-text-align="left"] .page-wrap > section,
+:root[data-text-align="left"] .home-page > section {
+  text-align: left;
 }
 
 .cross-rotor {

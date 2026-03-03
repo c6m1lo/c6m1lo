@@ -13,6 +13,12 @@ export type CssTheme = {
   accent: string;
   border: string;
   radius: number;
+  textAlign: "left" | "center" | "right";
+  sectionGap: number;
+  sectionOffset: number;
+  fontScale: number;
+  lineHeight: number;
+  contentWidth: number;
 };
 
 export const THEME_CACHE_KEY = "webedit-css-theme-v1";
@@ -32,6 +38,12 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     accent: "#38bdf8",
     border: "#263246",
     radius: 18,
+    textAlign: "left",
+    sectionGap: 24,
+    sectionOffset: 16,
+    fontScale: 1,
+    lineHeight: 1.6,
+    contentWidth: 72,
   },
   paper: {
     name: "Paper",
@@ -45,6 +57,12 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     accent: "#0ea5e9",
     border: "#cbd5e1",
     radius: 14,
+    textAlign: "left",
+    sectionGap: 24,
+    sectionOffset: 16,
+    fontScale: 1,
+    lineHeight: 1.6,
+    contentWidth: 72,
   },
   sunset: {
     name: "Sunset",
@@ -58,6 +76,12 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     accent: "#fb7185",
     border: "#69395f",
     radius: 20,
+    textAlign: "left",
+    sectionGap: 24,
+    sectionOffset: 16,
+    fontScale: 1,
+    lineHeight: 1.6,
+    contentWidth: 72,
   },
   neon: {
     name: "Neon Grid",
@@ -71,6 +95,12 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     accent: "#22d3ee",
     border: "#1f4862",
     radius: 16,
+    textAlign: "left",
+    sectionGap: 24,
+    sectionOffset: 16,
+    fontScale: 1,
+    lineHeight: 1.6,
+    contentWidth: 72,
   },
 };
 
@@ -89,7 +119,13 @@ function isCssTheme(value: unknown): value is CssTheme {
     typeof theme.muted === "string" &&
     typeof theme.accent === "string" &&
     typeof theme.border === "string" &&
-    typeof theme.radius === "number"
+    typeof theme.radius === "number" &&
+    (theme.textAlign === "left" || theme.textAlign === "center" || theme.textAlign === "right") &&
+    typeof theme.sectionGap === "number" &&
+    typeof theme.sectionOffset === "number" &&
+    typeof theme.fontScale === "number" &&
+    typeof theme.lineHeight === "number" &&
+    typeof theme.contentWidth === "number"
   );
 }
 
@@ -148,6 +184,7 @@ export function applyThemeToDocument(theme: CssTheme) {
   if (typeof document === "undefined") return;
 
   const root = document.documentElement;
+  root.setAttribute("data-text-align", theme.textAlign);
 
   root.style.setProperty("--page-top", theme.pageTop);
   root.style.setProperty("--page-bottom", theme.pageBottom);
@@ -159,6 +196,12 @@ export function applyThemeToDocument(theme: CssTheme) {
   root.style.setProperty("--accent-strong", theme.heading);
   root.style.setProperty("--border", theme.border);
   root.style.setProperty("--radius", `${theme.radius}px`);
+  root.style.setProperty("--text-align", theme.textAlign);
+  root.style.setProperty("--section-gap", `${theme.sectionGap}px`);
+  root.style.setProperty("--section-offset", `${theme.sectionOffset}px`);
+  root.style.setProperty("--font-scale", `${theme.fontScale}`);
+  root.style.setProperty("--line-height", `${theme.lineHeight}`);
+  root.style.setProperty("--content-width", `${theme.contentWidth}rem`);
 }
 
 export function persistAndApplyTheme(themeId: ThemeId, customThemes: Record<string, CssTheme>) {
