@@ -1,28 +1,4 @@
-const projects = [
-  {
-    title: "Bible App",
-    description: "A simple Bible reading app built with React and Next.js.",
-    href: "/bible",
-    cta: "Open app",
-  },
-  {
-    title: "Journal App",
-    description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
-    href: "/journal",
-    cta: "Open app",
-  },
-  {title: "Millisecond Scheduler",
-    description: "Real-time activity tracker with editable sessions synced to Journal and Calendar.",
-    href: "/scheduler",
-    cta: "Open app",
-  },
-  {
-    title: "Calendar App",
-    description: "Chronological planner that merges Journal entries, tracker sessions, and calendar events.",
-    href: "/calendar",
-    cta: "Open app",
-  }
-];
+import { projects } from "@/data/projects";
 
 export default function ProjectsPage() {
   return (

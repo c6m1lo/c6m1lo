@@ -454,6 +454,57 @@ a {
   background: rgba(25, 27, 30, 0.16);
 }
 
+.scene-gear {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: radial-gradient(circle at 35% 30%, #f2f4f7 0%, #c3c8cf 45%, #7f8792 100%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 16px 28px rgba(0, 0, 0, 0.45),
+    inset 0 2px 2px rgba(255, 255, 255, 0.45);
+  animation: gearSpin 10s linear infinite;
+}
+
+.scene-gear-notches span {
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  width: 26px;
+  height: 58px;
+  margin-left: -13px;
+  border-radius: 0 0 14px 14px;
+  background:
+    radial-gradient(circle at 50% 110%, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.35)),
+    linear-gradient(180deg, rgba(4, 5, 7, 0.9), rgba(10, 11, 14, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transform-origin: 50% 109px;
+}
+
+.scene-gear-core {
+  position: absolute;
+  inset: 62px;
+  border-radius: 9999px;
+  border: 12px solid rgba(21, 23, 27, 0.55);
+  background: radial-gradient(circle at 30% 30%, #c8ced6, #808a96);
+}
+
+.scene-generic {
+  width: 220px;
+  height: 220px;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.12)),
+    linear-gradient(160deg, #d6d9de 0%, #9aa0aa 45%, #5b616a 100%);
+  box-shadow:
+    0 16px 28px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  transform: perspective(900px) rotateX(6deg) rotateY(-14deg);
+}
+
 .scroller-layout {
   display: grid;
   gap: 1rem;
@@ -779,6 +830,15 @@ a {
   }
   50% {
     transform: perspective(900px) rotateX(5deg) rotateY(-4deg);
+  }
+}
+
+@keyframes gearSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 

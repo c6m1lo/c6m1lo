@@ -1,37 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { projects } from "@/data/projects";
 
 const beamFaces = ["front", "back", "left", "right", "top", "bottom"] as const;
-const homeProjects = [
-  {
-    title: "Bible App",
-    description: "Simple Bible reader built with Next.js and local KJV data.",
-    href: "/bible",
-    quote: "`Search the scriptures; for in them ye think ye have eternal life.`",
-  },
-  {
-    title: "Journal App",
-    description: "Daily timestamped journal with local-first entries and summaries.",
-    href: "/journal",
-    quote: "`Write clearly enough to understand your own patterns over time.`",
-    scene: "book",
-  },
-  {
-    title: "Millisecond Scheduler",
-    description: "Real-time tracker for what you are doing throughout the day.",
-    href: "/scheduler",
-    quote: "`What gets measured in minutes becomes visible in your life.`",
-    scene: "timer",
-  },
-  {
-    title: "Calendar App",
-    description: "Chronological calendar connected with journal and tracker data.",
-    href: "/calendar",
-    quote: "`Order your day by time, not by intention alone.`",
-    scene: "calendar",
-  },
-];
 
 function CrossBeam({ className }: { className: string }) {
   return (
@@ -45,9 +17,15 @@ function CrossBeam({ className }: { className: string }) {
 
 export default function HomePage() {
   const homeRootRef = useRef<HTMLDivElement | null>(null);
+  const lastScrollYRef = useRef(0);
+  const pauseAutoScrollUntilRef = useRef(0);
+  const ignoreUpScrollUntilRef = useRef(0);
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState(0);
-  const projectsToShow = useMemo(() => homeProjects.slice(1), []);
+  const projectsToShow = useMemo(
+    () => projects.filter((project) => project.showInHomeFeed !== false),
+    [],
+  );
   const totalSections = 1 + projectsToShow.length;
 
   const getHomeSections = () => {
@@ -57,9 +35,21 @@ export default function HomePage() {
 
   useEffect(() => {
     const updateProgress = () => {
+      const now = Date.now();
+      const currentY = window.scrollY;
+
+      if (
+        currentY < lastScrollYRef.current - 2 &&
+        now > ignoreUpScrollUntilRef.current
+      ) {
+        pauseAutoScrollUntilRef.current = now + 15_000;
+      }
+
+      lastScrollYRef.current = currentY;
+
       const scrollable =
         document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const nextProgress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+      const nextProgress = scrollable > 0 ? (currentY / scrollable) * 100 : 0;
       setProgress(Math.max(0, Math.min(100, nextProgress)));
     };
 
@@ -100,11 +90,16 @@ export default function HomePage() {
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
+      if (Date.now() < pauseAutoScrollUntilRef.current) {
+        return;
+      }
+
       const sections = getHomeSections();
       if (!sections.length) return;
 
       setActiveSection((current) => {
         const next = (current + 1) % sections.length;
+        ignoreUpScrollUntilRef.current = Date.now() + 1200;
         sections[next]?.scrollIntoView({ behavior: "smooth", block: "start" });
         return next;
       });
@@ -153,21 +148,21 @@ export default function HomePage() {
           <div className="project-copy">
             <p className="kicker">Project</p>
             <h2>{project.title}</h2>
-            <p className="project-quote">{project.quote}</p>
+            <p className="project-quote">{project.homeQuote ?? "`Built with precision and intent.`"}</p>
             <p className="muted">{project.description}</p>
             <a href={project.href} className="project-showcase-btn hero-btn hero-btn-secondary">
-              Open app
+              {project.cta}
             </a>
           </div>
           <div className="project-scene" aria-hidden="true">
-            {project.scene === "book" ? (
+            {project.homeScene === "book" ? (
               <div className="scene-book">
                 <div className="scene-book-cover" />
                 <div className="scene-book-pages" />
                 <div className="scene-book-spine" />
               </div>
             ) : null}
-            {project.scene === "timer" ? (
+            {project.homeScene === "timer" ? (
               <div className="scene-timer">
                 <div className="scene-timer-ring" />
                 <div className="scene-timer-hand scene-timer-hand-hour" />
@@ -175,7 +170,7 @@ export default function HomePage() {
                 <div className="scene-timer-knob" />
               </div>
             ) : null}
-            {project.scene === "calendar" ? (
+            {project.homeScene === "calendar" ? (
               <div className="scene-calendar">
                 <div className="scene-calendar-top" />
                 <div className="scene-calendar-grid">
@@ -185,6 +180,17 @@ export default function HomePage() {
                 </div>
               </div>
             ) : null}
+            {project.homeScene === "gear" ? (
+              <div className="scene-gear">
+                <div className="scene-gear-notches">
+                  {Array.from({ length: 8 }, (_, index) => (
+                    <span key={index} style={{ transform: `rotate(${index * 45}deg)` }} />
+                  ))}
+                </div>
+                <div className="scene-gear-core" />
+              </div>
+            ) : null}
+            {!project.homeScene ? <div className="scene-generic" /> : null}
           </div>
         </section>
       ))}
