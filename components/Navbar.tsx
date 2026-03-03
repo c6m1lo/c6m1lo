@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <nav className="site-nav">
       <div className="site-nav-inner mx-auto max-w-6xl px-5 py-3 sm:px-8">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-3 sm:gap-6">
           <Link href="/" className="site-nav-brand text-lg font-semibold tracking-tight">
             c6m1lo
           </Link>
@@ -28,8 +28,11 @@ export default function Navbar() {
           >
             Menu
           </button>
-        </div>
-        <ul className={`${isOpen ? "mt-3 flex" : "hidden"} flex-col gap-1 sm:mt-0 sm:flex sm:flex-row sm:items-center`}>
+          <ul
+            className={`${
+              isOpen ? "absolute left-5 right-5 top-full mt-2 flex" : "hidden"
+            } flex-col gap-1 rounded-lg border border-white/15 bg-black/70 p-2 backdrop-blur sm:static sm:mt-0 sm:flex sm:flex-row sm:items-center sm:gap-2 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none`}
+          >
           {navLinks.map((item) => {
             const active = pathname === item.href;
 
@@ -49,7 +52,8 @@ export default function Navbar() {
               </li>
             );
           })}
-        </ul>
+          </ul>
+        </div>
       </div>
     </nav>
   );

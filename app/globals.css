@@ -13,10 +13,11 @@
   --accent-strong: #fafafa;
   --shadow: 0 28px 50px -34px rgba(0, 0, 0, 0.9);
   --radius: 18px;
-  --text-align: left;
+  --text-align: center;
   --section-gap: 24px;
   --section-offset: 16px;
   --font-scale: 1;
+  --font-size: 16px;
   --line-height: 1.6;
   --content-width: 72rem;
 }
@@ -38,7 +39,7 @@ body {
     linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
   color: var(--foreground);
   font-family: var(--font-body), "Segoe UI", sans-serif;
-  font-size: calc(16px * var(--font-scale));
+  font-size: var(--font-size);
   line-height: var(--line-height);
   overflow-x: hidden;
   text-align: var(--text-align);
@@ -382,13 +383,20 @@ a {
   margin-top: var(--section-offset);
   padding: 1.8rem;
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(260px, 460px);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 460px);
   gap: 1.2rem;
   align-items: center;
   background:
     radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--accent) 22%, transparent 78%), transparent 34%),
     linear-gradient(180deg, color-mix(in srgb, var(--surface) 94%, black 6%), color-mix(in srgb, var(--surface-muted) 94%, black 6%));
   border-color: color-mix(in srgb, var(--border) 76%, var(--accent) 24%);
+}
+
+.project-copy,
+.faith-copy {
+  justify-self: stretch;
+  text-align: left;
+  align-items: flex-start;
 }
 
 .project-copy h2 {
@@ -420,6 +428,7 @@ a {
 
 .project-scene {
   min-height: 380px;
+  justify-self: stretch;
   display: grid;
   place-items: center;
   perspective: 1000px;
@@ -760,7 +769,7 @@ a {
   margin-top: var(--section-offset);
   padding: 1.8rem;
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(260px, 460px);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 460px);
   gap: 1.2rem;
   align-items: center;
   background:
@@ -780,6 +789,7 @@ a {
 
 .cross-scene {
   min-height: 380px;
+  justify-self: stretch;
   display: grid;
   place-items: center;
   perspective: 1000px;
@@ -988,5 +998,19 @@ a {
 
   .project-scene {
     min-height: 320px;
+  }
+
+  .project-copy,
+  .faith-copy {
+    text-align: center;
+    align-items: center;
+  }
+
+  .project-copy h2,
+  .faith-copy h2,
+  .project-copy p,
+  .faith-copy p {
+    margin-left: auto;
+    margin-right: auto;
   }
 }

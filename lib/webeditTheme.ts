@@ -17,6 +17,7 @@ export type CssTheme = {
   sectionGap: number;
   sectionOffset: number;
   fontScale: number;
+  fontSize: number;
   lineHeight: number;
   contentWidth: number;
 };
@@ -38,10 +39,11 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     accent: "#38bdf8",
     border: "#263246",
     radius: 18,
-    textAlign: "left",
+    textAlign: "center",
     sectionGap: 24,
     sectionOffset: 16,
     fontScale: 1,
+    fontSize: 16,
     lineHeight: 1.6,
     contentWidth: 72,
   },
@@ -57,10 +59,11 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     accent: "#0ea5e9",
     border: "#cbd5e1",
     radius: 14,
-    textAlign: "left",
+    textAlign: "center",
     sectionGap: 24,
     sectionOffset: 16,
     fontScale: 1,
+    fontSize: 16,
     lineHeight: 1.6,
     contentWidth: 72,
   },
@@ -76,10 +79,11 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     accent: "#fb7185",
     border: "#69395f",
     radius: 20,
-    textAlign: "left",
+    textAlign: "center",
     sectionGap: 24,
     sectionOffset: 16,
     fontScale: 1,
+    fontSize: 16,
     lineHeight: 1.6,
     contentWidth: 72,
   },
@@ -95,10 +99,11 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     accent: "#22d3ee",
     border: "#1f4862",
     radius: 16,
-    textAlign: "left",
+    textAlign: "center",
     sectionGap: 24,
     sectionOffset: 16,
     fontScale: 1,
+    fontSize: 16,
     lineHeight: 1.6,
     contentWidth: 72,
   },
@@ -124,6 +129,7 @@ function isCssTheme(value: unknown): value is CssTheme {
     typeof theme.sectionGap === "number" &&
     typeof theme.sectionOffset === "number" &&
     typeof theme.fontScale === "number" &&
+    typeof theme.fontSize === "number" &&
     typeof theme.lineHeight === "number" &&
     typeof theme.contentWidth === "number"
   );
@@ -159,6 +165,7 @@ function normalizeTheme(value: unknown, fallback: CssTheme): CssTheme | null {
     sectionGap: readNumber(value.sectionGap, fallback.sectionGap),
     sectionOffset: readNumber(value.sectionOffset, fallback.sectionOffset),
     fontScale: readNumber(value.fontScale, fallback.fontScale),
+    fontSize: readNumber(value.fontSize, fallback.fontSize),
     lineHeight: readNumber(value.lineHeight, fallback.lineHeight),
     contentWidth: readNumber(value.contentWidth, fallback.contentWidth),
   };
@@ -238,6 +245,7 @@ export function applyThemeToDocument(theme: CssTheme) {
   root.style.setProperty("--section-gap", `${theme.sectionGap}px`);
   root.style.setProperty("--section-offset", `${theme.sectionOffset}px`);
   root.style.setProperty("--font-scale", `${theme.fontScale}`);
+  root.style.setProperty("--font-size", `${theme.fontSize}px`);
   root.style.setProperty("--line-height", `${theme.lineHeight}`);
   root.style.setProperty("--content-width", `${theme.contentWidth}rem`);
 }
