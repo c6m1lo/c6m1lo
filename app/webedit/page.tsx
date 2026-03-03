@@ -14,10 +14,31 @@ import {
   type ThemeKey,
 } from "@/lib/webeditTheme";
 
+function toSlug(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 28) || "theme";
+}
+
+function createUniqueCustomId(base: string, existing: Record<string, CssTheme>) {
+  let id = toSlug(base);
+  let suffix = 1;
+
+  while (existing[id]) {
+    id = `${toSlug(base)}-${suffix}`;
+    suffix += 1;
+  }
+
+  return id;
+}
+
 export default function WebEditPage() {
-  
   const [customThemes, setCustomThemes] = useState<Record<string, CssTheme>>({});
   const [themeId, setThemeId] = useState<ThemeId>("midnight");
+  const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
     const loadedCustom = getCustomThemes();
@@ -33,51 +54,84 @@ export default function WebEditPage() {
     [customThemes, themeId],
   );
 
-  const isCustomTheme = themeId.startsWith("custom:");
-
   const applyTheme = (nextId: ThemeId, nextCustom = customThemes) => {
     setThemeId(nextId);
     persistAndApplyTheme(nextId, nextCustom);
   };
 
-  const updateCustomTheme = (mutate: (theme: CssTheme) => CssTheme) => {
-    if (!isCustomTheme) return;
+  const ensureEditableTheme = (): { editableId: ThemeId; editableThemes: Record<string, CssTheme> } => {
+    if (themeId.startsWith("custom:")) {
+      return { editableId: themeId, editableThemes: customThemes };
+    }
 
-    const customId = themeId.slice(7);
-    const existing = customThemes[customId];
+    const base = resolveTheme(themeId, customThemes) ?? THEMES.midnight;
+    const customId = createUniqueCustomId(`${base.name}-custom`, customThemes);
+    const editableThemes = {
+      ...customThemes,
+      [customId]: {
+        ...base,
+        name: `${base.name} Custom`,
+      },
+    };
+
+    return {
+      editableId: `custom:${customId}`,
+      editableThemes,
+    };
+  };
+
+  const updateTheme = (mutate: (theme: CssTheme) => CssTheme) => {
+    const { editableId, editableThemes } = ensureEditableTheme();
+    const customId = editableId.slice(7);
+    const existing = editableThemes[customId];
+
     if (!existing) return;
 
     const nextCustom = {
-      ...customThemes,
+      ...editableThemes,
       [customId]: mutate(existing),
     };
 
     setCustomThemes(nextCustom);
     saveCustomThemes(nextCustom);
-    persistAndApplyTheme(themeId, nextCustom);
+    setStatus(themeId.startsWith("custom:") ? null : "Auto-created editable custom theme.");
+    applyTheme(editableId, nextCustom);
   };
 
   const presetKeys = Object.keys(THEMES) as ThemeKey[];
   const customEntries = Object.entries(customThemes);
-  const headingTextStyle = { color: currentTheme.heading } as const;
-  const bodyTextStyle = { color: currentTheme.text } as const;
-  const mutedTextStyle = { color: currentTheme.muted } as const;
+  const headingStyle = { color: currentTheme.heading } as const;
+  const textStyle = { color: currentTheme.text } as const;
+  const mutedStyle = { color: currentTheme.muted } as const;
+
+  const panelStyle = {
+    background: `${currentTheme.surface}e6`,
+    border: `1px solid ${currentTheme.border}`,
+    borderRadius: currentTheme.radius,
+  } as const;
+
+  const previewSurfaceStyle = {
+    background: `linear-gradient(180deg, ${currentTheme.pageTop}, ${currentTheme.pageBottom})`,
+    borderRadius: currentTheme.radius + 4,
+    color: currentTheme.text,
+  } as const;
 
   return (
     <div className="page-wrap space-y-6">
       <section className="panel p-6 sm:p-8">
         <span className="kicker">WebEdit</span>
-        <h1 className="mt-4 text-3xl font-semibold sm:text-4xl">Prototype Theme Workbench</h1>
+        <h1 className="mt-4 text-3xl font-semibold sm:text-4xl">Theme Tokens Workbench</h1>
         <p className="muted mt-2 max-w-3xl text-sm sm:text-base">
-          Pick, edit, import, and export CSS themes. Selection and custom themes are cached and applied site-wide.
+          Editing tokens now auto-applies globally. If you edit a preset, it is automatically forked to a custom theme.
         </p>
+        {status ? <p className="mt-3 text-xs" style={textStyle}>{status}</p> : null}
       </section>
 
       <section className="grid gap-4 xl:grid-cols-[340px_1fr]">
         <aside className="panel p-5 sm:p-6">
           <h2 className="text-lg font-semibold">Theme Library</h2>
 
-          <p className="mt-3 text-xs uppercase tracking-wide" style={mutedTextStyle}>Presets</p>
+          <p className="mt-3 text-xs uppercase tracking-wide" style={mutedStyle}>Presets</p>
           <div className="mt-2 space-y-2">
             {presetKeys.map((key) => (
               <button
@@ -87,13 +141,13 @@ export default function WebEditPage() {
                   themeId === key ? "border-white/60 bg-white/15" : "border-white/15 bg-black/20 hover:bg-white/10"
                 }`}
               >
-                <p className="text-sm font-semibold" style={headingTextStyle}>{THEMES[key].name}</p>
-                <p className="text-xs" style={mutedTextStyle}>{key}</p>
+                <p className="text-sm font-semibold" style={headingStyle}>{THEMES[key].name}</p>
+                <p className="text-xs" style={mutedStyle}>{key}</p>
               </button>
             ))}
           </div>
 
-          <p className="mt-4 text-xs uppercase tracking-wide" style={mutedTextStyle}>Custom</p>
+          <p className="mt-4 text-xs uppercase tracking-wide" style={mutedStyle}>Custom</p>
           <div className="mt-2 space-y-2">
             {customEntries.length ? (
               customEntries.map(([id, theme]) => {
@@ -108,45 +162,58 @@ export default function WebEditPage() {
                         : "border-white/15 bg-black/20 hover:bg-white/10"
                     }`}
                   >
-                    <p className="text-sm font-semibold" style={headingTextStyle}>{theme.name}</p>
-                    <p className="text-xs" style={mutedTextStyle}>custom:{id}</p>
+                    <p className="text-sm font-semibold" style={headingStyle}>{theme.name}</p>
+                    <p className="text-xs" style={mutedStyle}>custom:{id}</p>
                   </button>
                 );
               })
             ) : (
-              <p className="rounded-xl border border-dashed border-white/15 p-3 text-xs" style={mutedTextStyle}>
-                No custom themes yet.
+              <p className="rounded-xl border border-dashed border-white/15 p-3 text-xs" style={mutedStyle}>
+                No custom themes yet. Start editing any preset to create one automatically.
               </p>
             )}
           </div>
         </aside>
 
+        <article className="space-y-4">
+          <div className="p-3 sm:p-4" style={previewSurfaceStyle}>
+            <div className="space-y-4">
+              <div className="p-5 sm:p-6" style={panelStyle}>
+                <h2 className="text-2xl font-semibold" style={headingStyle}>Live Global Preview</h2>
+                <p className="mt-2 text-sm" style={mutedStyle}>
+                  Current theme id: <span className="font-mono">{themeId}</span>
+                </p>
+                <button
+                  className="mt-4 rounded-lg px-4 py-2 text-sm font-semibold text-black"
+                  style={{ backgroundColor: currentTheme.accent }}
+                >
+                  Accent Button
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div className="panel p-5 sm:p-6">
             <h3 className="text-lg font-semibold">Theme Tokens</h3>
-            {!isCustomTheme ? (
-              <p className="mt-2 text-sm" style={mutedTextStyle}>Duplicate a preset to custom before editing tokens.</p>
-            ) : null}
 
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <label className="text-xs" style={bodyTextStyle}>
+              <label className="text-xs" style={textStyle}>
                 Theme Name
                 <input
                   value={currentTheme.name}
-                  disabled={!isCustomTheme}
-                  onChange={(event) => updateCustomTheme((theme) => ({ ...theme, name: event.target.value }))}
-                  className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm disabled:opacity-50"
+                  onChange={(event) => updateTheme((theme) => ({ ...theme, name: event.target.value }))}
+                  className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
                 />
               </label>
-              <label className="text-xs" style={bodyTextStyle}>
+              <label className="text-xs" style={textStyle}>
                 Radius ({currentTheme.radius}px)
                 <input
                   type="range"
                   min={8}
                   max={28}
                   value={currentTheme.radius}
-                  disabled={!isCustomTheme}
-                  onChange={(event) => updateCustomTheme((theme) => ({ ...theme, radius: Number(event.target.value) }))}
-                  className="mt-2 w-full disabled:opacity-50"
+                  onChange={(event) => updateTheme((theme) => ({ ...theme, radius: Number(event.target.value) }))}
+                  className="mt-2 w-full"
                 />
               </label>
             </div>
@@ -165,24 +232,24 @@ export default function WebEditPage() {
                   ["border", "Border"],
                 ] as Array<[keyof CssTheme, string]>
               ).map(([key, label]) => (
-                <label key={key} className="text-xs" style={bodyTextStyle}>
+                <label key={key} className="text-xs" style={textStyle}>
                   {label}
                   <input
                     type="color"
                     value={currentTheme[key] as string}
-                    disabled={!isCustomTheme}
                     onChange={(event) =>
-                      updateCustomTheme((theme) => ({
+                      updateTheme((theme) => ({
                         ...theme,
                         [key]: event.target.value,
                       }))
                     }
-                    className="mt-1 h-10 w-full rounded-md border border-white/15 bg-transparent disabled:opacity-50"
+                    className="mt-1 h-10 w-full rounded-md border border-white/15 bg-transparent"
                   />
                 </label>
               ))}
             </div>
           </div>
+        </article>
       </section>
     </div>
   );
