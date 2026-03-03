@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Navbar from "@/components/Navbar";
 import AdSense from "@/components/AdSense";
+import GlobalThemeSync from "@/components/GlobalThemeSync";
 
 const bodyFont = Plus_Jakarta_Sans({
   variable: "--font-body",
@@ -66,6 +67,7 @@ export default function RootLayout({
         <AdSense pId="ca-pub-9659879669905345"></AdSense>
       </head>
       <body className={`${bodyFont.variable} antialiased`}>
+        <GlobalThemeSync />
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <footer className="mt-14 border-t border-neutral-800 bg-black/90">

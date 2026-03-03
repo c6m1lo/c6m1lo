@@ -15,16 +15,16 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-neutral-800/90 bg-black/85 backdrop-blur-xl">
-      <div className="mx-auto max-w-6xl px-5 py-3 sm:px-8">
+    <nav className="site-nav">
+      <div className="site-nav-inner mx-auto max-w-6xl px-5 py-3 sm:px-8">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/" className="text-lg font-semibold tracking-tight text-neutral-100">
+          <Link href="/" className="site-nav-brand text-lg font-semibold tracking-tight">
             c6m1lo
           </Link>
           <button
             type="button"
             onClick={() => setIsOpen((current) => !current)}
-            className="rounded-md border border-neutral-700 px-2.5 py-1.5 text-xs text-neutral-200 sm:hidden"
+            className="site-nav-menu rounded-md px-2.5 py-1.5 text-xs sm:hidden"
           >
             Menu
           </button>
@@ -38,10 +38,10 @@ export default function Navbar() {
                 <Link
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className={`block rounded-lg px-3 py-2 text-sm font-medium transition ${
+                  className={`site-nav-link block rounded-lg px-3 py-2 text-sm font-medium transition ${
                     active
-                      ? "bg-white/10 text-white"
-                      : "text-neutral-400 hover:bg-white/5 hover:text-neutral-100"
+                      ? "is-active"
+                      : ""
                   }`}
                 >
                   {item.label}
