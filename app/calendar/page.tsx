@@ -55,12 +55,18 @@ function toDraft(event: CalendarEvent): CalendarDraft {
   };
 }
 
+function toLocalDateKey(value: Date) {
+  const pad = (part: number) => String(part).padStart(2, "0");
+  return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())}`;
+}
+
 function dateKeyFromDate(value: Date) {
-  return value.toISOString().slice(0, 10);
+  return toLocalDateKey(value);
 }
 
 function dateKeyFromIso(value: string) {
-  return value.slice(0, 10);
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value.slice(0, 10) : toLocalDateKey(date);
 }
 
 function buildMonthCells(anchor: Date) {
@@ -247,6 +253,9 @@ export default function CalendarPage() {
   });
 
   const todayKey = dateKeyFromDate(new Date());
+  const headingStyle = { color: "var(--accent-strong)" } as const;
+  const textStyle = { color: "var(--foreground)" } as const;
+  const mutedStyle = { color: "var(--foreground-soft)" } as const;
 
   return (
     <div className="page-wrap space-y-6">
@@ -261,11 +270,11 @@ export default function CalendarPage() {
       <section className="panel p-5 sm:p-6">
         <div className="mb-3 flex items-center justify-between gap-3">
           <h2 className="text-lg font-semibold">{editingId ? "Edit Calendar Event" : "Create Calendar Event"}</h2>
-          <p className="text-xs text-neutral-400">Local and async-connected</p>
+          <p className="text-xs" style={mutedStyle}>Local and async-connected</p>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="text-xs text-neutral-300">
+          <label className="text-xs" style={textStyle}>
             Title
             <input
               value={draft.title}
@@ -274,7 +283,7 @@ export default function CalendarPage() {
               className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
             />
           </label>
-          <label className="text-xs text-neutral-300">
+          <label className="text-xs" style={textStyle}>
             Notes
             <input
               value={draft.notes}
@@ -283,7 +292,7 @@ export default function CalendarPage() {
               className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
             />
           </label>
-          <label className="text-xs text-neutral-300">
+          <label className="text-xs" style={textStyle}>
             Starts at
             <input
               type="datetime-local"
@@ -292,7 +301,7 @@ export default function CalendarPage() {
               className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
             />
           </label>
-          <label className="text-xs text-neutral-300">
+          <label className="text-xs" style={textStyle}>
             Ends at
             <input
               type="datetime-local"
@@ -352,7 +361,7 @@ export default function CalendarPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-7 gap-2 text-center text-[11px] uppercase tracking-wide text-neutral-500">
+        <div className="grid grid-cols-7 gap-2 text-center text-[11px] uppercase tracking-wide" style={mutedStyle}>
           {WEEKDAY_LABELS.map((label) => (
             <div key={label}>{label}</div>
           ))}
@@ -374,7 +383,8 @@ export default function CalendarPage() {
                   isSelected
                     ? "border-white/55 bg-white/12"
                     : "border-white/12 bg-black/35 hover:border-white/30 hover:bg-white/8"
-                } ${cell.inMonth ? "text-white" : "text-neutral-600"}`}
+                } ${cell.inMonth ? "" : "opacity-50"}`}
+                style={cell.inMonth ? textStyle : mutedStyle}
               >
                 <div className="flex items-center justify-between text-xs">
                   <span className={`${isToday ? "rounded-full border border-emerald-400/60 px-1.5 py-0.5 text-emerald-200" : ""}`}>
@@ -405,18 +415,18 @@ export default function CalendarPage() {
 
         <div className="mt-4 space-y-4">
           <div>
-            <h3 className="text-sm font-semibold text-white">Calendar Events</h3>
+            <h3 className="text-sm font-semibold" style={headingStyle}>Calendar Events</h3>
             <div className="mt-2 space-y-2">
               {selectedDayCalendarEvents.length ? (
                 selectedDayCalendarEvents.map((event) => (
                   <article key={event.id} className="rounded-xl border border-white/12 bg-black/30 p-3 text-sm">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="font-medium text-white">{event.title}</p>
-                      <span className="text-neutral-300">
+                      <p className="font-medium" style={headingStyle}>{event.title}</p>
+                      <span style={mutedStyle}>
                         {new Date(event.startsAt).toLocaleTimeString()} - {new Date(event.endsAt).toLocaleTimeString()}
                       </span>
                     </div>
-                    {event.notes ? <p className="mt-2 text-sm text-neutral-300">{event.notes}</p> : null}
+                    {event.notes ? <p className="mt-2 text-sm" style={textStyle}>{event.notes}</p> : null}
                     <div className="mt-2 flex gap-2">
                       <button
                         onClick={() => beginEdit(event)}
@@ -434,29 +444,29 @@ export default function CalendarPage() {
                   </article>
                 ))
               ) : (
-                <p className="text-sm text-neutral-400">No calendar events on this day.</p>
+                <p className="text-sm" style={mutedStyle}>No calendar events on this day.</p>
               )}
             </div>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white">Journal Entries (Full)</h3>
+            <h3 className="text-sm font-semibold" style={headingStyle}>Journal Entries (Full)</h3>
             <div className="mt-2 space-y-2">
               {selectedDayJournalEntries.length ? (
                 selectedDayJournalEntries.map((entry) => (
                   <article key={entry.id} className="rounded-xl border border-white/12 bg-black/30 p-3 text-sm">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="font-medium text-white">{entry.title?.trim() || "Journal Entry"}</p>
-                      <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] uppercase text-neutral-300">
+                      <p className="font-medium" style={headingStyle}>{entry.title?.trim() || "Journal Entry"}</p>
+                      <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] uppercase" style={mutedStyle}>
                         journal
                       </span>
                     </div>
-                    <p className="mt-1 text-xs text-neutral-400">{new Date(entry.timestamp).toLocaleString()}</p>
-                    <p className="mt-2 whitespace-pre-wrap text-sm text-neutral-300">{entry.body}</p>
+                    <p className="mt-1 text-xs" style={mutedStyle}>{new Date(entry.timestamp).toLocaleString()}</p>
+                    <p className="mt-2 whitespace-pre-wrap text-sm" style={textStyle}>{entry.body}</p>
                   </article>
                 ))
               ) : (
-                <p className="text-sm text-neutral-400">No journal entries on this day.</p>
+                <p className="text-sm" style={mutedStyle}>No journal entries on this day.</p>
               )}
             </div>
           </div>
@@ -464,7 +474,7 @@ export default function CalendarPage() {
         </div>
       </section>
 
-      {isLoading && <p className="text-sm text-neutral-400">Loading connected timeline...</p>}
+      {isLoading && <p className="text-sm" style={mutedStyle}>Loading connected timeline...</p>}
       {error && <p className="text-sm text-red-300">{error}</p>}
     </div>
   );

@@ -258,6 +258,69 @@ export default function WebEditPage() {
             <div className="mt-3 rounded-xl border border-white/15 bg-black/20 p-3">
               <p className="text-xs font-semibold uppercase tracking-wide" style={mutedStyle}>Layout & Typography</p>
 
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <label className="text-xs" style={textStyle}>
+                  Section Gap (px)
+                  <input
+                    type="number"
+                    min={8}
+                    max={72}
+                    step={1}
+                    value={currentTheme.sectionGap}
+                    onChange={(event) => updateNumericTheme("sectionGap", event.target.value, 8, 72, 1)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
+                  />
+                </label>
+                <label className="text-xs" style={textStyle}>
+                  Section Offset (px)
+                  <input
+                    type="number"
+                    min={0}
+                    max={72}
+                    step={1}
+                    value={currentTheme.sectionOffset}
+                    onChange={(event) => updateNumericTheme("sectionOffset", event.target.value, 0, 72, 1)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
+                  />
+                </label>
+                <label className="text-xs" style={textStyle}>
+                  Font Scale
+                  <input
+                    type="number"
+                    min={0.8}
+                    max={1.4}
+                    step={0.01}
+                    value={currentTheme.fontScale}
+                    onChange={(event) => updateNumericTheme("fontScale", event.target.value, 0.8, 1.4, 0.01)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
+                  />
+                </label>
+                <label className="text-xs" style={textStyle}>
+                  Line Height
+                  <input
+                    type="number"
+                    min={1.2}
+                    max={2}
+                    step={0.05}
+                    value={currentTheme.lineHeight}
+                    onChange={(event) => updateNumericTheme("lineHeight", event.target.value, 1.2, 2, 0.05)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
+                  />
+                </label>
+                <label className="text-xs sm:col-span-2" style={textStyle}>
+                  Content Width (rem)
+                  <input
+                    type="number"
+                    min={48}
+                    max={96}
+                    step={1}
+                    value={currentTheme.contentWidth}
+                    onChange={(event) => updateNumericTheme("contentWidth", event.target.value, 48, 96, 1)}
+                    className="mt-1 w-full rounded-lg border border-white/15 bg-black/30 px-3 py-2 text-sm"
+                  />
+                </label>
+              </div>
+
               <div className="mt-3 w-full">
                 <label className="block text-xs" style={textStyle}>
                   Text Align
@@ -267,11 +330,12 @@ export default function WebEditPage() {
                         key={mode}
                         onClick={() => updateTheme((theme) => ({ ...theme, textAlign: mode }))}
                         aria-pressed={currentTheme.textAlign === mode}
-                        className={`flex-1 rounded-md px-2 py-1.5 text-xs font-semibold transition ${
+                        className="flex-1 rounded-md px-2 py-1.5 text-xs font-semibold transition hover:bg-white/10"
+                        style={
                           currentTheme.textAlign === mode
-                            ? "bg-white/18 text-white"
-                            : "text-neutral-300 hover:bg-white/10"
-                        }`}
+                            ? { background: "rgb(255 255 255 / 0.18)", color: currentTheme.heading }
+                            : { color: currentTheme.muted }
+                        }
                       >
                         <span className="capitalize">{mode}</span>
                       </button>

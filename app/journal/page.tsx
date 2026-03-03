@@ -59,12 +59,21 @@ function toEntry(draft: JournalDraft, existing?: JournalEntry): JournalEntry {
   };
 }
 
+function toLocalDateKey(value: Date) {
+  const pad = (part: number) => String(part).padStart(2, "0");
+  return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())}`;
+}
+
 function isSameDate(isoTimestamp: string, dateFilter: string) {
-  return isoTimestamp.slice(0, 10) === dateFilter;
+  const date = new Date(isoTimestamp);
+  if (Number.isNaN(date.getTime())) return false;
+  return toLocalDateKey(date) === dateFilter;
 }
 
 function isToday(timestamp: string) {
-  return timestamp.slice(0, 10) === new Date().toISOString().slice(0, 10);
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return false;
+  return toLocalDateKey(date) === toLocalDateKey(new Date());
 }
 
 function isEntryShape(value: unknown): value is JournalEntry {

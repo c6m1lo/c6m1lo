@@ -129,6 +129,43 @@ function isCssTheme(value: unknown): value is CssTheme {
   );
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+}
+
+function readNumber(value: unknown, fallback: number) {
+  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+}
+
+function normalizeTheme(value: unknown, fallback: CssTheme): CssTheme | null {
+  if (!isRecord(value)) return null;
+
+  const result: CssTheme = {
+    name: typeof value.name === "string" ? value.name : fallback.name,
+    pageTop: typeof value.pageTop === "string" ? value.pageTop : fallback.pageTop,
+    pageBottom: typeof value.pageBottom === "string" ? value.pageBottom : fallback.pageBottom,
+    surface: typeof value.surface === "string" ? value.surface : fallback.surface,
+    surfaceMuted: typeof value.surfaceMuted === "string" ? value.surfaceMuted : fallback.surfaceMuted,
+    heading: typeof value.heading === "string" ? value.heading : fallback.heading,
+    text: typeof value.text === "string" ? value.text : fallback.text,
+    muted: typeof value.muted === "string" ? value.muted : fallback.muted,
+    accent: typeof value.accent === "string" ? value.accent : fallback.accent,
+    border: typeof value.border === "string" ? value.border : fallback.border,
+    radius: readNumber(value.radius, fallback.radius),
+    textAlign:
+      value.textAlign === "left" || value.textAlign === "center" || value.textAlign === "right"
+        ? value.textAlign
+        : fallback.textAlign,
+    sectionGap: readNumber(value.sectionGap, fallback.sectionGap),
+    sectionOffset: readNumber(value.sectionOffset, fallback.sectionOffset),
+    fontScale: readNumber(value.fontScale, fallback.fontScale),
+    lineHeight: readNumber(value.lineHeight, fallback.lineHeight),
+    contentWidth: readNumber(value.contentWidth, fallback.contentWidth),
+  };
+
+  return isCssTheme(result) ? result : null;
+}
+
 export function isThemeKey(value: string): value is ThemeKey {
   return value in THEMES;
 }
@@ -153,8 +190,9 @@ export function getCustomThemes(): Record<string, CssTheme> {
     const next: Record<string, CssTheme> = {};
 
     for (const [key, value] of Object.entries(parsed)) {
-      if (isCssTheme(value)) {
-        next[key] = value;
+      const normalized = normalizeTheme(value, THEMES.midnight);
+      if (normalized) {
+        next[key] = normalized;
       }
     }
 

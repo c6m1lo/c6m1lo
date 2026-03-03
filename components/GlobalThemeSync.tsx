@@ -5,7 +5,9 @@ import { useEffect } from "react";
 import {
   applyCachedThemeToDocument,
   applyThemeToDocument,
+  CUSTOM_THEMES_KEY,
   getCustomThemes,
+  getCachedThemeId,
   resolveTheme,
   THEME_CACHE_KEY,
   THEME_EVENT_NAME,
@@ -17,9 +19,11 @@ export default function GlobalThemeSync() {
     applyCachedThemeToDocument();
 
     const onStorage = (event: StorageEvent) => {
-      if (event.key !== THEME_CACHE_KEY || !event.newValue) return;
+      if (event.key !== THEME_CACHE_KEY && event.key !== CUSTOM_THEMES_KEY) return;
+      const activeThemeId = getCachedThemeId();
+      if (!activeThemeId) return;
 
-      const resolved = resolveTheme(event.newValue as ThemeId, getCustomThemes());
+      const resolved = resolveTheme(activeThemeId as ThemeId, getCustomThemes());
       if (resolved) {
         applyThemeToDocument(resolved);
       }
