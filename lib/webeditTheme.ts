@@ -45,7 +45,7 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     fontScale: 1,
     fontSize: 16,
     lineHeight: 1.6,
-    contentWidth: 72,
+    contentWidth: 48,
   },
   paper: {
     name: "Paper",
@@ -65,7 +65,7 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     fontScale: 1,
     fontSize: 16,
     lineHeight: 1.6,
-    contentWidth: 72,
+    contentWidth: 48,
   },
   sunset: {
     name: "Sunset",
@@ -85,7 +85,7 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     fontScale: 1,
     fontSize: 16,
     lineHeight: 1.6,
-    contentWidth: 72,
+    contentWidth: 48,
   },
   neon: {
     name: "Matrix",
@@ -105,7 +105,7 @@ export const THEMES: Record<ThemeKey, CssTheme> = {
     fontScale: 1,
     fontSize: 16,
     lineHeight: 1.6,
-    contentWidth: 72,
+    contentWidth: 48,
   },
 };
 
