@@ -6,6 +6,7 @@ import type { CalendarEvent } from "../calendar/types";
 import { getActiveSession, getSessions } from "../scheduler/storage";
 import type { ActiveSession, TimeSession } from "../scheduler/types";
 import { subscribeAppDataChanges } from "../shared/sync";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import {
   buildCalendarItems,
   buildJournalItems,
@@ -95,6 +96,7 @@ export default function JournalPage() {
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
   const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const load = async () => {
@@ -215,7 +217,7 @@ export default function JournalPage() {
   const beginEdit = (entry: JournalEntry) => {
     setEditingId(entry.id);
     setDraft(toDraft(entry));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
   };
 
   const exportEntries = () => {

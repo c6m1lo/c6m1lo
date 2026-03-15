@@ -18,7 +18,7 @@ export default function ProjectsPage() {
                 className="primary-link mt-4"
                 href={project.href}
                 target={project.href.startsWith("http") ? "_blank" : undefined}
-                rel={project.href.startsWith("http") ? "noreferrer" : undefined}
+                rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
               >
                 {project.cta} →
               </a>

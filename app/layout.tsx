@@ -11,8 +11,10 @@ const bodyFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.c6m1lo.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "c6m1lo",
     template: "%s | Camilo Gomez",
@@ -42,17 +44,27 @@ export const metadata: Metadata = {
   openGraph: {
     title: "c6m1lo",
     description: "Portfolio and personal website of my projects, skills, and experience.",
-    url: "https://www.c6m1lo.com",
+    url: SITE_URL,
     siteName: "Camilo777",
     images: [
       {
-        url: "https://www.c6m1lo.com",
+        url: `${SITE_URL}/198.jpg`,
         width: 1200,
         height: 630,
-        alt: "Open Graph Image",
+        alt: "c6m1lo — Camilo Gomez",
       },
-    ]
-  }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "c6m1lo",
+    description: "Portfolio and personal website of my projects, skills, and experience.",
+    images: [`${SITE_URL}/198.jpg`],
+  },
+};
+
+export const viewport = {
+  themeColor: "#000000",
 };
 
 
@@ -67,9 +79,14 @@ export default function RootLayout({
         <AdSense pId="ca-pub-9659879669905345"></AdSense>
       </head>
       <body className={`${bodyFont.variable} antialiased`}>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <GlobalThemeSync />
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+        <main id="main-content" className="min-h-screen" tabIndex={-1}>
+          {children}
+        </main>
         <footer className="mt-14 border-t border-neutral-800 bg-black/90">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-6 text-sm text-neutral-400 sm:px-8">
             <p>© {new Date().getFullYear()} Camilo Gomez. All rights reserved.</p>
@@ -83,7 +100,12 @@ export default function RootLayout({
               <a className="transition hover:text-neutral-100" href="/tos">
                 Terms of Service
               </a>
-              <a className="transition hover:text-neutral-100" href="https://buy.stripe.com/dRm8wPh2Z2ZS1XB2XJ9oc09" target="_blank" rel="noreferrer">
+              <a
+                className="transition hover:text-neutral-100"
+                href="https://buy.stripe.com/dRm8wPh2Z2ZS1XB2XJ9oc09"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Donate
               </a>
             </div>

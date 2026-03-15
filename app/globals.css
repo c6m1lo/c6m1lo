@@ -78,6 +78,27 @@ a {
   color: inherit;
 }
 
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--border) 86%, transparent 14%);
+  background: color-mix(in srgb, var(--surface) 90%, transparent 10%);
+  color: var(--foreground);
+  text-decoration: none;
+  transform: translateY(-180%);
+  transition: transform 140ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, white 30%);
+  outline-offset: 2px;
+}
+
 /* Theme bridge: remap common utility classes so existing pages automatically follow WebEdit tokens. */
 .text-white,
 .text-neutral-100,
@@ -254,6 +275,21 @@ a {
   border-color: rgba(255, 255, 255, 0.28);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @media (max-width: 640px) {
   .page-wrap {
     padding-top: 2.5rem;
@@ -266,6 +302,34 @@ a {
   margin: 0 auto;
   padding: 2.2rem 1.25rem 4rem;
   scroll-snap-type: y proximity;
+}
+
+.home-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.home-control-btn {
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--border) 75%, var(--accent) 25%);
+  background: color-mix(in srgb, var(--surface-muted) 80%, transparent 20%);
+  color: var(--foreground);
+  padding: 0.5rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.home-control-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--border) 38%);
+  background: color-mix(in srgb, var(--surface-muted) 65%, var(--accent) 35%);
+}
+
+.home-control-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .home-feed-status {

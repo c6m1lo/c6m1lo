@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 import { getAllEntries } from "../journal/storage";
 import type { JournalEntry } from "../journal/types";
@@ -89,6 +90,7 @@ function buildMonthCells(anchor: Date) {
 }
 
 export default function CalendarPage() {
+  const prefersReducedMotion = usePrefersReducedMotion();
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
   const [sessions, setSessions] = useState<TimeSession[]>([]);
@@ -216,7 +218,7 @@ export default function CalendarPage() {
     const date = new Date(event.startsAt);
     setSelectedDate(date);
     setVisibleMonth(new Date(date.getFullYear(), date.getMonth(), 1));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
   };
 
   const deleteEvent = (event: CalendarEvent) => {

@@ -56,7 +56,7 @@ export default function ResumePage() {
                 className="primary-link"
                 href="https://www.linkedin.com/in/camilogomezvalencia/"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 LinkedIn
               </a>
@@ -64,7 +64,7 @@ export default function ResumePage() {
                 className="primary-link"
                 href="https://github.com/fullstacknyc"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 GitHub
               </a>
@@ -72,7 +72,7 @@ export default function ResumePage() {
                 className="primary-link"
                 href="https://www.discord.gg/Khd7HPUzRK"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 Engineering Community
               </a>

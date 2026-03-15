@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -13,9 +13,40 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef<HTMLElement | null>(null);
+  const menuId = "site-nav-menu";
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target as Node | null;
+      if (!target) return;
+      if (navRef.current?.contains(target)) return;
+      setIsOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("pointerdown", onPointerDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [isOpen]);
 
   return (
-    <nav className="site-nav">
+    <nav className="site-nav" ref={navRef}>
       <div className="site-nav-inner mx-auto max-w-6xl px-5 py-3 sm:px-8">
         <div className="flex items-center justify-between gap-3 sm:gap-6">
           <Link href="/" className="site-nav-brand text-lg font-semibold tracking-tight">
@@ -25,10 +56,14 @@ export default function Navbar() {
             type="button"
             onClick={() => setIsOpen((current) => !current)}
             className="site-nav-menu rounded-md px-2.5 py-1.5 text-xs sm:hidden"
+            aria-expanded={isOpen}
+            aria-controls={menuId}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             Menu
           </button>
           <ul
+            id={menuId}
             className={`${
               isOpen ? "absolute left-5 right-5 top-full mt-2 flex" : "hidden"
             } flex-col gap-1 rounded-lg border border-white/15 bg-black/70 p-2 backdrop-blur sm:static sm:mt-0 sm:flex sm:flex-row sm:items-center sm:gap-2 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none`}
@@ -46,6 +81,7 @@ export default function Navbar() {
                       ? "is-active"
                       : ""
                   }`}
+                  aria-current={active ? "page" : undefined}
                 >
                   {item.label}
                 </Link>

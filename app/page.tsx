@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { projects } from "@/data/projects";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 const beamFaces = ["front", "back", "left", "right", "top", "bottom"] as const;
 
@@ -22,6 +23,8 @@ export default function HomePage() {
   const ignoreUpScrollUntilRef = useRef(0);
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [autoScrollEnabled, setAutoScrollEnabled] = useState(false);
   const projectsToShow = useMemo(
     () => projects.filter((project) => project.showInHomeFeed !== false),
     [],
@@ -32,6 +35,21 @@ export default function HomePage() {
     if (!homeRootRef.current) return [];
     return Array.from(homeRootRef.current.querySelectorAll<HTMLElement>("[data-home-section]"));
   };
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setAutoScrollEnabled(false);
+      return;
+    }
+
+    const saved = window.localStorage.getItem("home:autoScroll");
+    setAutoScrollEnabled(saved ? saved === "1" : true);
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("home:autoScroll", autoScrollEnabled ? "1" : "0");
+  }, [autoScrollEnabled]);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -89,6 +107,8 @@ export default function HomePage() {
   }, [totalSections]);
 
   useEffect(() => {
+    if (!autoScrollEnabled || prefersReducedMotion) return;
+
     const intervalId = window.setInterval(() => {
       if (Date.now() < pauseAutoScrollUntilRef.current) {
         return;
@@ -100,7 +120,10 @@ export default function HomePage() {
       setActiveSection((current) => {
         const next = (current + 1) % sections.length;
         ignoreUpScrollUntilRef.current = Date.now() + 1200;
-        sections[next]?.scrollIntoView({ behavior: "smooth", block: "start" });
+        sections[next]?.scrollIntoView({
+          behavior: prefersReducedMotion ? "auto" : "smooth",
+          block: "start",
+        });
         return next;
       });
     }, 5000);
@@ -108,12 +131,28 @@ export default function HomePage() {
     return () => {
       window.clearInterval(intervalId);
     };
-  }, []);
+  }, [autoScrollEnabled, prefersReducedMotion]);
 
   return (
     <div className="home-page" ref={homeRootRef}>
       <div className="scroll-progress" aria-hidden="true">
         <span style={{ width: `${progress}%` }} />
+      </div>
+
+      <div className="home-controls">
+        <button
+          type="button"
+          className="home-control-btn"
+          onClick={() => setAutoScrollEnabled((current) => !current)}
+          disabled={prefersReducedMotion}
+          aria-pressed={autoScrollEnabled}
+        >
+          {prefersReducedMotion
+            ? "Auto-scroll disabled (reduced motion)"
+            : autoScrollEnabled
+              ? "Auto-scroll: on"
+              : "Auto-scroll: off"}
+        </button>
       </div>
 
       <div className="home-feed-status" aria-hidden="true">
