@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import AdSense from "@/components/AdSense";
 import GlobalThemeSync from "@/components/GlobalThemeSync";
+import ThemeInitScript from "@/components/ThemeInitScript";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 
@@ -70,6 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <ThemeInitScript />
         <AdSense pId="ca-pub-9659879669905345"></AdSense>
       </head>
       <body className="antialiased">

@@ -317,6 +317,34 @@ export default function CalendarPage() {
     return gaps;
   }, [selectedDaySessions]);
 
+  const sessionPillLaneById = useMemo(() => {
+    const lanes: number[] = [];
+    const byId = new Map<string, number>();
+    const minGapPx = 6;
+    const pillHeightPx = 40;
+
+    for (const session of selectedDaySessions) {
+      const minutesFromStart = minutesBetween(selectedDayStartMs, session.startedAtMs);
+      const durationMinutes = minutesBetween(session.startedAtMs, session.endedAtMs);
+      const topPx = clamp(minutesFromStart * pixelsPerMinute, 0, 24 * 60 * pixelsPerMinute);
+      const heightPxAccurate = clamp(durationMinutes * pixelsPerMinute, 0, 24 * 60 * pixelsPerMinute);
+
+      const isCompact = heightPxAccurate < pillHeightPx;
+      if (!isCompact) continue;
+
+      let assigned = 0;
+      for (; assigned < lanes.length; assigned += 1) {
+        const laneEnd = lanes[assigned] ?? 0;
+        if (topPx >= laneEnd + minGapPx) break;
+      }
+
+      lanes[assigned] = topPx + pillHeightPx;
+      byId.set(session.id, assigned);
+    }
+
+    return byId;
+  }, [pixelsPerMinute, selectedDaySessions, selectedDayStartMs]);
+
   const selectedDayJournalEntries = useMemo(
     () =>
       journalEntries
@@ -671,9 +699,62 @@ export default function CalendarPage() {
                     {selectedDaySessions.map((session) => {
                       const minutesFromStart = minutesBetween(selectedDayStartMs, session.startedAtMs);
                       const durationMinutes = minutesBetween(session.startedAtMs, session.endedAtMs);
-                      const topPx = clamp(minutesFromStart * pixelsPerMinute, 0, 24 * 60 * pixelsPerMinute);
-                      const heightPx = clamp(durationMinutes * pixelsPerMinute, 16, 24 * 60 * pixelsPerMinute);
+                      const topPx = clamp(
+                        minutesFromStart * pixelsPerMinute,
+                        0,
+                        24 * 60 * pixelsPerMinute,
+                      );
+                      const heightPxAccurate = clamp(
+                        durationMinutes * pixelsPerMinute,
+                        0,
+                        24 * 60 * pixelsPerMinute,
+                      );
+                      const pillHeightPx = 40;
+                      const isCompact = heightPxAccurate < pillHeightPx;
                       const hue = hueForString(session.activity);
+                      const lane = sessionPillLaneById.get(session.id) ?? 0;
+                      const pillLeftPx = 64 + lane * 16;
+
+                      const title = `${session.activity} • ${new Date(session.startedAtMs).toLocaleTimeString()} - ${new Date(session.endedAtMs).toLocaleTimeString()}`;
+
+                      if (isCompact) {
+                        return (
+                          <div key={session.id} title={title}>
+                            <div
+                              className="calendar-session-bar"
+                              style={{
+                                top: `${topPx}px`,
+                                height: `${Math.max(2, heightPxAccurate)}px`,
+                                borderColor: `hsl(${hue} 80% 70% / 0.38)`,
+                                background: `hsl(${hue} 80% 60% / 0.22)`,
+                              }}
+                              aria-hidden="true"
+                            />
+                            <div
+                              className="calendar-session-pill"
+                              style={{
+                                top: `${topPx}px`,
+                                height: `${pillHeightPx}px`,
+                                left: `${pillLeftPx}px`,
+                                borderColor: `hsl(${hue} 80% 70% / 0.38)`,
+                                background: `hsl(${hue} 80% 60% / 0.18)`,
+                              }}
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <span className="font-semibold">
+                                  {session.activity}
+                                  {session.isActive ? " (active)" : ""}
+                                </span>
+                                <span className="opacity-80">{formatDuration(durationMinutes)}</span>
+                              </div>
+                              <div className="mt-1 text-[10px]" style={mutedStyle}>
+                                {new Date(session.startedAtMs).toLocaleTimeString()} →{" "}
+                                {new Date(session.endedAtMs).toLocaleTimeString()}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
 
                       return (
                         <div
@@ -681,11 +762,11 @@ export default function CalendarPage() {
                           className="calendar-session-block"
                           style={{
                             top: `${topPx}px`,
-                            height: `${heightPx}px`,
+                            height: `${Math.max(16, heightPxAccurate)}px`,
                             borderColor: `hsl(${hue} 80% 70% / 0.38)`,
                             background: `hsl(${hue} 80% 60% / 0.18)`,
                           }}
-                          title={`${session.activity} • ${new Date(session.startedAtMs).toLocaleTimeString()} - ${new Date(session.endedAtMs).toLocaleTimeString()}`}
+                          title={title}
                         >
                           <div className="flex items-start justify-between gap-2">
                             <span className="font-semibold">

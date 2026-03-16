@@ -554,6 +554,26 @@ a {
   overflow: hidden;
 }
 
+.calendar-session-bar {
+  position: absolute;
+  left: 64px;
+  width: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+}
+
+.calendar-session-pill {
+  position: absolute;
+  right: 10px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: var(--foreground);
+  overflow: hidden;
+}
+
 .calendar-journal-marker {
   position: absolute;
   left: 64px;
