@@ -10,6 +10,12 @@ Run the development server:
 npm run dev
 ```
 
+If Turbopack is preferred (faster but can be less stable on some machines):
+
+```bash
+npm run dev:turbopack
+```
+
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ## Journal MVP (`/journal`)
