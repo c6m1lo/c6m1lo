@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 import { getAllEntries } from "../journal/storage";
@@ -136,12 +137,28 @@ export default function CalendarPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [pixelsPerMinute, setPixelsPerMinute] = useState(3);
+  const dayScrollRef = useRef<HTMLDivElement | null>(null);
 
   const [visibleMonth, setVisibleMonth] = useState(() => {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth(), 1);
   });
   const [selectedDate, setSelectedDate] = useState(() => new Date());
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const saved = window.localStorage.getItem("calendar:dayZoomPPM");
+    const parsed = saved ? Number(saved) : NaN;
+    if (Number.isFinite(parsed)) {
+      setPixelsPerMinute(clamp(Math.round(parsed), 1, 10));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("calendar:dayZoomPPM", String(pixelsPerMinute));
+  }, [pixelsPerMinute]);
 
   useEffect(() => {
     const loadAll = async () => {
@@ -381,6 +398,7 @@ export default function CalendarPage() {
   });
 
   const todayKey = dateKeyFromDate(new Date());
+  const isSelectedToday = selectedDateKey === todayKey;
   const headingStyle = { color: "var(--accent-strong)" } as const;
   const textStyle = { color: "var(--foreground)" } as const;
   const mutedStyle = { color: "var(--foreground-soft)" } as const;
@@ -557,49 +575,115 @@ export default function CalendarPage() {
                   <p className="text-sm font-semibold" style={headingStyle}>
                     Day timeline
                   </p>
-                  <p className="text-xs" style={mutedStyle}>
-                    Local time
-                  </p>
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    <span className="text-xs" style={mutedStyle}>
+                      Zoom: {pixelsPerMinute}px/min
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setPixelsPerMinute((current) => clamp(current - 1, 1, 10))}
+                      className="rounded-md border border-white/20 px-2 py-1 text-[11px] transition hover:bg-white/10"
+                      aria-label="Zoom out"
+                    >
+                      −
+                    </button>
+                    <input
+                      type="range"
+                      min={1}
+                      max={10}
+                      value={pixelsPerMinute}
+                      onChange={(event) => setPixelsPerMinute(clamp(Number(event.target.value), 1, 10))}
+                      className="h-2 w-28"
+                      aria-label="Timeline zoom"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setPixelsPerMinute((current) => clamp(current + 1, 1, 10))}
+                      className="rounded-md border border-white/20 px-2 py-1 text-[11px] transition hover:bg-white/10"
+                      aria-label="Zoom in"
+                    >
+                      +
+                    </button>
+                    {isSelectedToday ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const container = dayScrollRef.current;
+                          if (!container) return;
+                          const nowTop = minutesBetween(selectedDayStartMs, Date.now()) * pixelsPerMinute;
+                          const nextTop = Math.max(0, nowTop - container.clientHeight * 0.35);
+                          container.scrollTo({
+                            top: nextTop,
+                            behavior: prefersReducedMotion ? "auto" : "smooth",
+                          });
+                        }}
+                        className="rounded-md border border-emerald-400/40 px-2 py-1 text-[11px] text-emerald-200 transition hover:bg-emerald-400/10"
+                      >
+                        Now
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
+                <p className="text-xs" style={mutedStyle}>
+                  Tip: Hold Ctrl/Cmd + scroll to zoom.
+                </p>
 
-                <div className="grid gap-3 sm:grid-cols-[64px_1fr]">
-                  <div className="hidden sm:grid sm:gap-6" aria-hidden="true">
-                    {Array.from({ length: 7 }, (_, index) => (
-                      <div key={index} className="text-[11px]" style={mutedStyle}>
-                        {String(index * 4).padStart(2, "0")}:00
+                <div ref={dayScrollRef} className="calendar-day-scroll mt-3 rounded-lg border border-white/12 bg-black/20">
+                  <div
+                    className="calendar-day-timeline"
+                    style={
+                      {
+                        ["--ppm" as never]: pixelsPerMinute,
+                        height: `${24 * 60 * pixelsPerMinute}px`,
+                      } as CSSProperties
+                    }
+                    onWheel={(event) => {
+                      if (!(event.ctrlKey || event.metaKey)) return;
+                      event.preventDefault();
+                      setPixelsPerMinute((current) =>
+                        clamp(current + (event.deltaY > 0 ? -1 : 1), 1, 10),
+                      );
+                    }}
+                  >
+                    {Array.from({ length: 25 }, (_, hour) => (
+                      <div
+                        key={hour}
+                        className="calendar-hour-line"
+                        style={{ top: `${hour * 60 * pixelsPerMinute}px` }}
+                        aria-hidden="true"
+                      >
+                        <span className="calendar-hour-label" style={mutedStyle}>
+                          {String(hour).padStart(2, "0")}:00
+                        </span>
                       </div>
                     ))}
-                  </div>
 
-                  <div className="relative h-[720px] overflow-hidden rounded-lg border border-white/12 bg-black/20">
-                    <div className="pointer-events-none absolute inset-0">
-                      {Array.from({ length: 24 }, (_, index) => (
-                        <div
-                          key={index}
-                          className="absolute left-0 right-0 border-t border-white/10"
-                          style={{ top: `${(index / 24) * 100}%` }}
-                        />
-                      ))}
-                    </div>
+                    {isSelectedToday ? (
+                      <div
+                        className="calendar-now-line"
+                        style={{
+                          top: `${minutesBetween(selectedDayStartMs, Date.now()) * pixelsPerMinute}px`,
+                        }}
+                        aria-hidden="true"
+                      />
+                    ) : null}
 
                     {selectedDaySessions.map((session) => {
                       const minutesFromStart = minutesBetween(selectedDayStartMs, session.startedAtMs);
                       const durationMinutes = minutesBetween(session.startedAtMs, session.endedAtMs);
-                      const topPercent = clamp((minutesFromStart / (24 * 60)) * 100, 0, 100);
-                      const heightPercent = clamp((durationMinutes / (24 * 60)) * 100, 0.6, 100);
+                      const topPx = clamp(minutesFromStart * pixelsPerMinute, 0, 24 * 60 * pixelsPerMinute);
+                      const heightPx = clamp(durationMinutes * pixelsPerMinute, 16, 24 * 60 * pixelsPerMinute);
                       const hue = hueForString(session.activity);
 
                       return (
                         <div
                           key={session.id}
-                          className="absolute left-2 right-2 rounded-md border px-2 py-1 text-[11px]"
+                          className="calendar-session-block"
                           style={{
-                            top: `${topPercent}%`,
-                            height: `${heightPercent}%`,
+                            top: `${topPx}px`,
+                            height: `${heightPx}px`,
                             borderColor: `hsl(${hue} 80% 70% / 0.38)`,
                             background: `hsl(${hue} 80% 60% / 0.18)`,
-                            color: "var(--foreground)",
-                            minHeight: 18,
                           }}
                           title={`${session.activity} • ${new Date(session.startedAtMs).toLocaleTimeString()} - ${new Date(session.endedAtMs).toLocaleTimeString()}`}
                         >
@@ -608,9 +692,11 @@ export default function CalendarPage() {
                               {session.activity}
                               {session.isActive ? " (active)" : ""}
                             </span>
-                            <span className="opacity-80">
-                              {formatDuration(durationMinutes)}
-                            </span>
+                            <span className="opacity-80">{formatDuration(durationMinutes)}</span>
+                          </div>
+                          <div className="mt-1 text-[10px]" style={mutedStyle}>
+                            {new Date(session.startedAtMs).toLocaleTimeString()} →{" "}
+                            {new Date(session.endedAtMs).toLocaleTimeString()}
                           </div>
                         </div>
                       );
@@ -620,20 +706,18 @@ export default function CalendarPage() {
                       const entryMs = new Date(entry.timestamp).getTime();
                       if (Number.isNaN(entryMs)) return null;
                       const minutesFromStart = minutesBetween(selectedDayStartMs, entryMs);
-                      const topPercent = clamp((minutesFromStart / (24 * 60)) * 100, 0, 100);
+                      const topPx = clamp(minutesFromStart * pixelsPerMinute, 0, 24 * 60 * pixelsPerMinute);
                       return (
                         <div
                           key={entry.id}
-                          className="absolute left-2 right-2"
-                          style={{ top: `${topPercent}%` }}
+                          className="calendar-journal-marker"
+                          style={{ top: `${topPx}px` }}
                           title={`${entry.title?.trim() || "Journal Entry"} • ${new Date(entry.timestamp).toLocaleTimeString()}`}
                         >
-                          <div className="flex items-center gap-2">
-                            <span className="h-2.5 w-2.5 rounded-full bg-white/70" aria-hidden="true" />
-                            <span className="truncate text-[11px]" style={mutedStyle}>
-                              {new Date(entry.timestamp).toLocaleTimeString()} — {entry.title?.trim() || "Journal"}
-                            </span>
-                          </div>
+                          <span className="h-2.5 w-2.5 rounded-full bg-white/70" aria-hidden="true" />
+                          <span className="truncate text-[11px]" style={mutedStyle}>
+                            {new Date(entry.timestamp).toLocaleTimeString()} — {entry.title?.trim() || "Journal"}
+                          </span>
                         </div>
                       );
                     })}

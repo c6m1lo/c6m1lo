@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
 import AdSense from "@/components/AdSense";
 import GlobalThemeSync from "@/components/GlobalThemeSync";
-
-const bodyFont = Plus_Jakarta_Sans({
-  variable: "--font-body",
-  subsets: ["latin"],
-});
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 
@@ -78,7 +72,7 @@ export default function RootLayout({
       <head>
         <AdSense pId="ca-pub-9659879669905345"></AdSense>
       </head>
-      <body className={`${bodyFont.variable} antialiased`}>
+      <body className="antialiased">
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>

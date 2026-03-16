@@ -18,6 +18,13 @@ npm run dev:turbopack
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
+## Production build
+
+```bash
+npm run build
+npm run start
+```
+
 ## Journal MVP (`/journal`)
 
 The Journal app is a local-first, client-side daily logging tool built for fast capture and future AI-loop expansion.
