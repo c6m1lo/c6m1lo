@@ -1,4 +1,4 @@
-export type HomeScene = "book" | "timer" | "calendar" | "gear";
+export type HomeScene = "book" | "timer" | "calendar" | "gear" | "speaker";
 
 export type Project = {
   title: string;
@@ -24,6 +24,7 @@ export const projects: Project[] = [
     href: "/tts",
     cta: "Open app",
     homeQuote: "`Hear it out loud to catch what your eyes skip.`",
+    homeScene: "speaker",
     showInHomeFeed: true,
   },
   {

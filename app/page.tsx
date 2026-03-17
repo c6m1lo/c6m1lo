@@ -229,6 +229,19 @@ export default function HomePage() {
                 <div className="scene-gear-core" />
               </div>
             ) : null}
+            {project.homeScene === "speaker" ? (
+              <div className="scene-speaker">
+                <div className="scene-speaker-body">
+                  <div className="scene-speaker-driver" />
+                  <div className="scene-speaker-driver scene-speaker-driver-small" />
+                </div>
+                <div className="scene-speaker-waves" aria-hidden="true">
+                  {Array.from({ length: 3 }, (_, index) => (
+                    <span key={index} style={{ animationDelay: `${index * 0.35}s` }} />
+                  ))}
+                </div>
+              </div>
+            ) : null}
             {!project.homeScene ? <div className="scene-generic" /> : null}
           </div>
         </section>
