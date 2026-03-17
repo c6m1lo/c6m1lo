@@ -19,6 +19,14 @@ export const projects: Project[] = [
     showInHomeFeed: false,
   },
   {
+    title: "Text to Speech",
+    description: "Paste text and have it read back using your browser’s built-in speech engine.",
+    href: "/tts",
+    cta: "Open app",
+    homeQuote: "`Hear it out loud to catch what your eyes skip.`",
+    showInHomeFeed: true,
+  },
+  {
     title: "Journal App",
     description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
     href: "/journal",
