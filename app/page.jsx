@@ -55,7 +55,7 @@ export default function HomePage() {
             color: "rgba(212, 201, 176, 0.4)",
           }}
         >
-          WEARABLE PHILOSOPHY · EST. MMXXVI
+          WEARABLE ART · EST. MMXXVI
         </div>
         <a
           href="/shop"
@@ -156,7 +156,7 @@ export default function HomePage() {
                 marginTop: "12px",
               }}
             >
-              $95.00
+              $999.00
             </div>
             <a
               href="/shop"
