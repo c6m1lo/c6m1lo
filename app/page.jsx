@@ -107,9 +107,37 @@ export default function HomePage() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
-              <div style={{ fontFamily: "var(--font-valencia)", fontWeight: 300, fontSize: "10px", letterSpacing: "0.2em", color: "#444444" }}>
+              <img
+                src="/creationOfAdam.png"
+                alt="The Creation of Adam"
+                loading="lazy"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  opacity: 0.22,
+                  filter: "grayscale(100%) contrast(105%)",
+                  userSelect: "none",
+                  pointerEvents: "none",
+                }}
+              />
+              <div
+                style={{
+                  fontFamily: "var(--font-valencia)",
+                  fontWeight: 300,
+                  fontSize: "10px",
+                  letterSpacing: "0.2em",
+                  color: "#444444",
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
                 IMAGE
               </div>
             </div>
@@ -136,7 +164,7 @@ export default function HomePage() {
                 marginTop: "8px",
               }}
             >
-              CAMILO VALENCIA · RENAISSANCE
+              VALENCIA COLLECTION · RENAISSANCE I
             </div>
             <div
               style={{

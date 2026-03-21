@@ -124,17 +124,33 @@ export default function ShopPage() {
 
               return (
                 <div key={product.id} style={{ textAlign: "left" }}>
-                  <img
-                    src={product.image}
-                    alt={product.name}
+                  <div
                     style={{
                       width: "100%",
                       aspectRatio: "4 / 5",
-                      objectFit: "cover",
                       background: "#0d0d0d",
                       display: "block",
+                      position: "relative",
+                      overflow: "hidden",
                     }}
-                  />
+                  >
+                    <img
+                      src="/creationOfAdam.png"
+                      alt="The Creation of Adam overlay"
+                      loading="lazy"
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        opacity: 0.12,
+                        filter: "grayscale(100%) contrast(105%)",
+                        userSelect: "none",
+                        pointerEvents: "none",
+                      }}
+                    />
+                  </div>
 
                   <div
                     style={{
@@ -313,4 +329,3 @@ export default function ShopPage() {
     </div>
   );
 }
-

@@ -95,11 +95,11 @@ export default function RootLayout({ children }) {
               <Link className="nav-link" href="/">
                 Home
               </Link>
-              <Link className="nav-link" href="/projects">
-                Projects
-              </Link>
               <Link className="nav-link" href="/shop">
                 Shop
+              </Link>
+              <Link className="nav-link" href="/projects">
+                Projects
               </Link>
               <Link className="nav-link" href="/resume">
                 Resume
