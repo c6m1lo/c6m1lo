@@ -6,16 +6,6 @@ export default function ProjectsPage() {
       href: "/bible",
     },
     {
-      name: "Health OS",
-      description: "Biometric tracking merged with Apple Health data and journal snapshots.",
-      href: "/health",
-    },
-    {
-      name: "Text to Speech",
-      description: "Browser-native speech engine for reading text aloud.",
-      href: "/tts",
-    },
-    {
       name: "Journal App",
       description: "Local-only daily journal with search, filters, and weekly metrics.",
       href: "/journal",
@@ -29,11 +19,6 @@ export default function ProjectsPage() {
       name: "Calendar App",
       description: "Chronological planner merging journal entries and tracker sessions.",
       href: "/calendar",
-    },
-    {
-      name: "WebEdit",
-      description: "Web-based editor for fast content creation and updates.",
-      href: "/webedit",
     },
   ];
 
@@ -74,7 +59,7 @@ export default function ProjectsPage() {
             color: "rgba(212, 201, 176, 0.3)",
           }}
         >
-          07 ACTIVE TOOLS · C6M1LO
+          04 ACTIVE TOOLS · C6M1LO
         </div>
       </header>
 
