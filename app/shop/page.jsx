@@ -8,9 +8,9 @@ const PRODUCT = {
   name: "THE CREATION OF ADAM",
   subtitle: "Michaelangelo · 1508–1512",
   description:
-    "A heavyweight hoodie bearing the full composition of Michaelangelo's masterwork. Classical philosophy on the back. Your name beneath it.",
-  price: 9500,
-  displayPrice: "$95.00",
+    "A heavyweight hoodie bearing the full composition of Michaelangelo's masterwork. Classical philosophy on the back.",
+  price: 99900,
+  displayPrice: "$999.00",
   colorway: "Black · Aged Cream Print",
   sizes: ["S", "M", "L", "XL", "XXL"],
   image: "/products/drop-one.jpg",

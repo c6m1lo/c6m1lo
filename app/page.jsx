@@ -109,17 +109,9 @@ export default function HomePage() {
                 justifyContent: "center",
               }}
             >
-              <span
-                style={{
-                  fontFamily: "var(--font-valencia)",
-                  fontWeight: 300,
-                  fontSize: "11px",
-                  letterSpacing: "0.15em",
-                  color: "rgba(212, 201, 176, 0.2)",
-                }}
-              >
-                IMAGE COMING SOON
-              </span>
+              <div style={{ fontFamily: "var(--font-valencia)", fontWeight: 300, fontSize: "10px", letterSpacing: "0.2em", color: "#444444" }}>
+                IMAGE
+              </div>
             </div>
 
             <div
@@ -144,7 +136,7 @@ export default function HomePage() {
                 marginTop: "8px",
               }}
             >
-              CAMILO VALENCIA · DROP ONE
+              CAMILO VALENCIA · RENAISSANCE
             </div>
             <div
               style={{
