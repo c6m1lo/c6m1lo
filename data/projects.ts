@@ -19,6 +19,13 @@ export const projects: Project[] = [
     showInHomeFeed: false,
   },
   {
+    title: "Apple Watch Health Import",
+    description: "Import Apple Health export.xml locally and download a clean JSON summary.",
+    href: "/health",
+    cta: "Open app",
+    showInHomeFeed: false,
+  },
+  {
     title: "Text to Speech",
     description: "Paste text and have it read back using your browser’s built-in speech engine.",
     href: "/tts",
