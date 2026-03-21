@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 
 const PRODUCT = {
   id: "drop-one",
@@ -16,18 +15,9 @@ const PRODUCT = {
   image: "/products/drop-one.jpg",
 };
 
-let stripePromise;
-function getStripe() {
-  const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-  if (!key) return null;
-  if (!stripePromise) stripePromise = loadStripe(key);
-  return stripePromise;
-}
-
 export default function ShopPage() {
   const products = useMemo(() => [PRODUCT], []);
   const [selectedSizes, setSelectedSizes] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleCheckout = async (product) => {
@@ -35,39 +25,17 @@ export default function ShopPage() {
     if (!size) return;
 
     setError("");
-    setIsLoading(true);
 
     try {
-      const stripe = await getStripe();
-      if (!stripe) {
-        throw new Error("Missing NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY.");
-      }
+      const paymentLink =
+        process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_URL ||
+        "https://buy.stripe.com/cNidR9fYV6c41XBaqb9oc0a";
 
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: product.id,
-          productName: product.name,
-          price: product.price,
-          size,
-          quantity: 1,
-        }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(data?.error || "Checkout failed.");
-      }
-
-      const result = await stripe.redirectToCheckout({ sessionId: data.sessionId });
-      if (result?.error) {
-        throw new Error(result.error.message || "Redirect failed.");
-      }
+      const url = new URL(paymentLink);
+      url.searchParams.set("client_reference_id", `${product.id}:${size}`);
+      window.location.assign(url.toString());
     } catch (err) {
       setError(err instanceof Error ? err.message : "Checkout failed.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -120,7 +88,7 @@ export default function ShopPage() {
           <div className="cv-shop-grid">
             {products.map((product) => {
               const selected = selectedSizes[product.id] || "";
-              const disabled = !selected || isLoading;
+              const disabled = !selected;
 
               return (
                 <div key={product.id} style={{ textAlign: "left" }}>
