@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
 import "./globals.css";
 
-import Navbar from "@/components/Navbar";
+import Link from "next/link";
+
 import AdSense from "@/components/AdSense";
 import GlobalThemeSync from "@/components/GlobalThemeSync";
 import ThemeInitScript from "@/components/ThemeInitScript";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 
-export const metadata: Metadata = {
+export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "c6m1lo",
@@ -29,13 +29,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  keywords: [
-    "Camilo Gomez",
-    "C6m1lo",
-    "portfolio",
-    "projects",
-    "resume",
-  ],
+  keywords: ["Camilo Gomez", "C6m1lo", "portfolio", "projects", "resume"],
   openGraph: {
     title: "c6m1lo",
     description: "Portfolio and personal website of my projects, skills, and experience.",
@@ -62,42 +56,67 @@ export const viewport = {
   themeColor: "#000000",
 };
 
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap"
+          rel="stylesheet"
+        />
         <ThemeInitScript />
-        <AdSense pId="ca-pub-9659879669905345"></AdSense>
+        <AdSense pId="ca-pub-9659879669905345" />
       </head>
-      <body className="antialiased">
+      <body>
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
         <GlobalThemeSync />
-        <Navbar />
-        <main id="main-content" className="min-h-screen" tabIndex={-1}>
-          {children}
+
+        <nav className="top-nav" aria-label="Primary">
+          <div className="content top-nav-inner">
+            <Link href="/" className="brand" aria-label="c6m1lo home">
+              <span className="brand-prompt">&gt;</span>
+              <span className="brand-name">c6m1lo</span>
+              <span className="brand-cursor" aria-hidden="true">
+                █
+              </span>
+            </Link>
+            <div className="nav-links">
+              <Link className="nav-link" href="/">
+                Home
+              </Link>
+              <Link className="nav-link" href="/projects">
+                Projects
+              </Link>
+              <Link className="nav-link" href="/resume">
+                Resume
+              </Link>
+            </div>
+          </div>
+        </nav>
+
+        <main id="main-content" className="app-main" tabIndex={-1}>
+          <div className="content">{children}</div>
         </main>
-        <footer className="mt-14 border-t border-neutral-800 bg-black/90">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-6 text-sm text-neutral-400 sm:px-8">
+
+        <footer className="site-footer">
+          <div className="content footer-row">
             <p>© {new Date().getFullYear()} Camilo Gomez. All rights reserved.</p>
-            <div className="flex flex-wrap items-center gap-4">
-              <a className="transition hover:text-neutral-100" href="/privacy">
+            <div className="footer-links">
+              <a className="footer-link" href="/privacy">
                 Privacy Policy
               </a>
-              <a className="transition hover:text-neutral-100" href="/support">
+              <a className="footer-link" href="/support">
                 Support
               </a>
-              <a className="transition hover:text-neutral-100" href="/tos">
+              <a className="footer-link" href="/tos">
                 Terms of Service
               </a>
               <a
-                className="transition hover:text-neutral-100"
+                className="footer-link"
                 href="https://buy.stripe.com/dRm8wPh2Z2ZS1XB2XJ9oc09"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -111,3 +130,4 @@ export default function RootLayout({
     </html>
   );
 }
+
