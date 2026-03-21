@@ -1,12 +1,19 @@
 import "./globals.css";
 
 import Link from "next/link";
+import { Cormorant_Garamond } from "next/font/google";
 
 import AdSense from "@/components/AdSense";
 import GlobalThemeSync from "@/components/GlobalThemeSync";
 import ThemeInitScript from "@/components/ThemeInitScript";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
+
+const valencia = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-valencia",
+});
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -58,7 +65,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={valencia.variable}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -90,6 +97,9 @@ export default function RootLayout({ children }) {
               </Link>
               <Link className="nav-link" href="/projects">
                 Projects
+              </Link>
+              <Link className="nav-link" href="/shop">
+                Shop
               </Link>
               <Link className="nav-link" href="/resume">
                 Resume
@@ -130,4 +140,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
