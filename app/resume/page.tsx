@@ -74,7 +74,7 @@ export default function ResumePage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Engineering Community
+                Discord
               </a>
             </div>
           </article>

@@ -23,7 +23,9 @@ export const projects: Project[] = [
     description: "Import Apple Health export.xml locally and download a clean JSON summary.",
     href: "/health",
     cta: "Open app",
-    showInHomeFeed: false,
+    homeQuote: "`Import your Apple Watch data locally, then analyze it your way.`",
+    homeScene: "gear",
+    showInHomeFeed: true,
   },
   {
     title: "Text to Speech",
