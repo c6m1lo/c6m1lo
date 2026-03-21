@@ -5,10 +5,10 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const PRODUCT = {
   id: "drop-one",
-  name: "THE SCHOOL OF ATHENS",
-  subtitle: "Raphael · 1509–1511",
+  name: "THE CREATION OF ADAM",
+  subtitle: "Michaelangelo · 1508–1512",
   description:
-    "A heavyweight hoodie bearing the full composition of Raphael's masterwork. Classical philosophy on the back. Your name beneath it.",
+    "A heavyweight hoodie bearing the full composition of Michaelangelo's masterwork. Classical philosophy on the back. Your name beneath it.",
   price: 9500,
   displayPrice: "$95.00",
   colorway: "Black · Aged Cream Print",
