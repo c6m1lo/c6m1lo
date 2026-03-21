@@ -215,7 +215,7 @@ export default function HomePage() {
                 OPERATOR
               </div>
               <p style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "#444444", lineHeight: 1.7 }}>
-                Bilingual AI specialist, web engineer, and autodidact building at the intersection of technology and philosophy.
+                Wearable art. Automation tools. Cognitive augmentation. Shop now.
               </p>
               <a
                 href="/projects"
