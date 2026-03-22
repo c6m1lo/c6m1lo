@@ -195,12 +195,24 @@ p {
   gap: 16px;
 }
 
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .brand {
   display: inline-flex;
   align-items: baseline;
   gap: 8px;
   font-weight: 700;
   letter-spacing: 0.02em;
+}
+
+.top-nav:has(.nav-search-input:not(:placeholder-shown)) .brand-cursor {
+  opacity: 0;
 }
 
 .brand-prompt {
@@ -226,18 +238,19 @@ p {
 
 .nav-search {
   position: relative;
-  margin-left: 12px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  flex: 1 1 auto;
+  min-width: 120px;
 }
 
 .nav-search-input {
-  width: min(220px, 28vw);
+  width: 100%;
   height: 28px;
   padding: 0 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border-subtle);
-  background: rgba(13, 13, 13, 0.55);
+  border-radius: 0;
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--text-primary);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -250,16 +263,21 @@ p {
   text-transform: uppercase;
 }
 
+.nav-search-input:hover {
+  border-bottom-color: var(--border-subtle);
+}
+
 .nav-search-input:focus-visible {
   outline: 1px solid var(--accent-primary);
   outline-offset: 2px;
+  border-bottom-color: var(--border-subtle);
 }
 
 .nav-search-panel {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  width: min(420px, calc(100vw - 28px));
+  width: 100%;
   border: 1px solid var(--border-subtle);
   background: rgba(8, 8, 8, 0.92);
   border-radius: 10px;

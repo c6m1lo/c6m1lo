@@ -99,14 +99,16 @@ export default function RootLayout({ children }) {
 
         <nav className="top-nav" aria-label="Primary">
           <div className="content top-nav-inner">
-            <Link href="/" className="brand" aria-label="c6m1lo home">
-              <span className="brand-prompt">&gt;</span>
-              <span className="brand-name">c6m1lo</span>
-              <span className="brand-cursor" aria-hidden="true">
-                █
-              </span>
+            <div className="nav-left">
+              <Link href="/" className="brand" aria-label="c6m1lo home">
+                <span className="brand-prompt">&gt;</span>
+                <span className="brand-name">c6m1lo</span>
+                <span className="brand-cursor" aria-hidden="true">
+                  █
+                </span>
+              </Link>
               <NavSearch items={searchItems} />
-            </Link>
+            </div>
             <div className="nav-links">
               <Link className="nav-link" href="/">
                 Home
