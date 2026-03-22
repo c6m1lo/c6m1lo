@@ -16,7 +16,7 @@ const strengths = [
   "Sensitive NLP dataset annotation, transcription, and QA",
   "Medical terminology, interpretation accuracy, and confidentiality",
   "Prompt engineering and LLM training support workflows",
-  "TypeScript, React, Tailwind, Git, and Bash/Zsh",
+  "TypeScript, React, Tailwind, Git, Bash/Zsh, AWS, Vercel, SQL, Linux, etc.",
   "Cross-domain execution in AI, software, and security contexts",
 ];
 

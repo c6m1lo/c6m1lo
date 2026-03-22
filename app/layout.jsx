@@ -6,6 +6,8 @@ import { Cormorant_Garamond } from "next/font/google";
 import AdSense from "@/components/AdSense";
 import GlobalThemeSync from "@/components/GlobalThemeSync";
 import ThemeInitScript from "@/components/ThemeInitScript";
+import NavSearch from "@/components/NavSearch";
+import { projects } from "@/data/projects";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.c6m1lo.com";
 
@@ -64,6 +66,19 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
+  const searchItems = [
+    { label: "Home", href: "/" },
+    { label: "Shop", href: "/shop" },
+    { label: "Projects", href: "/projects" },
+    { label: "Resume", href: "/resume" },
+    ...projects
+      .map((project) => ({ label: project.title, href: project.href }))
+      .filter((item) => item.href?.startsWith("/")),
+    { label: "Support", href: "/support" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/tos" },
+  ];
+
   return (
     <html lang="en" suppressHydrationWarning className={valencia.variable}>
       <head>
@@ -90,6 +105,7 @@ export default function RootLayout({ children }) {
               <span className="brand-cursor" aria-hidden="true">
                 █
               </span>
+              <NavSearch items={searchItems} />
             </Link>
             <div className="nav-links">
               <Link className="nav-link" href="/">
