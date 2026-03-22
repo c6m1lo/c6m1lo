@@ -216,8 +216,15 @@ export default function JournalPage() {
   };
 
   const exportEntries = () => {
+    const now = new Date();
+    const pad2 = (value: number) => String(value).padStart(2, "0");
+    const localDate = `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
+    const militaryTime = `${pad2(now.getHours())}${pad2(now.getMinutes())}`;
+    const militaryTimeLabel = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+
     const payload = {
-      exportedAt: new Date().toISOString(),
+      exportedAt: now.toISOString(),
+      exportedAtLocal: `${militaryTimeLabel} ${localDate}`,
       version: 1,
       entries,
     };
@@ -226,7 +233,7 @@ export default function JournalPage() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `journal-${new Date().toISOString().slice(0, 10)}.json`;
+    anchor.download = `journal-${militaryTime}-${localDate}.json`;
     anchor.click();
     URL.revokeObjectURL(url);
   };
