@@ -6,19 +6,19 @@ export default function ProjectsPage() {
       href: "/bible",
     },
     {
+      name: "Shop",
+      description: "Camilo Valencia collection storefront.",
+      href: "/shop",
+    },
+    {
       name: "Journal App",
       description: "Local-only daily journal with search, filters, and weekly metrics.",
       href: "/journal",
     },
     {
       name: "Millisecond Scheduler",
-      description: "Real-time activity tracker synced with Journal and Calendar.",
+      description: "Real-time activity tracker synced with Journal.",
       href: "/scheduler",
-    },
-    {
-      name: "Calendar App",
-      description: "Chronological planner merging journal entries and tracker sessions.",
-      href: "/calendar",
     },
   ];
 

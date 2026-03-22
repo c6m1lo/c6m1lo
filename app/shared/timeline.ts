@@ -1,10 +1,9 @@
-import type { CalendarEvent } from "../calendar/types";
 import type { JournalEntry } from "../journal/types";
 import type { ActiveSession, TimeSession } from "../scheduler/types";
 
 export type TimelineItem = {
   id: string;
-  app: "journal" | "scheduler" | "calendar";
+  app: "journal" | "scheduler";
   title: string;
   detail: string;
   startsAt: string;
@@ -47,17 +46,6 @@ export function buildSessionItems(sessions: TimeSession[], activeSession: Active
     },
     ...completed,
   ];
-}
-
-export function buildCalendarItems(events: CalendarEvent[]): TimelineItem[] {
-  return events.map((event) => ({
-    id: `calendar-${event.id}`,
-    app: "calendar",
-    title: event.title,
-    detail: event.notes?.trim() || "Calendar event",
-    startsAt: event.startsAt,
-    endsAt: event.endsAt,
-  }));
 }
 
 export function mergeTimelineChronologically(items: TimelineItem[]) {

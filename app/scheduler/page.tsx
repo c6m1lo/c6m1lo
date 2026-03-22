@@ -2,12 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { getCalendarEvents } from "../calendar/storage";
-import type { CalendarEvent } from "../calendar/types";
 import { getAllEntries } from "../journal/storage";
 import type { JournalEntry } from "../journal/types";
 import {
-  buildCalendarItems,
   buildJournalItems,
   buildSessionItems,
   mergeTimelineChronologically,
@@ -98,7 +95,6 @@ export default function SchedulerPage() {
   const [activityInput, setActivityInput] = useState("");
   const [journalSuggestions, setJournalSuggestions] = useState<string[]>([]);
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
-  const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [nowMs, setNowMs] = useState(() => Date.now());
@@ -124,13 +120,11 @@ export default function SchedulerPage() {
 
         const nextSessions = getSessions();
         const nextActive = getActiveSession();
-        const nextCalendarEvents = getCalendarEvents();
 
         setSessions(nextSessions);
         setActiveSession(nextActive);
         setJournalEntries(entries);
         setJournalSuggestions(extractJournalSuggestions(entries));
-        setCalendarEvents(nextCalendarEvents);
       } catch (loadError) {
         setError(loadError instanceof Error ? loadError.message : "Failed to load scheduler data.");
       } finally {
@@ -192,25 +186,14 @@ export default function SchedulerPage() {
     ? Math.max(0, nowMs - new Date(activeSession.startedAt).getTime())
     : 0;
 
-  const todayCalendarEvents = useMemo(() => {
-    const cutoff = startOfTodayMs();
-    const end = cutoff + 24 * 60 * 60 * 1000;
-
-    return calendarEvents.filter((event) => {
-      const startsAtMs = new Date(event.startsAt).getTime();
-      return startsAtMs >= cutoff && startsAtMs < end;
-    });
-  }, [calendarEvents]);
-
   const unifiedTodayTimeline = useMemo(() => {
     const cutoff = startOfTodayMs();
 
     return mergeTimelineChronologically([
       ...buildJournalItems(journalEntries),
       ...buildSessionItems(sessions, activeSession),
-      ...buildCalendarItems(calendarEvents),
     ]).filter((item) => new Date(item.startsAt).getTime() >= cutoff);
-  }, [activeSession, calendarEvents, journalEntries, sessions]);
+  }, [activeSession, journalEntries, sessions]);
 
   const startTracking = (source: "manual" | "journal") => {
     const activity = activityInput.trim().toLowerCase();
@@ -314,7 +297,7 @@ export default function SchedulerPage() {
         <span className="kicker">Scheduler</span>
         <h1 className="mt-4 text-3xl font-semibold sm:text-4xl">Millisecond Scheduler</h1>
         <p className="muted mt-3 max-w-3xl text-sm sm:text-base">
-          Live tracking with cross-app context from Journal and Calendar, ordered into one chronological day.
+          Live tracking with cross-app context from Journal, ordered into one chronological day.
         </p>
       </section>
 
@@ -394,25 +377,6 @@ export default function SchedulerPage() {
             <p className="text-sm text-neutral-400">
               Add tags in <a href="/journal" className="underline">Journal App</a> to unlock suggestions.
             </p>
-          )}
-        </div>
-      </section>
-
-      <section className="panel p-5 sm:p-6">
-        <h2 className="text-lg font-semibold">Calendar Context</h2>
-        <p className="muted mt-1 text-sm">Today&apos;s calendar blocks from the connected Calendar app.</p>
-        <div className="mt-3 space-y-2">
-          {todayCalendarEvents.length ? (
-            todayCalendarEvents.map((event) => (
-              <div key={event.id} className="rounded-xl border border-white/12 bg-black/30 p-3 text-sm">
-                <p className="font-medium text-white">{event.title}</p>
-                <p className="mt-1 text-xs text-neutral-400">
-                  {new Date(event.startsAt).toLocaleTimeString()} - {new Date(event.endsAt).toLocaleTimeString()}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p className="text-sm text-neutral-400">No calendar blocks for today yet.</p>
           )}
         </div>
       </section>
@@ -544,7 +508,7 @@ export default function SchedulerPage() {
 
       <section className="panel p-5 sm:p-6">
         <h2 className="text-lg font-semibold">Chronological Timeline (All Apps)</h2>
-        <p className="muted mt-1 text-sm">Journal + Scheduler + Calendar merged by time.</p>
+        <p className="muted mt-1 text-sm">Journal + Scheduler merged by time.</p>
         <div className="mt-3 space-y-2">
           {unifiedTodayTimeline.length ? (
             unifiedTodayTimeline.map((item) => (

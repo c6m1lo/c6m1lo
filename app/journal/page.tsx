@@ -1,14 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { getCalendarEvents } from "../calendar/storage";
-import type { CalendarEvent } from "../calendar/types";
 import { getActiveSession, getSessions } from "../scheduler/storage";
 import type { ActiveSession, TimeSession } from "../scheduler/types";
 import { subscribeAppDataChanges } from "../shared/sync";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import {
-  buildCalendarItems,
   buildJournalItems,
   buildSessionItems,
   mergeTimelineChronologically,
@@ -94,7 +91,6 @@ export default function JournalPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [sessions, setSessions] = useState<TimeSession[]>([]);
   const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
-  const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -119,7 +115,6 @@ export default function JournalPage() {
     const loadConnected = () => {
       setSessions(getSessions());
       setActiveSession(getActiveSession());
-      setCalendarEvents(getCalendarEvents());
     };
 
     loadConnected();
@@ -277,9 +272,8 @@ export default function JournalPage() {
       mergeTimelineChronologically([
         ...buildJournalItems(entries),
         ...buildSessionItems(sessions, activeSession),
-        ...buildCalendarItems(calendarEvents),
       ]),
-    [activeSession, calendarEvents, entries, sessions],
+    [activeSession, entries, sessions],
   );
 
   return (

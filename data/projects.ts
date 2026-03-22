@@ -1,4 +1,4 @@
-export type HomeScene = "book" | "timer" | "calendar" | "gear" | "speaker";
+export type HomeScene = "book" | "timer" | "gear" | "speaker";
 
 export type Project = {
   title: string;
@@ -29,20 +29,11 @@ export const projects: Project[] = [
   },
   {
     title: "Millisecond Scheduler",
-    description: "Real-time activity tracker with editable sessions synced to Journal and Calendar.",
+    description: "Real-time activity tracker with editable sessions synced to Journal.",
     href: "/scheduler",
     cta: "Open app",
     homeQuote: "`What gets measured in minutes becomes visible in your life.`",
     homeScene: "timer",
-    showInHomeFeed: true,
-  },
-  {
-    title: "Calendar App",
-    description: "Chronological planner that merges Journal entries, tracker sessions, and calendar events.",
-    href: "/calendar",
-    cta: "Open app",
-    homeQuote: "`Order your day by time, not by intention alone.`",
-    homeScene: "calendar",
     showInHomeFeed: true,
   },
 ];
