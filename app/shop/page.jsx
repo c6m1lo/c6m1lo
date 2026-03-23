@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 const PRODUCTS = [
   {
     id: "creation-of-adam",
-    name: "THE CREATION OF ADAM",
+    name: "CREATION OF ADAM",
     subtitle: "Michelangelo · 1508–1512",
     description:
       "A heavyweight hoodie bearing the full composition of Michelangelo's masterwork. Classical philosophy on the back.",
