@@ -2,21 +2,50 @@
 
 import { useMemo, useState } from "react";
 
-const PRODUCT = {
-  id: "drop-one",
-  name: "THE CREATION OF ADAM",
-  subtitle: "Michaelangelo · 1508–1512",
-  description:
-    "A heavyweight hoodie bearing the full composition of Michaelangelo's masterwork. Classical philosophy on the back.",
-  price: 9900,
-  displayPrice: "$99.00",
-  colorway: "Black · Aged Cream Print",
-  sizes: ["S", "M", "L", "XL", "XXL"],
-  image: "/products/drop-one.jpg",
-};
+const PRODUCTS = [
+  {
+    id: "creation-of-adam",
+    name: "THE CREATION OF ADAM",
+    subtitle: "Michelangelo · 1508–1512",
+    description:
+      "A heavyweight hoodie bearing the full composition of Michelangelo's masterwork. Classical philosophy on the back.",
+    price: 9900,
+    displayPrice: "$99.00",
+    colorway: "Black · Aged Cream Print",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    image: "/CreationOfAdam.png",
+    paymentLink: "https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b",
+  },
+  {
+    id: "assumption-of-the-virgin",
+    name: "ASSUMPTION OF THE VIRGIN",
+    subtitle: "Titian · 1516–1518",
+    description:
+      "A heavyweight hoodie featuring Titian’s monumental altarpiece—radiant color, ascending motion, and devotional intensity.",
+    price: 9900,
+    displayPrice: "$99.00",
+    colorway: "Black · Aged Cream Print",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    image: "/AssumptionOfTheVirgin.png",
+    paymentLink: "https://buy.stripe.com/cNi8wP9Ax7g80Tx2XJ9oc0c",
+  },
+  {
+    id: "the-last-supper",
+    name: "THE LAST SUPPER",
+    subtitle: "Leonardo da Vinci · 1495–1498",
+    description:
+      "A heavyweight hoodie carrying Leonardo’s most iconic scene—stillness and shock held in perfect geometry.",
+    price: 9900,
+    displayPrice: "$99.00",
+    colorway: "Black · Aged Cream Print",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    image: "/TheLastSupper.png",
+    paymentLink: "https://buy.stripe.com/aFacN5h2ZfME45JeGr9oc0d",
+  },
+];
 
 export default function ShopPage() {
-  const products = useMemo(() => [PRODUCT], []);
+  const products = useMemo(() => PRODUCTS, []);
   const [selectedSizes, setSelectedSizes] = useState({});
   const [error, setError] = useState("");
 
@@ -28,6 +57,7 @@ export default function ShopPage() {
 
     try {
       const paymentLink =
+        product.paymentLink ||
         process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_URL ||
         "https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b";
 
@@ -103,8 +133,8 @@ export default function ShopPage() {
                     }}
                   >
                     <img
-                      src="/creationOfAdam.png"
-                      alt="The Creation of Adam overlay"
+                      src={product.image}
+                      alt={`${product.name} artwork overlay`}
                       loading="lazy"
                       style={{
                         position: "absolute",
@@ -112,8 +142,8 @@ export default function ShopPage() {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
-                        opacity: 0.12,
-                        filter: "grayscale(100%) contrast(105%)",
+                        opacity: 0.22,
+                        filter: "saturate(160%) contrast(110%) brightness(1.08)",
                         userSelect: "none",
                         pointerEvents: "none",
                       }}
