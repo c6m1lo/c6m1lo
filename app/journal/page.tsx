@@ -222,11 +222,31 @@ export default function JournalPage() {
     const militaryTime = `${pad2(now.getHours())}${pad2(now.getMinutes())}`;
     const militaryTimeLabel = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
 
+    const safeParse = <T,>(raw: string | null): T | null => {
+      if (!raw) return null;
+      try {
+        return JSON.parse(raw) as T;
+      } catch {
+        return null;
+      }
+    };
+
+    const schedulerSessions = safeParse<unknown[]>(
+      window.localStorage.getItem("camilo777-scheduler-sessions"),
+    );
+    const schedulerActiveSession = safeParse<Record<string, unknown>>(
+      window.localStorage.getItem("camilo777-scheduler-active"),
+    );
+
     const payload = {
       exportedAt: now.toISOString(),
       exportedAtLocal: `${militaryTimeLabel} ${localDate}`,
       version: 1,
       entries,
+      scheduler: {
+        sessions: schedulerSessions ?? [],
+        activeSession: schedulerActiveSession,
+      },
     };
 
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });

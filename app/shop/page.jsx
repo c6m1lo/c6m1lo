@@ -8,8 +8,8 @@ const PRODUCT = {
   subtitle: "Michaelangelo · 1508–1512",
   description:
     "A heavyweight hoodie bearing the full composition of Michaelangelo's masterwork. Classical philosophy on the back.",
-  price: 99900,
-  displayPrice: "$999.00",
+  price: 9900,
+  displayPrice: "$99.00",
   colorway: "Black · Aged Cream Print",
   sizes: ["S", "M", "L", "XL", "XXL"],
   image: "/products/drop-one.jpg",
