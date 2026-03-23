@@ -29,7 +29,7 @@ export default function ShopPage() {
     try {
       const paymentLink =
         process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_URL ||
-        "https://buy.stripe.com/cNidR9fYV6c41XBaqb9oc0a";
+        "https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b";
 
       const url = new URL(paymentLink);
       url.searchParams.set("client_reference_id", `${product.id}:${size}`);
