@@ -14,7 +14,7 @@ const PRODUCTS = [
     colorway: "Black · Aged Cream Print",
     sizes: ["S", "M", "L", "XL", "XXL"],
     image: "/CreationOfAdam.png",
-    paymentLink: "https://buy.stripe.com/https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b",
+    paymentLink: "https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b",
   },
   {
     id: "assumption-of-the-virgin",
@@ -27,7 +27,7 @@ const PRODUCTS = [
     colorway: "Black · Aged Cream Print",
     sizes: ["S", "M", "L", "XL", "XXL"],
     image: "/AssumptionOfTheVirgin.png",
-    paymentLink: "https://buy.stripe.https://buy.stripe.com/cNi8wP9Ax7g80Tx2XJ9oc0c/cNi8wP9Ax7g80Tx2XJ9oc0c",
+    paymentLink: "https://buy.stripe.com/cNi8wP9Ax7g80Tx2XJ9oc0c",
   },
   {
     id: "the-last-supper",
@@ -40,7 +40,7 @@ const PRODUCTS = [
     colorway: "Black · Aged Cream Print",
     sizes: ["S", "M", "L", "XL", "XXL"],
     image: "/TheLastSupper.png",
-    paymentLink: "https://buy.https://buy.stripe.com/aFacN5h2ZfME45JeGr9oc0d.com/aFacN5h2ZfME45JeGr9oc0d",
+    paymentLink: "https://buy.stripe.com/aFacN5h2ZfME45JeGr9oc0d",
   },
 ];
 
