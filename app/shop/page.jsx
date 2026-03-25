@@ -65,13 +65,13 @@ export default function ShopPage() {
   return (
     <div style={{ background: "#080808", minHeight: "100vh" }}>
       {/* Header */}
-      <header style={{ padding: "80px 24px 48px", textAlign: "center" }}>
+      <header className="cv-shop-header">
         <div
           style={{
             fontFamily: "var(--font-valencia)",
             fontWeight: 300,
-            fontSize: "32px",
-            letterSpacing: "0.25em",
+            fontSize: "clamp(24px, 7vw, 32px)",
+            letterSpacing: "clamp(0.14em, 1.4vw, 0.25em)",
             color: "#d4c9b0",
             lineHeight: 1.05,
           }}
@@ -82,8 +82,8 @@ export default function ShopPage() {
           style={{
             fontFamily: "var(--font-valencia)",
             fontWeight: 300,
-            fontSize: "32px",
-            letterSpacing: "0.25em",
+            fontSize: "clamp(24px, 7vw, 32px)",
+            letterSpacing: "clamp(0.14em, 1.4vw, 0.25em)",
             color: "#d4c9b0",
             lineHeight: 1.05,
           }}
@@ -106,7 +106,7 @@ export default function ShopPage() {
       </header>
 
       {/* Grid */}
-      <section style={{ padding: "0 24px 120px" }}>
+      <section className="cv-shop-section">
         <div style={{ maxWidth: "860px", margin: "0 auto" }}>
           <div className="cv-shop-grid">
             {products.map((product) => {
@@ -241,6 +241,15 @@ export default function ShopPage() {
       </section>
 
       <style jsx>{`
+        .cv-shop-header {
+          padding: 80px 24px 48px;
+          text-align: center;
+        }
+
+        .cv-shop-section {
+          padding: 0 24px 120px;
+        }
+
         .cv-shop-grid {
           display: grid;
           grid-template-columns: 1fr;
@@ -249,6 +258,19 @@ export default function ShopPage() {
         @media (min-width: 860px) {
           .cv-shop-grid {
             grid-template-columns: 1fr 1fr;
+          }
+        }
+        @media (max-width: 480px) {
+          .cv-shop-header {
+            padding: 64px 18px 36px;
+          }
+
+          .cv-shop-section {
+            padding: 0 18px 96px;
+          }
+
+          .cv-shop-grid {
+            gap: 36px;
           }
         }
       `}</style>

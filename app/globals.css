@@ -44,6 +44,11 @@ body {
   min-height: 100%;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   background: var(--bg-primary);
@@ -156,11 +161,41 @@ p {
 .content {
   width: min(100%, var(--max-content-width));
   margin: 0 auto;
+  padding-inline: 18px;
+}
+
+@media (min-width: 900px) {
+  .content {
+    padding-inline: 0;
+  }
 }
 
 .app-main {
   padding-top: calc(var(--nav-height) + 18px);
   padding-bottom: 64px;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  max-width: 100%;
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 720px) and (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 /* ─── Top Nav ───────────────────────────────────────────────────────────── */

@@ -21,8 +21,8 @@ export default function HomePage() {
           style={{
             fontFamily: "var(--font-valencia)",
             fontWeight: 300,
-            fontSize: "clamp(48px, 6vw, 72px)",
-            letterSpacing: "0.25em",
+            fontSize: "clamp(40px, 10vw, 72px)",
+            letterSpacing: "clamp(0.12em, 1.2vw, 0.25em)",
             color: "#d4c9b0",
             lineHeight: 1.05,
           }}
@@ -33,8 +33,8 @@ export default function HomePage() {
           style={{
             fontFamily: "var(--font-valencia)",
             fontWeight: 300,
-            fontSize: "clamp(48px, 6vw, 72px)",
-            letterSpacing: "0.25em",
+            fontSize: "clamp(40px, 10vw, 72px)",
+            letterSpacing: "clamp(0.12em, 1.2vw, 0.25em)",
             color: "#d4c9b0",
             lineHeight: 1.05,
           }}
