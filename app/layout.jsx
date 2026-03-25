@@ -133,7 +133,7 @@ export default function RootLayout({ children }) {
 
         <footer className="site-footer">
           <div className="content footer-row">
-            <p>© {new Date().getFullYear()} Camilo Gomez. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} CAMILO VALENCIA. All rights reserved.</p>
             <div className="footer-links">
               <a className="footer-link" href="/privacy">
                 Privacy Policy
