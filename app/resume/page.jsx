@@ -36,7 +36,6 @@ export default function ResumePage() {
 
       <div className="resume-grid">
         <aside className="resume-left">
-          <div className="resume-name">Camilo Gomez</div>
           <div className="resume-tagline">BILINGUAL OPERATOR · AI · WEB · INTERPRETATION</div>
           <div className="divider" />
 
