@@ -27,13 +27,4 @@ export const projects: Project[] = [
     homeScene: "book",
     showInHomeFeed: true,
   },
-  {
-    title: "Millisecond Scheduler",
-    description: "Real-time activity tracker with editable sessions synced to Journal.",
-    href: "/scheduler",
-    cta: "Open app",
-    homeQuote: "`What gets measured in minutes becomes visible in your life.`",
-    homeScene: "timer",
-    showInHomeFeed: true,
-  },
 ];

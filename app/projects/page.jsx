@@ -1,144 +1,51 @@
+import Link from "next/link";
+
 export default function ProjectsPage() {
   const projects = [
     {
-      name: "Bible App",
-      description: "A React and Next.js Bible reading interface. KJV. Offline capable.",
+      title: "Bible App",
+      description: "A React + Next.js Bible reading interface (KJV). Offline capable.",
       href: "/bible",
+      cta: "Open app",
     },
     {
-      name: "Shop",
+      title: "Shop",
       description: "Camilo Valencia collection storefront.",
       href: "/shop",
+      cta: "View collection",
     },
     {
-      name: "Journal App",
-      description: "Local-only daily journal with search, filters, and weekly metrics.",
+      title: "Journal App",
+      description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
       href: "/journal",
-    },
-    {
-      name: "Millisecond Scheduler",
-      description: "Real-time activity tracker synced with Journal.",
-      href: "/scheduler",
+      cta: "Open app",
     },
   ];
 
   return (
-    <div style={{ background: "#080808" }}>
-      <header style={{ padding: "120px 24px 80px", textAlign: "center", background: "#080808" }}>
-        <div
-          style={{
-            fontFamily: "var(--font-valencia)",
-            fontWeight: 300,
-            fontSize: "11px",
-            letterSpacing: "0.3em",
-            color: "rgba(212, 201, 176, 0.3)",
-          }}
-        >
-          PROJECTS
-        </div>
-        <h1
-          style={{
-            marginTop: "12px",
-            fontFamily: "var(--font-valencia)",
-            fontWeight: 300,
-            fontSize: "36px",
-            letterSpacing: "0.1em",
-            color: "#d4c9b0",
-          }}
-        >
-          Current Deployments
-        </h1>
-        <div style={{ width: "48px", height: "1px", background: "rgba(212, 201, 176, 0.2)", margin: "24px auto 0" }} />
-        <div
-          style={{
-            marginTop: "20px",
-            fontFamily: "var(--font-valencia)",
-            fontWeight: 300,
-            fontSize: "11px",
-            letterSpacing: "0.2em",
-            color: "rgba(212, 201, 176, 0.3)",
-          }}
-        >
-          04 ACTIVE TOOLS · C6M1LO
-        </div>
+    <div>
+      <header className="page-header">
+        <span className="page-kicker">Projects</span>
+        <h1 className="page-title">Active Deployments</h1>
+        <div className="page-counter">{projects.length} live</div>
       </header>
 
-      <section style={{ padding: "0 24px 120px" }} aria-label="Projects grid">
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
-          <div className="cv-projects-grid">
-            {projects.map((project) => (
-              <article key={project.href} className="cv-project-card">
-                <div
-                  style={{
-                    fontFamily: "var(--font-valencia)",
-                    fontWeight: 500,
-                    fontSize: "15px",
-                    letterSpacing: "0.1em",
-                    color: "#d4c9b0",
-                  }}
-                >
-                  {project.name}
-                </div>
-                <div
-                  style={{
-                    marginTop: "8px",
-                    fontFamily: "var(--font-valencia)",
-                    fontWeight: 300,
-                    fontSize: "12px",
-                    color: "rgba(212, 201, 176, 0.5)",
-                    lineHeight: 1.7,
-                  }}
-                >
-                  {project.description}
-                </div>
-                <a href={project.href} className="cv-project-link">
-                  OPEN →
-                </a>
-              </article>
-            ))}
-          </div>
+      <section aria-label="Projects list">
+        <div className="card-grid">
+          {projects.map((project) => (
+            <Link key={project.href} href={project.href} className="project-card">
+              <div className="card-top">
+                <span className="status-dot" aria-hidden="true" />
+                <div className="card-title">{project.title}</div>
+              </div>
+              <div className="card-desc">{project.description}</div>
+              <div className="card-bottom">
+                <span className="card-link">{project.cta}</span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
-
-      <style>{`
-        .cv-projects-grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 32px;
-        }
-
-        @media (max-width: 860px) {
-          .cv-projects-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .cv-project-card {
-          background: transparent;
-          border-top: 1px solid #1a1a1a;
-          padding-top: 24px;
-          transition: border-color 0.3s ease;
-        }
-
-        .cv-project-card:hover {
-          border-top-color: rgba(212, 201, 176, 0.2);
-        }
-
-        .cv-project-link {
-          display: inline-block;
-          margin-top: 16px;
-          font-family: var(--font-mono);
-          font-size: 10px;
-          letter-spacing: 0.15em;
-          color: rgba(212, 201, 176, 0.3);
-          transition: color 0.3s ease;
-          text-decoration: none;
-        }
-
-        .cv-project-link:hover {
-          color: rgba(212, 201, 176, 0.7);
-        }
-      `}</style>
     </div>
   );
 }

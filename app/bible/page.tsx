@@ -79,8 +79,6 @@ export default function BiblePage() {
   const [selectedChapter, setSelectedChapter] = useState(1);
   const [bookData, setBookData] = useState<Book | null>(null);
   const [search, setSearch] = useState("");
-  const [fontScale, setFontScale] = useState(100);
-  const [lineHeight, setLineHeight] = useState(1.75);
   const [progress, setProgress] = useState<ProgressMap>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -199,8 +197,6 @@ export default function BiblePage() {
   const chapterCount = bookData?.chapters.length ?? 0;
   const canGoPrevious = selectedChapter > 1;
   const canGoNext = selectedChapter < chapterCount;
-  const fontSizeOptions = [90, 95, 100, 105, 110, 115, 120, 125, 130];
-  const lineHeightOptions = [1.45, 1.6, 1.75, 1.9, 2.05];
   const readChaptersInBook = progress[selectedBookId]?.length ?? 0;
   const bookProgressPercent = toPercent(readChaptersInBook, chapterCount);
   const totalChapters = useMemo(
@@ -302,7 +298,7 @@ export default function BiblePage() {
 
       <section className="panel p-5 sm:p-6">
         <h2 className="text-lg font-semibold">Reader Controls</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <label className="flex flex-col gap-1.5 text-xs">
             <span className="text-neutral-300">Book</span>
             <select
@@ -338,36 +334,6 @@ export default function BiblePage() {
             </select>
           </label>
 
-          <label className="flex flex-col gap-1.5 text-xs">
-            <span className="text-neutral-300">Font size</span>
-            <select
-              className="rounded-lg border border-neutral-700 bg-neutral-900 px-2.5 py-2 text-sm text-neutral-100"
-              value={fontScale}
-              onChange={(event) => setFontScale(Number(event.target.value))}
-            >
-              {fontSizeOptions.map((size) => (
-                <option key={size} value={size}>
-                  {size}%
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="flex flex-col gap-1.5 text-xs">
-            <span className="text-neutral-300">Line height</span>
-            <select
-              className="rounded-lg border border-neutral-700 bg-neutral-900 px-2.5 py-2 text-sm text-neutral-100"
-              value={lineHeight}
-              onChange={(event) => setLineHeight(Number(event.target.value))}
-            >
-              {lineHeightOptions.map((value) => (
-                <option key={value} value={value}>
-                  {value.toFixed(2)}
-                </option>
-              ))}
-            </select>
-          </label>
-
           <div className="grid grid-cols-2 gap-2 sm:col-span-2">
             <button
               className="rounded-lg border border-neutral-700 bg-neutral-900 px-2.5 py-2 text-sm text-neutral-200 transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-50"
@@ -387,7 +353,7 @@ export default function BiblePage() {
             </button>
           </div>
 
-          <label className="flex flex-col gap-1.5 text-xs sm:col-span-2 lg:col-span-6">
+          <label className="flex flex-col gap-1.5 text-xs sm:col-span-2 lg:col-span-4">
             <span className="text-neutral-300">Search in chapter</span>
             <input
               className="rounded-lg border border-neutral-700 bg-neutral-900 px-2.5 py-2 text-sm text-neutral-100 placeholder:text-neutral-500"
@@ -454,10 +420,9 @@ export default function BiblePage() {
               <p className="muted">No verses match your search.</p>
             ) : (
               <article className="info-card mx-auto max-w-4xl overflow-hidden">
-              <p
-                className="max-w-full overflow-hidden text-pretty wrap-break-word"
-                style={{ fontSize: `${fontScale}%`, lineHeight }}
-              >
+                <p
+                  className="max-w-full overflow-hidden text-pretty wrap-break-word text-[1rem] leading-[1.75]"
+                >
                   {visibleVerses.map((verse) => (
                     <span key={verse.number} id={`verse-${verse.number}`} className="scroll-mt-28 block">
                       <sup className="mr-1 text-[0.72em] font-semibold text-neutral-400">
