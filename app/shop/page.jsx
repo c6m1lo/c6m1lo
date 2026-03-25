@@ -116,7 +116,7 @@ export default function ShopPage() {
                     style={{
                       width: "100%",
                       aspectRatio: "4 / 5",
-                      background: "#0d0d0d",
+                      background: "#d4c9b0",
                       display: "block",
                       position: "relative",
                       overflow: "hidden",
@@ -124,7 +124,7 @@ export default function ShopPage() {
                   >
                     <img
                       src={product.image}
-                      alt={`${product.name} artwork overlay`}
+                      alt={`${product.name} hoodie`}
                       loading="lazy"
                       style={{
                         position: "absolute",
@@ -132,8 +132,8 @@ export default function ShopPage() {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
-                        opacity: 0.22,
-                        filter: "saturate(160%) contrast(110%) brightness(1.08)",
+                        opacity: 1,
+                        filter: "none",
                         userSelect: "none",
                         pointerEvents: "none",
                       }}
