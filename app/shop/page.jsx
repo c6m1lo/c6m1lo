@@ -12,7 +12,6 @@ const PRODUCTS = [
     price: 9900,
     displayPrice: "$99.00",
     colorway: "Black · Aged Cream Print",
-    sizes: ["S", "M", "L", "XL", "XXL"],
     image: "/CreationOfAdam.png",
     paymentLink: "https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b",
   },
@@ -25,7 +24,6 @@ const PRODUCTS = [
     price: 9900,
     displayPrice: "$99.00",
     colorway: "Black · Aged Cream Print",
-    sizes: ["S", "M", "L", "XL", "XXL"],
     image: "/AssumptionOfTheVirgin.png",
     paymentLink: "https://buy.stripe.com/cNi8wP9Ax7g80Tx2XJ9oc0c",
   },
@@ -38,7 +36,6 @@ const PRODUCTS = [
     price: 9900,
     displayPrice: "$99.00",
     colorway: "Black · Aged Cream Print",
-    sizes: ["S", "M", "L", "XL", "XXL"],
     image: "/TheLastSupper.png",
     paymentLink: "https://buy.stripe.com/aFacN5h2ZfME45JeGr9oc0d",
   },
@@ -46,13 +43,9 @@ const PRODUCTS = [
 
 export default function ShopPage() {
   const products = useMemo(() => PRODUCTS, []);
-  const [selectedSizes, setSelectedSizes] = useState({});
   const [error, setError] = useState("");
 
   const handleCheckout = async (product) => {
-    const size = selectedSizes[product.id];
-    if (!size) return;
-
     setError("");
 
     try {
@@ -62,7 +55,7 @@ export default function ShopPage() {
         "https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b";
 
       const url = new URL(paymentLink);
-      url.searchParams.set("client_reference_id", `${product.id}:${size}`);
+      url.searchParams.set("client_reference_id", product.id);
       window.location.assign(url.toString());
     } catch (err) {
       setError(err instanceof Error ? err.message : "Checkout failed.");
@@ -117,9 +110,6 @@ export default function ShopPage() {
         <div style={{ maxWidth: "860px", margin: "0 auto" }}>
           <div className="cv-shop-grid">
             {products.map((product) => {
-              const selected = selectedSizes[product.id] || "";
-              const disabled = !selected;
-
               return (
                 <div key={product.id} style={{ textAlign: "left" }}>
                   <div
@@ -199,67 +189,8 @@ export default function ShopPage() {
                     {product.colorway}
                   </div>
 
-                  {/* Size selector */}
-                  <div style={{ marginTop: "16px" }}>
-                    <label
-                      style={{
-                        display: "block",
-                        marginBottom: "8px",
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "9px",
-                        letterSpacing: "0.15em",
-                        color: "#444444",
-                      }}
-                    >
-                      SIZE
-                    </label>
-                    <div>
-                      {product.sizes.map((size) => {
-                        const isSelected = selected === size;
-                        return (
-                          <button
-                            key={size}
-                            type="button"
-                            onClick={() =>
-                              setSelectedSizes((current) => ({
-                                ...current,
-                                [product.id]: current[product.id] === size ? "" : size,
-                              }))
-                            }
-                            style={{
-                              background: "transparent",
-                              border: `1px solid ${isSelected ? "rgba(212, 201, 176, 0.6)" : "#242424"}`,
-                              color: isSelected ? "#d4c9b0" : "#444444",
-                              padding: "6px 12px",
-                              fontSize: "10px",
-                              fontFamily: "monospace",
-                              cursor: "pointer",
-                              marginRight: "6px",
-                              marginBottom: "6px",
-                              borderRadius: 0,
-                              transition: "all 0.2s ease",
-                            }}
-                            onMouseEnter={(e) => {
-                              if (isSelected) return;
-                              e.currentTarget.style.borderColor = "#333333";
-                              e.currentTarget.style.color = "#666666";
-                            }}
-                            onMouseLeave={(e) => {
-                              if (isSelected) return;
-                              e.currentTarget.style.borderColor = "#242424";
-                              e.currentTarget.style.color = "#444444";
-                            }}
-                          >
-                            {size}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
                   <button
                     type="button"
-                    disabled={disabled}
                     onClick={() => handleCheckout(product)}
                     style={{
                       marginTop: "20px",
@@ -272,18 +203,15 @@ export default function ShopPage() {
                       fontWeight: 400,
                       fontSize: "12px",
                       letterSpacing: "0.2em",
-                      cursor: disabled ? "not-allowed" : "pointer",
+                      cursor: "pointer",
                       transition: "all 0.3s ease",
-                      opacity: disabled ? "0.4" : "1",
                     }}
                     onMouseEnter={(e) => {
-                      if (disabled) return;
                       e.currentTarget.style.borderColor = "rgba(212, 201, 176, 0.8)";
                       e.currentTarget.style.color = "#d4c9b0";
                       e.currentTarget.style.background = "rgba(212, 201, 176, 0.07)";
                     }}
                     onMouseLeave={(e) => {
-                      if (disabled) return;
                       e.currentTarget.style.borderColor = "rgba(212, 201, 176, 0.3)";
                       e.currentTarget.style.color = "rgba(212, 201, 176, 0.7)";
                       e.currentTarget.style.background = "transparent";
