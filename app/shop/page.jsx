@@ -4,16 +4,15 @@ import { useMemo, useState } from "react";
 
 const PRODUCTS = [
   {
-    id: "creation-of-adam",
-    name: "CREATION OF ADAM",
-    subtitle: "Michelangelo · 1508–1512",
-    description:
-      "A heavyweight hoodie bearing the full composition of Michelangelo's masterwork. Classical philosophy on the back.",
-    price: 9900,
-    displayPrice: "$99.00",
-    colorway: "Black · Aged Cream Print",
-    image: "/CreationOfAdam.png",
-    paymentLink: "https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b",
+    id: "cherub-hat",
+    name: "CHERUB HAT",
+    subtitle: "Cherub · MMXXVI",
+    description: "A minimal black hat featuring the cherub mark.",
+    price: 0,
+    displayPrice: "TBD",
+    colorway: "Black",
+    image: "/cherubHat.png",
+    paymentLink: process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_CHERUB_HAT,
   },
   {
     id: "assumption-of-the-virgin",
@@ -27,18 +26,6 @@ const PRODUCTS = [
     image: "/AssumptionOfTheVirgin.png",
     paymentLink: "https://buy.stripe.com/cNi8wP9Ax7g80Tx2XJ9oc0c",
   },
-  {
-    id: "the-last-supper",
-    name: "THE LAST SUPPER",
-    subtitle: "Leonardo da Vinci · 1495–1498",
-    description:
-      "A heavyweight hoodie carrying Leonardo’s most iconic scene—stillness and shock held in perfect geometry.",
-    price: 9900,
-    displayPrice: "$99.00",
-    colorway: "Black · Aged Cream Print",
-    image: "/TheLastSupper.png",
-    paymentLink: "https://buy.stripe.com/aFacN5h2ZfME45JeGr9oc0d",
-  },
 ];
 
 export default function ShopPage() {
@@ -49,10 +36,10 @@ export default function ShopPage() {
     setError("");
 
     try {
-      const paymentLink =
-        product.paymentLink ||
-        process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_URL ||
-        "https://buy.stripe.com/9B600j4gdcAs8lZ8i39oc0b";
+      const paymentLink = product.paymentLink;
+      if (!paymentLink) {
+        throw new Error("This item is not available yet.");
+      }
 
       const url = new URL(paymentLink);
       url.searchParams.set("client_reference_id", product.id);
@@ -191,6 +178,7 @@ export default function ShopPage() {
 
                   <button
                     type="button"
+                    disabled={!product.paymentLink}
                     onClick={() => handleCheckout(product)}
                     style={{
                       marginTop: "20px",
@@ -203,21 +191,24 @@ export default function ShopPage() {
                       fontWeight: 400,
                       fontSize: "12px",
                       letterSpacing: "0.2em",
-                      cursor: "pointer",
+                      cursor: product.paymentLink ? "pointer" : "not-allowed",
+                      opacity: product.paymentLink ? 1 : 0.55,
                       transition: "all 0.3s ease",
                     }}
                     onMouseEnter={(e) => {
+                      if (!product.paymentLink) return;
                       e.currentTarget.style.borderColor = "rgba(212, 201, 176, 0.8)";
                       e.currentTarget.style.color = "#d4c9b0";
                       e.currentTarget.style.background = "rgba(212, 201, 176, 0.07)";
                     }}
                     onMouseLeave={(e) => {
+                      if (!product.paymentLink) return;
                       e.currentTarget.style.borderColor = "rgba(212, 201, 176, 0.3)";
                       e.currentTarget.style.color = "rgba(212, 201, 176, 0.7)";
                       e.currentTarget.style.background = "transparent";
                     }}
                   >
-                    ORDER · {product.displayPrice}
+                    {product.paymentLink ? `ORDER · ${product.displayPrice}` : "COMING SOON"}
                   </button>
 
                   {error ? (

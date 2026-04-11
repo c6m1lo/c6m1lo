@@ -44,21 +44,21 @@ export const metadata = {
     title: "c6m1lo",
     description: "Portfolio and personal website of my projects, skills, and experience.",
     url: SITE_URL,
-    siteName: "Camilo777",
+    siteName: "c6m1lo",
     images: [
       {
-        url: `${SITE_URL}/198.jpg`,
+        url: `${SITE_URL}/sistineChapel.jpg`,
         width: 1200,
         height: 630,
-        alt: "c6m1lo — Camilo Gomez",
+        alt: "c6m1lo — Sistine Chapel",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "c6m1lo",
-    description: "Portfolio and personal website of my projects, skills, and experience.",
-    images: [`${SITE_URL}/198.jpg`],
+    description: "Portfolio and personal website of my projects, skills, and products for sale.",
+    images: [`${SITE_URL}/sistineChapel.jpg`],
   },
 };
 
