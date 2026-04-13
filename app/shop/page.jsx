@@ -4,6 +4,28 @@ import { useMemo, useState } from "react";
 
 const PRODUCTS = [
   {
+    id: "jesus-shirt",
+    name: "JESUS SHIRT",
+    subtitle: "Jesus · MMXXVI",
+    description: "A minimal shirt featuring the Jesus mark.",
+    price: 0,
+    displayPrice: "TBD",
+    colorway: "Black",
+    image: "/Jesus.png",
+    paymentLink: process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_JESUS_SHIRT,
+  },
+  {
+    id: "cherub-sweats",
+    name: "CHERUB SWEATS",
+    subtitle: "Cherub · MMXXVI",
+    description: "Minimal sweats featuring the cherub mark.",
+    price: 0,
+    displayPrice: "TBD",
+    colorway: "Black",
+    image: "/cherubSweats.png",
+    paymentLink: process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_CHERUB_SWEATS,
+  },
+  {
     id: "cherub-hat",
     name: "CHERUB HAT",
     subtitle: "Cherub · MMXXVI",
