@@ -12,16 +12,15 @@ const experience = [
 ];
 
 const strengths = [
-  "Bilingual English-Spanish communication at native fluency",
-  "Sensitive NLP dataset annotation, transcription, and QA",
-  "Medical terminology, interpretation accuracy, and confidentiality",
-  "Prompt engineering and LLM training support workflows",
-  "TypeScript, React, Tailwind, Git, Bash/Zsh, AWS, Vercel, SQL, Linux, etc.",
-  "Cross-domain execution in AI, software, and security contexts",
+  "Bilingual English-Spanish communication at native fluency.",
+  "Dataset annotation, transcription, and QA.",
+  "Medical terminology, interpretation accuracy, and confidentiality.",
+  "Prompt engineering and LLM training support workflows.",
+  "TypeScript, React, Tailwind, Git, Bash/Zsh, AWS, Vercel, Linux, Node.js.",
 ];
 
 const education = [
-  "New Jersey City University - B.S. in Computer Science (in progress)",
+  "The Marcy Lab School - Software Engineering Fellowship",
   "Hudson County Community College - A.S. in Computer Science, Phi Theta Kappa Honor Society",
   "North Bergen High School - Spanish Honors",
 ];
@@ -58,15 +57,6 @@ export default function ResumePage() {
           >
             GitHub
           </a>
-          <a
-            className="terminal-cmd"
-            href="https://www.discord.gg/Khd7HPUzRK"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Discord
-          </a>
-
           <div className="strengths-title">Core Strengths</div>
           {strengths.map((item) => (
             <div key={item} className="strength-item">

@@ -1,9 +1,8 @@
 import type { JournalEntry } from "../journal/types";
-import type { ActiveSession, TimeSession } from "../scheduler/types";
 
 export type TimelineItem = {
   id: string;
-  app: "journal" | "scheduler";
+  app: "journal";
   title: string;
   detail: string;
   startsAt: string;
@@ -22,30 +21,6 @@ export function buildJournalItems(entries: JournalEntry[]): TimelineItem[] {
     detail: clean(entry.body.slice(0, 120)),
     startsAt: entry.timestamp,
   }));
-}
-
-export function buildSessionItems(sessions: TimeSession[], activeSession: ActiveSession | null): TimelineItem[] {
-  const completed = sessions.map((session) => ({
-    id: `scheduler-${session.id}`,
-    app: "scheduler" as const,
-    title: `Tracked: ${session.activity}`,
-    detail: `${new Date(session.startedAt).toLocaleTimeString()} - ${new Date(session.endedAt).toLocaleTimeString()}`,
-    startsAt: session.startedAt,
-    endsAt: session.endedAt,
-  }));
-
-  if (!activeSession) return completed;
-
-  return [
-    {
-      id: `scheduler-active-${activeSession.id}`,
-      app: "scheduler",
-      title: `Tracking now: ${activeSession.activity}`,
-      detail: `Started ${new Date(activeSession.startedAt).toLocaleTimeString()}`,
-      startsAt: activeSession.startedAt,
-    },
-    ...completed,
-  ];
 }
 
 export function mergeTimelineChronologically(items: TimelineItem[]) {

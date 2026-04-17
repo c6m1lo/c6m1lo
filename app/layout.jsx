@@ -57,7 +57,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "c6m1lo",
-    description: "Portfolio and personal website of my projects, skills, and products for sale.",
+    description: "Portfolio and personal website of my projects, skills, and experience.",
     images: [`${SITE_URL}/sistineChapel.jpg`],
   },
 };
@@ -71,7 +71,6 @@ export const viewport = {
 export default function RootLayout({ children }) {
   const searchItems = [
     { label: "Home", href: "/" },
-    { label: "Shop", href: "/shop" },
     { label: "Projects", href: "/projects" },
     { label: "Resume", href: "/resume" },
     ...projects
@@ -116,9 +115,6 @@ export default function RootLayout({ children }) {
               <Link className="nav-link" href="/">
                 Home
               </Link>
-              <Link className="nav-link" href="/shop">
-                Shop
-              </Link>
               <Link className="nav-link" href="/projects">
                 Projects
               </Link>
@@ -146,12 +142,7 @@ export default function RootLayout({ children }) {
               <a className="footer-link" href="/tos">
                 Terms of Service
               </a>
-              <a
-                className="footer-link"
-                href="https://buy.stripe.com/dRm8wPh2Z2ZS1XB2XJ9oc09"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a className="footer-link" href="/support">
                 Donate
               </a>
             </div>

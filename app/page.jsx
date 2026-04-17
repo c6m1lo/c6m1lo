@@ -54,7 +54,7 @@ export default function HomePage() {
           WEARABLE ART · EST. MMXXVI
         </div>
         <a
-          href="/shop"
+          href="/projects"
           style={{
             fontFamily: "var(--font-valencia)",
             fontWeight: 400,
@@ -73,7 +73,7 @@ export default function HomePage() {
             e.currentTarget.style.opacity = "0.5";
           }}
         >
-          VIEW COLLECTION
+          VIEW PROJECTS
         </a>
       </section>
     </div>

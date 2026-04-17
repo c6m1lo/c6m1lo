@@ -1,13 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { getActiveSession, getSessions } from "../scheduler/storage";
-import type { ActiveSession, TimeSession } from "../scheduler/types";
-import { subscribeAppDataChanges } from "../shared/sync";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import {
   buildJournalItems,
-  buildSessionItems,
   mergeTimelineChronologically,
 } from "../shared/timeline";
 
@@ -89,8 +85,6 @@ export default function JournalPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [sessions, setSessions] = useState<TimeSession[]>([]);
-  const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -109,23 +103,6 @@ export default function JournalPage() {
     };
 
     void load();
-  }, []);
-
-  useEffect(() => {
-    const loadConnected = () => {
-      setSessions(getSessions());
-      setActiveSession(getActiveSession());
-    };
-
-    loadConnected();
-
-    const unsubscribe = subscribeAppDataChanges(() => {
-      loadConnected();
-    });
-
-    return () => {
-      unsubscribe();
-    };
   }, []);
 
   const filteredEntries = useMemo(() => {
@@ -231,22 +208,11 @@ export default function JournalPage() {
       }
     };
 
-    const schedulerSessions = safeParse<unknown[]>(
-      window.localStorage.getItem("camilo777-scheduler-sessions"),
-    );
-    const schedulerActiveSession = safeParse<Record<string, unknown>>(
-      window.localStorage.getItem("camilo777-scheduler-active"),
-    );
-
     const payload = {
       exportedAt: now.toISOString(),
       exportedAtLocal: `${militaryTimeLabel} ${localDate}`,
       version: 1,
       entries,
-      scheduler: {
-        sessions: schedulerSessions ?? [],
-        activeSession: schedulerActiveSession,
-      },
     };
 
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
@@ -298,9 +264,8 @@ export default function JournalPage() {
     () =>
       mergeTimelineChronologically([
         ...buildJournalItems(entries),
-        ...buildSessionItems(sessions, activeSession),
       ]),
-    [activeSession, entries, sessions],
+    [entries],
   );
 
   return (
@@ -434,7 +399,7 @@ export default function JournalPage() {
 
       <section className="panel p-5 sm:p-6">
         <h2 className="text-lg font-semibold">Connected Chronological Feed</h2>
-        <p className="muted mt-1 text-sm">Journal + Millisecond Tracker + Calendar merged by time.</p>
+        <p className="muted mt-1 text-sm">Journal entries merged by time.</p>
         <div className="mt-3 space-y-2">
           {connectedTimeline.length ? (
             connectedTimeline.slice(-12).reverse().map((item) => (
@@ -450,7 +415,7 @@ export default function JournalPage() {
               </article>
             ))
           ) : (
-            <p className="text-sm text-neutral-400">No cross-app timeline entries yet.</p>
+            <p className="text-sm text-neutral-400">No timeline entries yet.</p>
           )}
         </div>
       </section>

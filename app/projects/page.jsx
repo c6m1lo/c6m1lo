@@ -9,12 +9,6 @@ export default function ProjectsPage() {
       cta: "Open app",
     },
     {
-      title: "Shop",
-      description: "Camilo Valencia collection storefront.",
-      href: "/shop",
-      cta: "View collection",
-    },
-    {
       title: "Journal App",
       description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
       href: "/journal",

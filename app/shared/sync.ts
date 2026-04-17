@@ -1,4 +1,4 @@
-export type AppDomain = "journal" | "scheduler";
+export type AppDomain = "journal";
 
 export type AppDataChange = {
   domain: AppDomain;
