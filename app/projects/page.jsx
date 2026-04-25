@@ -17,7 +17,7 @@ export default function ProjectsPage() {
     {
       title: "Linux & JS Notes",
       description: "A personal wiki for Linux and JavaScript notes.",
-      href: "https://www.practice-ten-flax/vercel.app",
+      href: "https://practice-ten-flax.vercel.app",
       cta: "View wiki",
     }
   ];
