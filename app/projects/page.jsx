@@ -13,12 +13,6 @@ export default function ProjectsPage() {
       description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
       href: "/journal",
       cta: "Open app",
-    },
-    {
-      title: "Linux & JS Notes",
-      description: "A personal wiki for Linux and JavaScript notes.",
-      href: "https://practice-ten-flax.vercel.app",
-      cta: "View wiki",
     }
   ];
 
