@@ -20,7 +20,7 @@ const strengths = [
 ];
 
 const education = [
-  "The Marcy Lab School - Software Engineering Fellowship",
+  "New Jersey City University - B.S. in Computer Science",
   "Hudson County Community College - A.S. in Computer Science, Phi Theta Kappa Honor Society",
   "North Bergen High School - Spanish Honors",
 ];
