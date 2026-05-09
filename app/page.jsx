@@ -41,7 +41,14 @@ export default function HomePage() {
         >
           VALENCIA
         </div>
-        <div style={{ width: "48px", height: "1px", background: "rgba(212, 201, 176, 0.2)", margin: "0 auto" }} />
+        <div
+          style={{
+            width: "48px",
+            height: "1px",
+            background: "rgba(212, 201, 176, 0.2)",
+            margin: "0 auto",
+          }}
+        />
         <div
           style={{
             fontFamily: "var(--font-valencia)",
@@ -51,7 +58,7 @@ export default function HomePage() {
             color: "rgba(212, 201, 176, 0.4)",
           }}
         >
-          WEARABLE ART · EST. MMXXVI
+          · EST. MMXXVI
         </div>
         <a
           href="/projects"

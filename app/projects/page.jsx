@@ -13,12 +13,6 @@ export default function ProjectsPage() {
       description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
       href: "/journal",
       cta: "Open app",
-    },
-    {
-      title: "Client Website",
-      description: "A static marketing website for a client, built with Next.js and deployed on Vercel.",
-      href: "https://paul-white.vercel.app",
-      cta: "View project",
     }
   ];
 
