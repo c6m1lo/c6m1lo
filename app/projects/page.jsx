@@ -13,6 +13,12 @@ export default function ProjectsPage() {
       description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
       href: "/journal",
       cta: "Open app",
+    },
+    {
+      title: "JavaScript Guide",
+      description: "Learn JavaScript fundamentals with interactive examples and exercises.",
+      href: "https://fsnyc.vercel.app/",
+      cta: "Open app",
     }
   ];
 
