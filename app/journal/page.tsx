@@ -2,10 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
-import {
-  buildJournalItems,
-  mergeTimelineChronologically,
-} from "../shared/timeline";
 
 import EntryEditor from "./components/EntryEditor";
 import EntryList from "./components/EntryList";
@@ -251,14 +247,6 @@ export default function JournalPage() {
 
   const hasActiveFilters = !!search.trim() || !!dateFilter;
 
-  const connectedTimeline = useMemo(
-    () =>
-      mergeTimelineChronologically([
-        ...buildJournalItems(entries),
-      ]),
-    [entries],
-  );
-
   return (
     <div className="page-wrap space-y-6">
       <section className="panel p-6 sm:p-8">
@@ -387,40 +375,6 @@ export default function JournalPage() {
           />
         </>
       )}
-
-      <section className="panel p-5 sm:p-6">
-        <h2 className="text-lg font-semibold">Connected Chronological Feed</h2>
-        <p className="muted mt-1 text-sm">Journal entries merged by time.</p>
-        <div className="mt-3 space-y-2">
-          {connectedTimeline.length ? (
-            connectedTimeline.slice(-12).reverse().map((item) => (
-              <article key={item.id} className="rounded-xl border border-white/12 bg-black/30 p-3 text-sm">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="font-medium text-white">{item.title}</p>
-                  <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] uppercase text-neutral-300">
-                    {item.app}
-                  </span>
-                </div>
-                <p className="mt-1 text-xs text-neutral-400">{new Date(item.startsAt).toLocaleString()}</p>
-                <p className="mt-2 text-sm text-neutral-300">{item.detail}</p>
-              </article>
-            ))
-          ) : (
-            <p className="text-sm text-neutral-400">No timeline entries yet.</p>
-          )}
-        </div>
-      </section>
-
-      <section className="panel p-5 sm:p-6">
-        <h2 className="text-lg font-semibold">Passphrase Lock (Optional)</h2>
-        <p className="muted mt-2 text-sm">
-          Planned feature. Journal data is local-only right now but not encrypted at rest in this MVP.
-        </p>
-        <div className="mt-3 rounded-lg border border-dashed border-neutral-700 bg-neutral-950 p-3 text-xs text-neutral-400">
-          TODO: add passphrase-based encryption using Web Crypto (PBKDF2 + AES-GCM), then encrypt
-          entry payloads before local storage writes.
-        </div>
-      </section>
     </div>
   );
 }
