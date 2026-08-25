@@ -15,13 +15,6 @@ export default function ProjectsPage() {
       href: "/journal",
       cta: "Open app",
       target: "_blank",
-    },
-    {
-      title: "JavaScript Guide",
-      description: "Learn JavaScript fundamentals with interactive examples and exercises.",
-      href: "https://fsnyc.vercel.app/",
-      cta: "Open app",
-      target: "_blank",
     }
   ];
 
