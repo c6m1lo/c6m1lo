@@ -20,7 +20,7 @@ const strengths = [
 ];
 
 const education = [
-  "New Jersey City University - B.S. in Computer Science",
+  "Marcy Lab Software Engineering Fellowship - Full Stack Web Development, React, Next.js, TypeScript, TailwindCSS",
   "Hudson County Community College - A.S. in Computer Science, Phi Theta Kappa Honor Society",
   "North Bergen High School - Spanish Honors",
 ];
