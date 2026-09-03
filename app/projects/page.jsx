@@ -15,6 +15,13 @@ export default function ProjectsPage() {
       href: "/journal",
       cta: "Open app",
       target: "_blank",
+    },
+    {
+      title: "Income / Second",
+      description: "Money you generate every second, plus debt repayment countdown.",
+      href: "/passiveIncome",
+      cta: "Open App",
+      target: "_blank",
     }
   ];
 
