@@ -1,4 +1,8 @@
 "use client";
+
+// This file is the main page for the passive income calculator app. It manages state, calculations, and renders the UI.
+
+
 import { useEffect, useMemo, useState } from "react";
 const SECONDS_PER_DAY = 86400;
 const DAYS_PER_MONTH = 30.4375;
