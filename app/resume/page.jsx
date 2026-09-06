@@ -11,7 +11,7 @@ const strengths = [
 ];
 
 const education = [
-  "Marcy Lab Software Engineering Fellowship",
+  "The Marcy Lab School, Brooklyn, NY — Software Engineering Fellowship",
 ];
 
 export default function ResumePage() {
