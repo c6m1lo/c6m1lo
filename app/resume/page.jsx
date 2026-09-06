@@ -5,10 +5,6 @@ const experience = [
   { role: "Certified Medical Interpreter", company: "Propio" },
   { role: "Certified Medical Interpreter", company: "Kelly Services" },
   { role: "Legal Interpreter", company: "Kates Nussman Ellis Fahri & Earle, LLP" },
-  { role: "Transcriptionist", company: "Uber AI Solutions" },
-  { role: "Cook", company: "KPot Korean BBQ & Hot Pot" },
-  { role: "Cook & Crew Member", company: "Chipotle Mexican Grill" },
-  { role: "Front & Back of House Crew Member", company: "Gong Cha Taiwan" },
 ];
 
 const strengths = [
@@ -20,9 +16,7 @@ const strengths = [
 ];
 
 const education = [
-  "Marcy Lab Software Engineering Fellowship - Full Stack Web Development, React, Next.js, TypeScript, TailwindCSS",
-  "Hudson County Community College - A.S. in Computer Science, Phi Theta Kappa Honor Society",
-  "North Bergen High School - Spanish Honors",
+  "Marcy Lab Software Engineering Fellowship",
 ];
 
 export default function ResumePage() {
@@ -40,14 +34,6 @@ export default function ResumePage() {
 
           <a className="terminal-cmd" href="mailto:c6m1lo@proton.me">
             c6m1lo@proton.me
-          </a>
-          <a
-            className="terminal-cmd"
-            href="https://www.linkedin.com/in/camilogomezvalencia/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
           </a>
           <a
             className="terminal-cmd"
