@@ -1,10 +1,5 @@
 const experience = [
-  { role: "Spanish-US Transcriptionist", company: "Uber" },
-  { role: "Spanish Medical Annotation Subject Matter Expert", company: "Centific" },
-  { role: "Air Traffic Control Transcriptionist", company: "Alignerr" },
-  { role: "Certified Medical Interpreter", company: "Propio" },
-  { role: "Certified Medical Interpreter", company: "Kelly Services" },
-  { role: "Legal Interpreter", company: "Kates Nussman Ellis Fahri & Earle, LLP" },
+  { role: "Web Developer", company: "Freelance" },
 ];
 
 const strengths = [
