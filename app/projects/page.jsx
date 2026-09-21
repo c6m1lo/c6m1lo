@@ -8,6 +8,20 @@ export default function ProjectsPage() {
       href: "/website",
       cta: "Open app",
       target: "_blank",
+    },
+    {
+      title: "Resume",
+      description: "My personal resume, built with Next.js and Tailwind CSS.",
+      href: "/resume",
+      cta: "Open app",
+      target: "_blank",
+    },
+    {
+      title: "Donate",
+      description: "Support my work by making a donation.",
+      href: "/donate",
+      cta: "Make a donation",
+      target: "_blank",
     }
   ];
 
