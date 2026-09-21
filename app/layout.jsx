@@ -108,11 +108,11 @@ export default function RootLayout({ children }) {
               <Link className="nav-link" href="/">
                 Home
               </Link>
+              <Link className="nav-link" href="/website">
+                Buy A Website
+              </Link>
               <Link className="nav-link" href="/projects">
                 Projects
-              </Link>
-              <Link className="nav-link" href="/resume">
-                Resume
               </Link>
             </div>
           </div>
