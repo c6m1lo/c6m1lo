@@ -54,12 +54,6 @@ export const metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "c6m1lo",
-    description: "Portfolio and personal website of my projects, skills, and experience.",
-    images: [`${SITE_URL}/sistineChapel.jpg`],
-  },
 };
 
 export const viewport = {
@@ -71,8 +65,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   const searchItems = [
     { label: "Home", href: "/" },
-    { label: "Projects", href: "/projects" },
-    { label: "Resume", href: "/resume" },
+    { label: "Buy A Website", href: "/website" },
     ...projects
       .map((project) => ({ label: project.title, href: project.href }))
       .filter((item) => item.href?.startsWith("/")),
@@ -142,7 +135,7 @@ export default function RootLayout({ children }) {
               <a className="footer-link" href="/tos">
                 Terms of Service
               </a>
-              <a className="footer-link" href="/support">
+              <a className="footer-link" href="/donate">
                 Donate
               </a>
             </div>

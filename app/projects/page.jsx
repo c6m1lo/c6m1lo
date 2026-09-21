@@ -3,24 +3,10 @@ import Link from "next/link";
 export default function ProjectsPage() {
   const projects = [
     {
-      title: "Bible App",
-      description: "A React + Next.js Bible reading interface (KJV). Offline capable.",
-      href: "/bible",
+      title: "Buy A Website",
+      description: "A marketplace for buying and selling websites, built with Next.js and Tailwind CSS.",
+      href: "/website",
       cta: "Open app",
-      target: "_blank",
-    },
-    {
-      title: "Journal App",
-      description: "Daily timestamped journal with local-only storage, search, filters, and weekly metrics.",
-      href: "/journal",
-      cta: "Open app",
-      target: "_blank",
-    },
-    {
-      title: "Income / Second",
-      description: "Money you generate every second, plus debt repayment countdown.",
-      href: "/passiveIncome",
-      cta: "Open App",
       target: "_blank",
     }
   ];
