@@ -3,12 +3,19 @@ import Link from "next/link";
 export default function ProjectsPage() {
   const projects = [
     {
-      title: "Buy A Website",
-      description: "A marketplace for buying and selling websites, built with Next.js and Tailwind CSS.",
+      title: "Website Marketplace",
+      description: "Buy your own website.",
       href: "/website",
       cta: "Open app",
       target: "_blank",
-    }
+    },
+    {
+      title: "Clothing Store",
+      description: "Clothing for sale.",
+      href: "/clothing",
+      cta: "Open app",
+      target: "_blank",
+    },
   ];
 
   return (
