@@ -3,19 +3,12 @@ import Link from "next/link";
 export default function ProjectsPage() {
   const projects = [
     {
-      title: "Website Marketplace",
-      description: "Buy your own website.",
+      title: "Infinite Scroller",
+      description: "Scroll away.",
       href: "/website",
       cta: "Open app",
       target: "_blank",
-    },
-    {
-      title: "Clothing Store",
-      description: "Clothing for sale.",
-      href: "/clothing",
-      cta: "Open app",
-      target: "_blank",
-    },
+    }
   ];
 
   return (
