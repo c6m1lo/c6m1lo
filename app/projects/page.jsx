@@ -5,7 +5,7 @@ export default function ProjectsPage() {
     {
       title: "Infinite Scroller",
       description: "Scroll away.",
-      href: "/website",
+      href: "/scroller",
       cta: "Open app",
       target: "_blank",
     }
