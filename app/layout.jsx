@@ -128,9 +128,6 @@ export default function RootLayout({ children }) {
               <a className="footer-link" href="/tos">
                 Terms of Service
               </a>
-              <a className="footer-link" href="/donate">
-                Donate
-              </a>
             </div>
           </div>
         </footer>
