@@ -3,10 +3,10 @@ import Link from "next/link";
 export default function ProjectsPage() {
   const projects = [
     {
-      title: "Infinite Scroller",
-      description: "Scroll away.",
-      href: "/scroller",
-      cta: "Open app",
+      title: "Clothes Store",
+      description: "Browse our collection.",
+      href: "/clothes",
+      cta: "View Store",
       target: "_blank",
     }
   ];
