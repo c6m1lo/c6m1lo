@@ -3,9 +3,9 @@ import Link from "next/link";
 export default function ProjectsPage() {
   const projects = [
     {
-      title: "LinkTree",
-      description: "Application that displays your links in a tree structure.",
-      href: "/linktree",
+      title: "Resume",
+      description: "My resume, in a web format.",
+      href: "/resume",
       cta: "View Store",
       target: "_blank",
     }
