@@ -62,9 +62,23 @@ export default function Resume() {
           </div>
         </section>
 
-        <section className="resume-section" aria-labelledby="languages-heading">
+        <section className="resume-section" aria-labelledby="education-heading">
           <div className="resume-section-heading">
             <span className="resume-index">II</span>
+            <h2 id="education-heading">Education</h2>
+          </div>
+          <div className="resume-education">
+            <div>
+              <h3>Marcy Labs</h3>
+              <p>Software Engineering Fellowship</p>
+            </div>
+            <span className="resume-date">2026–2027</span>
+          </div>
+        </section>
+
+        <section className="resume-section" aria-labelledby="languages-heading">
+          <div className="resume-section-heading">
+            <span className="resume-index">III</span>
             <h2 id="languages-heading">Languages &amp; runtime</h2>
           </div>
           <ul className="resume-tags">
@@ -74,7 +88,7 @@ export default function Resume() {
 
         <section className="resume-section" aria-labelledby="skills-heading">
           <div className="resume-section-heading">
-            <span className="resume-index">III</span>
+            <span className="resume-index">IV</span>
             <h2 id="skills-heading">Tools &amp; disciplines</h2>
           </div>
           <ul className="resume-tags">
@@ -129,6 +143,10 @@ export default function Resume() {
         .resume-link strong { display: block; font-size: 23px; font-weight: 400; }
         .resume-link small { display: block; margin-top: 2px; color: var(--muted); font: 400 10px/1.5 "JetBrains Mono", monospace; letter-spacing: .04em; }
         .resume-arrow { font-size: 23px; font-weight: 300; }
+        .resume-education { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px 24px; padding: 18px 0; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+        .resume-education h3 { margin: 0; font-size: 27px; font-weight: 400; line-height: 1.1; }
+        .resume-education p { margin: 7px 0 0; color: var(--muted); font-size: 18px; }
+        .resume-date { color: var(--muted); font: 400 11px/1.5 "JetBrains Mono", monospace; letter-spacing: .08em; white-space: nowrap; }
         .resume-tags { display: flex; flex-wrap: wrap; gap: 9px; padding: 0; margin: 0; list-style: none; }
         .resume-tags li { border: 1px solid var(--hairline); padding: 9px 13px; font-size: 18px; line-height: 1.2; }
         @media (max-width: 640px) {
