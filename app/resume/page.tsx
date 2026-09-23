@@ -16,19 +16,21 @@ const skills = [
   "Networking",
   "Git",
   "React",
-  "Prompt Engineering",
+  "Linux/Bash",
+  "Microsoft/Powershell",
+  "MacOS/Zsh",
   "Prettier",
   "Electron",
-  "Ubuntu / Debian",
   "Vim / Nano",
   "AWS",
   "Vercel",
   "DNS",
+  "Prompt Engineering",
 ];
 
 export const metadata = {
   title: "Résumé",
-  description: "Technical skills and profiles of Camilo Valencia.",
+  description: "Technical skills and profile links for recruiters and potential employers.",
 };
 
 export default function Resume() {
@@ -40,7 +42,7 @@ export default function Resume() {
           <p className="resume-eyebrow">CAMILO VALENCIA · MMXXVI</p>
           <h1>Résumé</h1>
           <div className="resume-rule" aria-hidden="true"><span>✦</span></div>
-          <p className="resume-intro">A foundation in web development, systems, and the craft of building for the internet.</p>
+          <p className="resume-intro">A foundation in software engineering, front-end development, and devOps.</p>
         </div>
       </header>
 
