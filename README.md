@@ -1,4 +1,4 @@
-# c6m1lo Portfolio
+# camilogomez17 Portfolio
 
 This is a Next.js App Router project with multiple personal apps and portfolio pages.
 
